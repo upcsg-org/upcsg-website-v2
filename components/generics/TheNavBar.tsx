@@ -14,29 +14,22 @@ const TheNavBar = (props: PropsInterface) => {
                 className="hover:-translate-y-1 duration-200"
                 onClick={() => setIsNavbarDropdownOpen(false)}
             >
-                MERCH
+                Merch
             </Link>
             <Link
                 href="/"
                 className="hover:-translate-y-1 duration-200"
                 onClick={() => setIsNavbarDropdownOpen(false)}
             >
-                INFO
-            </Link>
-            <Link
-                href="/"
-                className="hover:-translate-y-1 duration-200"
-                onClick={() => setIsNavbarDropdownOpen(false)}
-            >
-                EVENTS
+                Learn
             </Link>
             <Link
                 href="/"
                 className="md:border-lg"
                 onClick={() => setIsNavbarDropdownOpen(false)}
             >
-                <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 md:bg-csg-green-100 md:px-6 md:py-3">
-                    LOGIN
+                <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 md:bg-csg-green-100 md:rounded-xl md:uppercase md:text-sm md:px-4 md:py-3">
+                    Contact Us
                 </div>
             </Link>
         </>
