@@ -15,11 +15,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className="font-vietnam flex flex-col min-h-screen overflow-x-hidden">
+            <body className="font-vietnam flex flex-col min-h-screen">
                 <TheHeader />
-                <main className="flex flex-col grow basis-0 pt-12 md:pt-20">
-                    {children}
-                </main>
+                <main className="flex flex-col grow basis-0 ">{children}</main>
                 <TheFooter />
             </body>
         </html>
