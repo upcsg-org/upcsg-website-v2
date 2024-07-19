@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import TheHeader from '@/components/generics/TheHeader'
+import TheFooter from '@/components/generics/TheFooter'
 
 export const metadata: Metadata = {
     title: 'UP Computer Science Guild',
@@ -16,7 +15,13 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={inter.className}>{children}</body>
+            <body className="font-vietnam flex flex-col min-h-screen overflow-x-hidden">
+                <TheHeader />
+                <main className="flex flex-col grow basis-0 pt-12 md:pt-20">
+                    {children}
+                </main>
+                <TheFooter />
+            </body>
         </html>
     )
 }
