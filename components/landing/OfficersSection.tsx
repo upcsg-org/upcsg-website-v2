@@ -4,17 +4,17 @@ import Link from 'next/link'
 
 const OfficersSection = () => {
     return (
-        <div className="flex flex-col md:flex-row w-full">
-            <figure className="md:w-2/5 relative aspect-square">
+        <div className="flex flex-col basis-96 md:flex-row w-full">
+            <figure className="min-h-96 md:w-5/12 relative object-contain bg-[url('/images/placeholder.png')]">
                 <Image
                     src="/images/placeholder.png"
                     alt="Officers Section"
                     fill
-                    className=""
+                    className="object-contain backdrop-blur-md"
                 />
             </figure>
 
-            <div className="bg-csg-blue-400 md:w-3/5 md:min-w-96 flex flex-col gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
+            <div className="bg-csg-blue-400 md:w-7/12 md:min-w-96 flex flex-col gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
                 <h2 className="mb-4 md:mb-8 text-3xl md:text-5xl font-semibold tracking-widest">
                     KNOW YOUR OFFICERS FROM THE GUILD
                 </h2>
