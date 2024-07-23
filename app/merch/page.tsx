@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import ContactUsForm from '@/components/generics/ContactUsForm'
 import MerchGrid from '@/components/merch/MerchGrid'
 import MerchGeneralFilters from '@/components/merch/MerchGeneralFilters'
 
@@ -14,6 +15,8 @@ const MerchPage = () => {
                     <MerchGrid />
                 </div>
             </div>
+
+            <ContactUsForm />
         </div>
     )
 }
