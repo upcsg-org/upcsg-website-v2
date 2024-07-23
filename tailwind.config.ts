@@ -60,6 +60,10 @@ const config: Config = {
                 },
                 'csg-violet': '#7B00C6',
             },
+            screens: {
+                'xs': '500px',
+                // => @media (min-width: 420px) { ... }
+            },
         },
     },
     plugins: [],
