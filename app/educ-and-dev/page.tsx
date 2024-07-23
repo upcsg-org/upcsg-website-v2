@@ -1,7 +1,12 @@
 import React from 'react'
+import AnnouncementSection from '@/components/educ-and-dev/AnnouncementSection'
 
 const EducAndDevPage = () => {
-    return <div>Educ and Dev Page</div>
+    return (
+        <div className="bg-main-dark">
+            <AnnouncementSection />
+        </div>
+    )
 }
 
 export default EducAndDevPage
