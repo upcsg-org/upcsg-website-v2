@@ -23,9 +23,12 @@ const MerchCard = (props: PropsInterface) => {
 
     return (
         <div className="flex flex-col w-full items-center gap-2 lg:gap-4 p-1 lg:p-4 rounded-lg hover:bg-csg-blue-600/25 duration-150">
-            <div className="flex items-center w-full h-48 lg:h-96 bg-[#D8DCDF] rounded-lg relative hover:scale-[1.02] duration-200 cursor-pointer">
-                <ul className="absolute flex flex-col w-full h-full tracking-wider p-3 lg:p-6 z-10">
-                    <li className="flex flex-row items-center w-full text-black text-xl lg:text-3xl gap-2">
+            <div
+                className="relative flex items-center w-full h-48 xl:h-96
+                            bg-[#D8DCDF] rounded-lg hover:scale-[1.02] duration-200 cursor-pointer"
+            >
+                <ul className="absolute flex flex-col w-full h-full tracking-wider p-2 xl:p-6 z-10">
+                    <li className="flex flex-row items-center w-full text-black text-xl xl:text-3xl gap-2">
                         {isBestSeller ? <VscSparkle /> : <>&#8203;</>}
                     </li>
                     <li className="flex flex-grow w-full h-full text-[#A6A6B1] text-base items-center justify-end">
@@ -33,7 +36,7 @@ const MerchCard = (props: PropsInterface) => {
                             {colors.map((currentColor, index) => (
                                 <button
                                     key={index}
-                                    className="rounded-full size-3 lg:size-4 border-[1px] border-black"
+                                    className="rounded-full size-3 xl:size-4 border-[1px] border-black"
                                     style={{
                                         backgroundColor: currentColor,
                                     }}
@@ -42,7 +45,7 @@ const MerchCard = (props: PropsInterface) => {
                             ))}
                         </div>
                     </li>
-                    <li className="flex flex-row w-full font-bold text-main-dark text-xl lg:text-3xl justify-end">
+                    <li className="flex flex-row w-full font-bold text-main-dark text-xl xl:text-3xl justify-end">
                         <AiOutlineShopping />
                         <span className="group">
                             <AiOutlineHeart className="group-hover:hidden" />
@@ -50,7 +53,7 @@ const MerchCard = (props: PropsInterface) => {
                         </span>
                     </li>
                 </ul>
-                <div className="w-full h-4/5 relative">
+                <div className="w-full h-full relative">
                     <Image
                         src={images[currentImage]}
                         alt="Background"
@@ -61,13 +64,13 @@ const MerchCard = (props: PropsInterface) => {
                 </div>
             </div>
             <ul className="w-full gap-4 tracking-wider px-1">
-                <li className="w-full font-bold text-[#D8DCDF] text-sm lg:text-xl">
+                <li className="w-full font-bold text-[#D8DCDF] text-sm xl:text-xl truncate text-ellipsis">
                     {name}
                 </li>
-                <li className="w-full text-[#A6A6B1] text-sm lg:text-base">
+                <li className="w-full text-[#A6A6B1] text-sm xl:text-base truncate text-ellipsis">
                     {type}
                 </li>
-                <li className="w-full text-[#6479CB] text-sm lg:text-2xl">
+                <li className="w-full text-[#6479CB] text-sm xl:text-2xl truncate text-ellipsis">
                     PHP {price}
                 </li>
             </ul>

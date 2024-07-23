@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { LuFilter } from 'react-icons/lu'
 
@@ -24,111 +25,153 @@ const Sizes = ['XSMALL', 'SMALL', 'MEDIUM', 'LARGE', 'XLARGE']
 
 const MerchGeneralFilters = () => {
     const [isOpen, setIsOpen] = useState([false, false, false])
+    const [isVisible, setIsVisible] = useState(true)
 
     const toggleMenu = (index: number) => {
         setIsOpen((prevState) =>
-            prevState.map((state, i) => (i === index ? !state : state))
+            prevState.map((state, i) => (i === index ? !state : false))
         )
     }
 
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible)
+    }
+
     return (
-        <form className="w-full font-bold text-white text-lg lg:text-3xl tracking-wider pb-5 px-5 lg:py-0 lg:px-0">
-            FILTERS
-            <div className="flex flex-col bg-black text-sm lg:text-xl rounded-lg p-4 mt-2 lg:mt-4">
-                <div
-                    onClick={() => toggleMenu(0)}
-                    className="flex flex-row justify-between text-white cursor-pointer"
-                >
-                    PRODUCT TYPE
-                    {isOpen[0] ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                </div>
-                {isOpen[0] && (
-                    <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
-                        {ProductTypes.map((type, index) => (
-                            <li key={index} className="flex items-center mt-2">
-                                <input
-                                    type="checkbox"
-                                    id={type}
-                                    name="product_type"
-                                    className="size-3 lg:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
-                                    value={type}
-                                />
-                                <label
-                                    htmlFor={type}
-                                    className="text-[#A6A6B1] text-sm lg:text-base ml-2"
-                                >
-                                    {type}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+        <>
+            <div
+                className={`sticky top-12 lg:top-24 left-0 w-full p-4 bg-main-dark lg:py-14 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
+            >
+                <form className="font-bold text-white text-lg xl:text-3xl tracking-wider pb-4 xl:px-0">
+                    FILTERS
+                    <div className="flex flex-col bg-black text-sm xl:text-xl rounded-lg p-4 mt-2 xl:mt-4">
+                        <div
+                            onClick={() => toggleMenu(0)}
+                            className="flex flex-row justify-between text-white cursor-pointer gap-10 hover:text-white/75"
+                        >
+                            PRODUCT TYPE
+                            {isOpen[0] ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                        </div>
+                        {isOpen[0] && (
+                            <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
+                                {ProductTypes.map((type, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex items-center mt-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id={type}
+                                            name="product_type"
+                                            className="size-3 xl:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
+                                            value={type}
+                                        />
+                                        <label
+                                            htmlFor={type}
+                                            className="text-[#A6A6B1] text-sm xl:text-base ml-2"
+                                        >
+                                            {type}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
 
-                <div
-                    onClick={() => toggleMenu(1)}
-                    className="flex flex-row justify-between text-white cursor-pointer mt-4"
-                >
-                    PRICE RANGE
-                    {isOpen[1] ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                </div>
-                {isOpen[1] && (
-                    <ul className="text-white font-normal">
-                        {PriceRange.map((type, index) => (
-                            <li key={index} className="flex items-center mt-2">
-                                <input
-                                    type="checkbox"
-                                    id={type}
-                                    name="product_type"
-                                    className="size-3 lg:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
-                                    value={type}
-                                />
-                                <label
-                                    htmlFor={type}
-                                    className="text-[#A6A6B1] text-sm lg:text-base ml-2"
-                                >
-                                    {type}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                        <div
+                            onClick={() => toggleMenu(1)}
+                            className="flex flex-row justify-between text-white cursor-pointer mt-4 gap-10 hover:text-white/75"
+                        >
+                            PRICE RANGE
+                            {isOpen[1] ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                        </div>
+                        {isOpen[1] && (
+                            <ul className="text-white font-normal">
+                                {PriceRange.map((type, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex items-center mt-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id={type}
+                                            name="product_type"
+                                            className="size-3 xl:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
+                                            value={type}
+                                        />
+                                        <label
+                                            htmlFor={type}
+                                            className="text-[#A6A6B1] text-sm xl:text-base ml-2"
+                                        >
+                                            {type}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
 
-                <div
-                    onClick={() => toggleMenu(2)}
-                    className="flex flex-row justify-between text-white cursor-pointer mt-4"
-                >
-                    SIZE
-                    {isOpen[2] ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                        <div
+                            onClick={() => toggleMenu(2)}
+                            className="flex flex-row justify-between text-white cursor-pointer mt-4 gap-10 hover:text-white/75"
+                        >
+                            SIZE
+                            {isOpen[2] ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                        </div>
+                        {isOpen[2] && (
+                            <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
+                                {Sizes.map((type, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex items-center mt-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id={type}
+                                            name="product_type"
+                                            className="size-3 xl:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
+                                            value={type}
+                                        />
+                                        <label
+                                            htmlFor={type}
+                                            className="text-[#A6A6B1] text-sm xl:text-base ml-2"
+                                        >
+                                            {type}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div className="flex flex-row justify-center">
+                        <button className="flex items-center bg-csg-green-100 rounded-lg font-normal text-sm xl:text-xl p-2 xl:p-3 gap-4 mt-4 tracking-wide hover:bg-csg-green-200 hover:text-white/75">
+                            <LuFilter />
+                            Apply Filters
+                        </button>
+                    </div>
+                </form>
+                <div className="flex w-full justify-center">
+                    <button
+                        onClick={toggleVisibility}
+                        className="flex flex-row items-center text-white text-lg text-sm xl:text-xl gap-3 underline hover:text-white/75"
+                    >
+                        {isVisible ? <FaEyeSlash /> : <FaEye />}
+                        {isVisible ? 'Hide Filters' : 'Show Filters'}
+                    </button>
                 </div>
-                {isOpen[2] && (
-                    <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
-                        {Sizes.map((type, index) => (
-                            <li key={index} className="flex items-center mt-2">
-                                <input
-                                    type="checkbox"
-                                    id={type}
-                                    name="product_type"
-                                    className="size-3 lg:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
-                                    value={type}
-                                />
-                                <label
-                                    htmlFor={type}
-                                    className="text-[#A6A6B1] text-sm lg:text-base ml-2"
-                                >
-                                    {type}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
-                )}
             </div>
-            <div className="flex flex-row justify-center">
-                <button className="flex items-center text-base lg:text-xl font-normal p-2 lg:p-3 rounded-lg bg-csg-green-100 hover:bg-csg-green-200 gap-4 mt-4 tracking-wide">
-                    <LuFilter />
-                    Apply Filters
-                </button>
-            </div>
-        </form>
+            {!isVisible && (
+                <div className="sticky top-12 md:top-20 lg:top-24 pt-10">
+                    <button
+                        onClick={toggleVisibility}
+                        className=" flex flex-row items-center text-white text-lg 
+                                    bg-csg-green-100 text-sm xl:text-xl gap-3 underline p-2 xl:p-3 rounded-r-lg
+                                    hover:bg-csg-green-200 hover:text-white/75"
+                    >
+                        {isVisible ? <FaEyeSlash /> : <FaEye />}
+                        {isVisible ? 'Hide Filters' : 'Show Filters'}
+                    </button>
+                </div>
+            )}
+        </>
     )
 }
 
