@@ -159,7 +159,7 @@ const MerchGeneralFilters = () => {
                 </div>
             </div>
             {!isVisible && (
-                <div className="sticky top-12 md:top-20 lg:top-24 pt-10">
+                <div className="sticky top-12 pt-10 md:top-20 lg:top-24 pb-14">
                     <button
                         onClick={toggleVisibility}
                         className=" flex flex-row items-center text-white text-lg 
