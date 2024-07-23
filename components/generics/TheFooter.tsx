@@ -10,7 +10,7 @@ import {
 
 const TheFooter = () => {
     return (
-        <footer className="flex flex-col">
+        <footer className="flex flex-col bg-main-dark">
             <div className="relative w-full h-[10rem] md:h-[18rem] aspect-[1920/900]">
                 <Image
                     src="/images/footer-bg.png"
