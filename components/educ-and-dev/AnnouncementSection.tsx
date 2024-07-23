@@ -52,7 +52,7 @@ const AnnouncementSection: React.FC = () => {
     useEffect(() => {
         const updateVisibleCount = () => {
             const width = window.innerWidth
-            if (width < 640) {
+            if (width < 500) {
                 setVisibleCount(1)
             } else if (width < 768) {
                 setVisibleCount(2)
@@ -94,7 +94,7 @@ const AnnouncementSection: React.FC = () => {
                     }}
                 >
                     <div ref={contentRef}>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 pb-6 justify-items-center">
+                        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 pb-6 justify-items-center">
                             <AnimatePresence initial={false}>
                                 {visibleAnnouncements.map(
                                     (announcement, index) => (
