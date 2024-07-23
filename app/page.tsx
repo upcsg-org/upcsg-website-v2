@@ -1,6 +1,7 @@
 import OfficersSection from '@/components/landing/OfficersSection'
 import ContactUsForm from '@/components/generics/ContactUsForm'
 import { Carousel } from '@/components/landing-page/Carousel'
+import FacultySection from '@/components/landing/FacultySection'
 
 export default function Home() {
     return (
@@ -10,6 +11,9 @@ export default function Home() {
             </section>
             <section>
                 <OfficersSection />
+            </section>
+            <section>
+                <FacultySection />
             </section>
             <section>
                 <ContactUsForm />
