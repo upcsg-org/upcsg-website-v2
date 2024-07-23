@@ -1,10 +1,10 @@
 import React from 'react'
-import AnnouncementCard from '@/components/educ-and-dev/AnnouncementCard'
+import AnnouncementSection from '@/components/educ-and-dev/AnnouncementSection'
 
 const EducAndDevPage = () => {
     return (
         <div className="bg-main-dark">
-            <AnnouncementCard />
+            <AnnouncementSection />
         </div>
     )
 }
