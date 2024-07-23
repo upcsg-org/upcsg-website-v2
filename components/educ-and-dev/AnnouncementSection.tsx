@@ -1,4 +1,3 @@
-// AnnouncementSection.tsx
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
@@ -53,7 +52,9 @@ const AnnouncementSection: React.FC = () => {
     useEffect(() => {
         const updateVisibleCount = () => {
             const width = window.innerWidth
-            if (width < 768) {
+            if (width < 640) {
+                setVisibleCount(1)
+            } else if (width < 768) {
                 setVisibleCount(2)
             } else {
                 setVisibleCount(3)
@@ -81,8 +82,8 @@ const AnnouncementSection: React.FC = () => {
 
     return (
         <div className="bg-main-dark w-full overflow-x-hidden">
-            <div className="max-w-[1280px] mx-auto">
-                <h1 className="text-2xl font-bold font-vietnam py-6 text-white pl-4 md:pl-2">
+            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
+                <h1 className="text-2xl font-bold font-vietnam py-6 sm:py-6 text-white text-center sm:text-left">
                     RECENT NEWS AND ANNOUNCEMENTS
                 </h1>
                 <motion.div
@@ -93,7 +94,7 @@ const AnnouncementSection: React.FC = () => {
                     }}
                 >
                     <div ref={contentRef}>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 md:gap-10 pb-6 justify-items-center px-2 sm:px-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 pb-6 justify-items-center">
                             <AnimatePresence initial={false}>
                                 {visibleAnnouncements.map(
                                     (announcement, index) => (
@@ -108,11 +109,13 @@ const AnnouncementSection: React.FC = () => {
                                                 scale: { duration: 0.5 },
                                                 layout: { duration: 0.5 },
                                             }}
-                                            className="min-w-0"
+                                            className="flex justify-center"
                                         >
-                                            <AnnouncementCard
-                                                {...announcement}
-                                            />
+                                            <div className="w-full max-w-[320px]">
+                                                <AnnouncementCard
+                                                    {...announcement}
+                                                />
+                                            </div>
                                         </motion.div>
                                     )
                                 )}
@@ -131,7 +134,7 @@ const AnnouncementSection: React.FC = () => {
                             className="flex justify-center pb-6"
                         >
                             <button
-                                className="bg-csg-green-100 text-white text-md font-semibold py-2 px-7 rounded-full"
+                                className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full"
                                 onClick={handleToggle}
                             >
                                 {showAll ? 'See less' : 'See more'}
