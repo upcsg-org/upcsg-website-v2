@@ -4,10 +4,10 @@ import ContactUsForm from '@/components/generics/ContactUsForm'
 
 const EducAndDevPage = () => {
     return (
-        <div className="bg-main-dark">
+        <>
             <AnnouncementSection />
             <ContactUsForm />
-        </div>
+        </>
     )
 }
 

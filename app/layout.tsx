@@ -17,7 +17,7 @@ export default function RootLayout({
         <html lang="en">
             <body className="font-vietnam flex flex-col min-h-[100vh] overflow-x-hidden">
                 <TheHeader />
-                <main className="flex flex-col grow basis-0">
+                <main className="flex flex-col gap-16 bg-main-dark grow basis-0">
                     {children}
                 </main>
                 <TheFooter />

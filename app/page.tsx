@@ -9,10 +9,10 @@ export default function Home() {
                 <Carousel />
             </section>
             <section>
-                <ContactUsForm />
+                <OfficersSection />
             </section>
             <section>
-                <OfficersSection />
+                <ContactUsForm />
             </section>
         </>
     )
