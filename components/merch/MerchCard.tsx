@@ -33,16 +33,17 @@ const MerchCard = (props: PropsInterface) => {
                     </li>
                     <li className="flex flex-grow w-full h-full text-[#A6A6B1] text-base items-center justify-end">
                         <div className="flex flex-col gap-1">
-                            {colors.map((currentColor, index) => (
-                                <button
-                                    key={index}
-                                    className="rounded-full size-3 xl:size-4 border-[1px] border-black"
-                                    style={{
-                                        backgroundColor: currentColor,
-                                    }}
-                                    onClick={() => handleColorChange(index)}
-                                />
-                            ))}
+                            {colors.length > 1 &&
+                                colors.map((currentColor, index) => (
+                                    <button
+                                        key={index}
+                                        className="rounded-full size-3 xl:size-4 border-[1px] border-black"
+                                        style={{
+                                            backgroundColor: currentColor,
+                                        }}
+                                        onClick={() => handleColorChange(index)}
+                                    />
+                                ))}
                         </div>
                     </li>
                     <li className="flex flex-row w-full font-bold text-main-dark text-xl xl:text-3xl justify-end">

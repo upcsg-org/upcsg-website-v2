@@ -39,12 +39,8 @@ const testValues = [
         name: 'Sample Tote Bag 1',
         type: 'TOTE BAG',
         price: 29.99,
-        images: [
-            '/logo/upcsg-logo.png',
-            '/title_header.png',
-            '/logo/upcsg-logo.png',
-        ],
-        colors: ['#FF0000', '#00FF00', '#0000FF'],
+        images: ['/logo/upcsg-logo.png'],
+        colors: ['#FF0000'],
         isBestSeller: true,
     },
     {
