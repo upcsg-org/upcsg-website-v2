@@ -8,6 +8,7 @@ interface EventCardProps {
     date: string
     time: string
     dayOfWeek: string
+    backgroundStyle: string
 }
 
 const EventCard: React.FC<EventCardProps> = ({
@@ -16,12 +17,13 @@ const EventCard: React.FC<EventCardProps> = ({
     date,
     time,
     dayOfWeek,
+    backgroundStyle,
 }) => {
     return (
         <motion.button
             className="relative overflow-hidden rounded-2xl w-full max-w-80 h-64 text-left bg-cover bg-center"
             style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.4), rgba(65, 160, 30,0.5), rgba(65, 160, 30,1)), url('${image}')`,
+                backgroundImage: `${backgroundStyle}, url('${image}')`,
             }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}

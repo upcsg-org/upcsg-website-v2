@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import EventCard from './EventCard'
 
@@ -10,83 +10,107 @@ interface EventItemProps {
     date: string
     time: string
     dayOfWeek: string
+    backgroundStyle: string
+}
+
+const backgroundStyles = [
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(65, 160, 30,0.7), rgba(65, 160, 30,1))',
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1))',
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(102, 107, 211,0.7), rgba(102, 107, 211, 1))',
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(255, 137, 172,0.7), rgba(255, 137, 172, 1))',
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(160, 116, 30,0.7), rgba(160, 116, 30, 1))',
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(237, 213, 0,0.7), rgba(237, 213, 0, 1))',
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(160, 41, 63,0.7), rgba(160, 41, 63, 1))',
+]
+
+const getRandomBackgroundStyle = (): string => {
+    const randomIndex = Math.floor(Math.random() * backgroundStyles.length)
+    return backgroundStyles[randomIndex]
 }
 
 const EventSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
-    const [visibleCount, setVisibleCount] = useState(3)
+    const [visibleEventCount, setVisibleEventCount] = useState(3)
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
 
-    const Events: EventItemProps[] = [
-        {
-            image: '/images/temp.jpg',
-            title: 'API Generation / Postman Workshop',
-            date: 'September 20, 2023',
-            time: '8:00 AM - 11:00 AM',
-            dayOfWeek: 'Wednesday',
-        },
-        {
-            image: '/images/temp.jpg',
-            title: 'API Generation / Postman Workshop',
-            date: 'September 20, 2023',
-            time: '8:00 AM - 11:00 AM',
-            dayOfWeek: 'Wednesday',
-        },
-        {
-            image: '/images/temp.jpg',
-            title: 'API Generation / Postman Workshop',
-            date: 'September 20, 2023',
-            time: '8:00 AM - 11:00 AM',
-            dayOfWeek: 'Wednesday',
-        },
-        {
-            image: '/images/temp.jpg',
-            title: 'API Generation / Postman Workshop',
-            date: 'September 20, 2023',
-            time: '8:00 AM - 11:00 AM',
-            dayOfWeek: 'Wednesday',
-        },
-        {
-            image: '/images/temp.jpg',
-            title: 'API Generation / Postman Workshop',
-            date: 'September 20, 2023',
-            time: '8:00 AM - 11:00 AM',
-            dayOfWeek: 'Wednesday',
-        },
-        {
-            image: '/images/temp.jpg',
-            title: 'API Generation / Postman Workshop',
-            date: 'September 20, 2023',
-            time: '8:00 AM - 11:00 AM',
-            dayOfWeek: 'Wednesday',
-        },
-    ]
+    const Events: EventItemProps[] = useMemo(
+        () =>
+            [
+                {
+                    image: '/images/placeholder.png',
+                    title: 'API Generation / Postman Workshop',
+                    date: 'September 20, 2023',
+                    time: '8:00 AM - 11:00 AM',
+                    dayOfWeek: 'Wednesday',
+                },
+                {
+                    image: '/images/placeholder.png',
+                    title: 'API Generation / Postman Workshop',
+                    date: 'September 20, 2023',
+                    time: '8:00 AM - 11:00 AM',
+                    dayOfWeek: 'Wednesday',
+                },
+                {
+                    image: '/images/placeholder.png',
+                    title: 'API Generation / Postman Workshop',
+                    date: 'September 20, 2023',
+                    time: '8:00 AM - 11:00 AM',
+                    dayOfWeek: 'Wednesday',
+                },
+                {
+                    image: '/images/placeholder.png',
+                    title: 'API Generation / Postman Workshop',
+                    date: 'September 20, 2023',
+                    time: '8:00 AM - 11:00 AM',
+                    dayOfWeek: 'Wednesday',
+                },
+                {
+                    image: '/images/placeholder.png',
+                    title: 'API Generation / Postman Workshop',
+                    date: 'September 20, 2023',
+                    time: '8:00 AM - 11:00 AM',
+                    dayOfWeek: 'Wednesday',
+                },
+                {
+                    image: '/images/placeholder.png',
+                    title: 'API Generation / Postman Workshop',
+                    date: 'September 20, 2023',
+                    time: '8:00 AM - 11:00 AM',
+                    dayOfWeek: 'Wednesday',
+                },
+            ].map((event) => ({
+                ...event,
+                backgroundStyle: getRandomBackgroundStyle(),
+            })),
+        []
+    )
 
     useEffect(() => {
-        const updateVisibleCount = () => {
+        const updateVisibleEventCount = () => {
             const width = window.innerWidth
-            if (width < 500) {
-                setVisibleCount(1)
-            } else if (width < 768) {
-                setVisibleCount(2)
+            if (width < 648) {
+                setVisibleEventCount(1)
+            } else if (width < 948) {
+                setVisibleEventCount(2)
             } else {
-                setVisibleCount(3)
+                setVisibleEventCount(3)
             }
         }
 
-        updateVisibleCount()
-        window.addEventListener('resize', updateVisibleCount)
-        return () => window.removeEventListener('resize', updateVisibleCount)
+        updateVisibleEventCount()
+        window.addEventListener('resize', updateVisibleEventCount)
+        return () =>
+            window.removeEventListener('resize', updateVisibleEventCount)
     }, [])
 
     useEffect(() => {
         if (contentRef.current) {
             setContentHeight(contentRef.current.scrollHeight)
         }
-    }, [showAll, visibleCount])
+    }, [showAll, visibleEventCount])
 
-    const visibleEvents = showAll ? Events : Events.slice(0, visibleCount)
+    const visibleEvents = showAll ? Events : Events.slice(0, visibleEventCount)
 
     const handleToggle = () => {
         setShowAll(!showAll)
@@ -95,7 +119,7 @@ const EventSection: React.FC = () => {
     return (
         <div className="bg-main-dark w-full overflow-x-hidden">
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
-                <h1 className="text-2xl font-bold font-vietnam py-6 sm:py-6 text-white text-center sm:text-left">
+                <h1 className="text-2xl font-bold font-vietnam py-6 sm:py-6 text-white text-center ms:text-left">
                     UPCOMING EVENTS
                 </h1>
                 <motion.div
@@ -106,7 +130,7 @@ const EventSection: React.FC = () => {
                     }}
                 >
                     <div ref={contentRef}>
-                        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 pb-6 justify-items-center">
+                        <div className="grid grid-cols-1 ms:grid-cols-2 ls:grid-cols-3 gap-6 ms:gap-8 ls:gap-10 pb-6 justify-items-center">
                             <AnimatePresence initial={false}>
                                 {visibleEvents.map((Event, index) => (
                                     <motion.div
@@ -122,7 +146,7 @@ const EventSection: React.FC = () => {
                                         }}
                                         className="flex justify-center"
                                     >
-                                        <div className="w-full max-w-[320px]">
+                                        <div className="w-full min-w-[300px]">
                                             <EventCard {...Event} />
                                         </div>
                                     </motion.div>
@@ -132,7 +156,7 @@ const EventSection: React.FC = () => {
                     </div>
                 </motion.div>
                 <AnimatePresence mode="wait">
-                    {Events.length > visibleCount && (
+                    {Events.length > visibleEventCount && (
                         <motion.div
                             key="button"
                             initial={{ opacity: 0, y: -20 }}

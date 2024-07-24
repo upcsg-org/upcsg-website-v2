@@ -62,7 +62,11 @@ const config: Config = {
             },
             screens: {
                 'xs': '500px',
-                // => @media (min-width: 420px) { ... }
+                // => @media (min-width: 500px) { ... }
+                'ls': '948px',
+                // => @media (min-width: 948px) { ... }
+                'ms': '648px',
+                // => @media (min-width: 648px) { ... }
             },
         },
     },
