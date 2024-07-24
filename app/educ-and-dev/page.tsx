@@ -3,6 +3,7 @@ import AnnouncementSection from '@/components/educ-and-dev/AnnouncementSection'
 import ContactUsForm from '@/components/generics/ContactUsForm'
 import EventSection from '@/components/generics/EventSection'
 import { Carousel } from '@/components/landing-page/Carousel'
+import LookingSection from '@/components/educ-and-dev/LookingSection'
 
 const EducAndDevPage = () => {
     return (
@@ -15,6 +16,9 @@ const EducAndDevPage = () => {
             </section>
             <section>
                 <AnnouncementSection />
+            </section>
+            <section>
+                <LookingSection />
             </section>
             <section>
                 <ContactUsForm />
