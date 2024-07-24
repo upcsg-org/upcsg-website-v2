@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { LuFilter } from 'react-icons/lu'
@@ -25,7 +25,7 @@ const Sizes = ['XSMALL', 'SMALL', 'MEDIUM', 'LARGE', 'XLARGE']
 
 const MerchGeneralFilters = () => {
     const [isOpen, setIsOpen] = useState([false, false, false])
-    const [isVisible, setIsVisible] = useState(true)
+    const [isVisible, setIsVisible] = useState(window.innerWidth >= 1024)
 
     const toggleMenu = (index: number) => {
         setIsOpen((prevState) =>
@@ -36,6 +36,18 @@ const MerchGeneralFilters = () => {
     const toggleVisibility = () => {
         setIsVisible(!isVisible)
     }
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+                setIsVisible(true)
+            } else {
+                setIsVisible(false)
+            }
+        }
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
 
     return (
         <>
@@ -148,7 +160,7 @@ const MerchGeneralFilters = () => {
                         </button>
                     </div>
                 </form>
-                <div className="flex w-full justify-center">
+                <div className="flex w-full justify-center lg:hidden">
                     <button
                         onClick={toggleVisibility}
                         className="flex flex-row items-center text-white text-lg text-sm xl:text-xl gap-3 underline hover:text-white/75"
@@ -159,7 +171,7 @@ const MerchGeneralFilters = () => {
                 </div>
             </div>
             {!isVisible && (
-                <div className="sticky top-20 pt-10 md:top-20 lg:top-24 pb-14">
+                <div className="sticky top-20 pt-5 xl:pt-10 md:top-20 lg:top-24">
                     <button
                         onClick={toggleVisibility}
                         className=" flex flex-row items-center text-white text-lg 
