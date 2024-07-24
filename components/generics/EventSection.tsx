@@ -16,11 +16,7 @@ interface EventItemProps {
 const backgroundStyles = [
     'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(65, 160, 30,0.7), rgba(65, 160, 30,1))',
     'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1))',
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(102, 107, 211,0.7), rgba(102, 107, 211, 1))',
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(255, 137, 172,0.7), rgba(255, 137, 172, 1))',
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(160, 116, 30,0.7), rgba(160, 116, 30, 1))',
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(237, 213, 0,0.7), rgba(237, 213, 0, 1))',
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(160, 41, 63,0.7), rgba(160, 41, 63, 1))',
+    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(57, 162, 174,0.7), rgba(57, 162, 174, 1))',
 ]
 
 const getRandomBackgroundStyle = (): string => {
