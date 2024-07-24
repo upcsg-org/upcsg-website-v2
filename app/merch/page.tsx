@@ -1,7 +1,10 @@
 import React from 'react'
+import ContactUsForm from '@/components/generics/ContactUsForm'
 
 const MerchPage = () => {
-    return <div>Merch Page</div>
+    return <div>Merch Page
+        <ContactUsForm />
+    </div>
 }
 
 export default MerchPage
