@@ -40,7 +40,7 @@ const MerchGeneralFilters = () => {
     return (
         <>
             <div
-                className={`sticky top-12 lg:top-24 left-0 w-full p-4 bg-main-dark lg:py-14 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
+                className={`sticky top-20 left-0 w-full p-4 bg-main-dark lg:py-14 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
             >
                 <form className="font-bold text-white text-lg xl:text-3xl tracking-wider pb-4 xl:px-0">
                     FILTERS
@@ -159,7 +159,7 @@ const MerchGeneralFilters = () => {
                 </div>
             </div>
             {!isVisible && (
-                <div className="sticky top-12 pt-10 md:top-20 lg:top-24 pb-14">
+                <div className="sticky top-20 pt-10 md:top-20 lg:top-24 pb-14">
                     <button
                         onClick={toggleVisibility}
                         className=" flex flex-row items-center text-white text-lg 
