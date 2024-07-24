@@ -11,6 +11,9 @@ export default function Home() {
                 <Carousel />
             </section>
             <section>
+                <ScholarshipsSection />
+            </section>
+            <section>
                 <OfficersSection />
             </section>
             <section>
