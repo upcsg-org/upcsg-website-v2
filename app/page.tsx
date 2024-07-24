@@ -1,3 +1,4 @@
+import ScholarshipsSection from '@/components/landing/ScholarshipsSection'
 import OfficersSection from '@/components/landing/OfficersSection'
 import ContactUsForm from '@/components/generics/ContactUsForm'
 import { Carousel } from '@/components/landing-page/Carousel'
@@ -12,6 +13,9 @@ export default function Home() {
             </section>
             <section>
                 <EventSection />
+            </section>
+            <section>
+                <ScholarshipsSection />
             </section>
             <section>
                 <OfficersSection />
