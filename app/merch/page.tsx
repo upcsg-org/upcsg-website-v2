@@ -8,7 +8,7 @@ const MerchPage = () => {
     return (
         <div className="flex flex-col font-vietnam text-[#D8DCDF] bg-main-dark min-h-screen">
             <div className="flex flex-col lg:flex-row w-full">
-                <div className="sticky top-12 lg:top-24 w-full lg:w-1/4 z-[15]">
+                <div className="sticky top-20 w-full lg:w-1/4 z-[15]">
                     <MerchGeneralFilters />
                 </div>
                 <div className="w-full lg:w-3/4">

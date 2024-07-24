@@ -40,7 +40,7 @@ const MerchGeneralFilters = () => {
     return (
         <>
             <div
-                className={`sticky top-20 left-0 w-full p-4 bg-main-dark lg:py-14 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
+                className={`sticky top-28 xl:top-20 left-0 w-full p-4 bg-main-dark xl:py-12 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
             >
                 <form className="font-bold text-white text-lg xl:text-3xl tracking-wider pb-4 xl:px-0">
                     FILTERS
