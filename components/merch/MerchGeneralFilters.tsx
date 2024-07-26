@@ -25,7 +25,7 @@ const Sizes = ['XSMALL', 'SMALL', 'MEDIUM', 'LARGE', 'XLARGE']
 
 const MerchGeneralFilters = () => {
     const [isOpen, setIsOpen] = useState([false, false, false])
-    const [isVisible, setIsVisible] = useState(window.innerWidth >= 1024)
+    const [isVisible, setIsVisible] = useState(false)
 
     const toggleMenu = (index: number) => {
         setIsOpen((prevState) =>
@@ -45,8 +45,17 @@ const MerchGeneralFilters = () => {
                 setIsVisible(false)
             }
         }
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
+
+        if (typeof window !== 'undefined') {
+            setIsVisible(window.innerWidth >= 1024)
+            window.addEventListener('resize', handleResize)
+        }
+
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.removeEventListener('resize', handleResize)
+            }
+        }
     }, [])
 
     return (
@@ -65,7 +74,7 @@ const MerchGeneralFilters = () => {
                             {isOpen[0] ? <IoIosArrowUp /> : <IoIosArrowDown />}
                         </div>
                         {isOpen[0] && (
-                            <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
+                            <ul className="grid grid-cols-2 lg:flex lg:flex-col font-normal">
                                 {ProductTypes.map((type, index) => (
                                     <li
                                         key={index}
@@ -171,7 +180,7 @@ const MerchGeneralFilters = () => {
                 </div>
             </div>
             {!isVisible && (
-                <div className="sticky top-20 pt-5 xl:pt-10 md:top-20 lg:top-24">
+                <div className="sticky top-20 py-5 xl:pt-10 md:top-20 lg:top-24">
                     <button
                         onClick={toggleVisibility}
                         className=" flex flex-row items-center text-white text-lg 
