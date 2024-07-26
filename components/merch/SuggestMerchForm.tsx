@@ -25,10 +25,8 @@ const SuggestMerchForm = ( { handleClick }: SuggestMerchFormProps ) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Removed later used for testing
-        console.log(formData);
-        // Handle form submission
         handleClick();
+        // Handle form submission
       };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
