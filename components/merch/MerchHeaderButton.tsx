@@ -16,11 +16,15 @@ const MerchHeaderButton = (props: PropsInterface) => {
 
     return (
         <div
-            className={`${styles} px-2 py-1 rounded-2xl flex flex-row gap-1 items-center`}
+            className={`${styles} h-fill px-1 py-0.5 sm:px-2 sm:py-1 rounded-2xl flex flex-row gap-0.5 sm:gap-1 items-center`}
         >
-            <Icon className="" />
-            <span className="uppercase tracking-widest">{text}</span>
-            <span>({count})</span>
+            <Icon className="text-sm md:text-lg" />
+            <span className="uppercase tracking-widest max-sm:hidden text-[10px] lg:text-[11px] xl:text-sm">
+                {text}
+            </span>
+            <span className="text-[10px] lg:text-[11px] xl:text-sm">
+                ({count})
+            </span>
         </div>
     )
 }
