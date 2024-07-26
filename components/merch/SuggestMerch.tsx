@@ -13,7 +13,7 @@ const SuggestMerch = () => {
 
 
     return (
-        <div className='w-full'>
+        <div className='w-full h-fit'>
             {showForm && <SuggestMerchForm handleClick={handleClick} />}
             <div className='flex flex-col items-center h-fit'>
                 <h1 className='font-press-start text-2xl md:text-6xl text-white max-w-[20ch] text-center'>Have a tech-savvy design in mind?</h1>

@@ -20,7 +20,7 @@ const SuggestMerchForm = ( { handleClick }: SuggestMerchFormProps ) => {
         type: '',
       });
     
-    const [selectedYear, setSelectedYear] = useState('1st year');
+    const [selectedYear, setSelectedYear] = useState('N/A');
     const [selectedType, setSelectedType] = useState('PIN');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -97,6 +97,7 @@ const SuggestMerchForm = ( { handleClick }: SuggestMerchFormProps ) => {
                                     onChange={handleDropdownChange}
                                     className='p-1 md:p-2 rounded-lg bg-white h-10'
                                     >
+                                        <option  value="N/A">N/A</option>
                                         <option  value="1st year">1st year</option>
                                         <option  value="2nd year">2nd year</option>
                                         <option  value="3rd year">3rd year</option>
