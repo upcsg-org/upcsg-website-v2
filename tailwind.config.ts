@@ -15,6 +15,7 @@ const config: Config = {
             },
             fontFamily: {
                 vietnam: ['Be Vietnam Pro', 'sans-serif'],
+                'press-start': ['Press\\ Start\\ 2P', 'cursive'],
             },
             colors: {
                 'main-dark': '#111120',
