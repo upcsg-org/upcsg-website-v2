@@ -2,6 +2,7 @@
 import React from 'react'
 import MerchCard from './MerchCard'
 import MerchHeaderButtonGroup from './MerchHeaderButtonGroup'
+import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
 
 const testValues = [
     {
@@ -74,6 +75,7 @@ const MerchGrid = () => {
                     UPCSG MERCH
                 </p>
                 <MerchHeaderButtonGroup />
+                <MerchHeaderFilterTabs />
             </div>
 
             <div
