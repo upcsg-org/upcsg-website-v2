@@ -1,6 +1,9 @@
+import ScholarshipsSection from '@/components/landing/ScholarshipsSection'
 import OfficersSection from '@/components/landing/OfficersSection'
 import ContactUsForm from '@/components/generics/ContactUsForm'
 import { Carousel } from '@/components/landing-page/Carousel'
+import FacultySection from '@/components/landing/FacultySection'
+import EventSection from '@/components/generics/EventSection'
 
 export default function Home() {
     return (
@@ -9,7 +12,16 @@ export default function Home() {
                 <Carousel />
             </section>
             <section>
+                <EventSection />
+            </section>
+            <section>
+                <ScholarshipsSection />
+            </section>
+            <section>
                 <OfficersSection />
+            </section>
+            <section>
+                <FacultySection />
             </section>
             <section>
                 <ContactUsForm />
