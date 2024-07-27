@@ -30,7 +30,7 @@ const ScholarshipOpportunityCard = (props: PropsInterface) => {
             >
                 <li>ANNOUNCEMENT</li>
                 <li>
-                    <span className="font-bold text-base xl:text-2xl leading-3 xl:leading-5">
+                    <span className="font-bold text-base xl:text-2xl leading-none xl:leading-5 tracking-wide">
                         {props.title}
                         <br />
                     </span>

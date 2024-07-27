@@ -41,7 +41,7 @@ function page() {
                 <br />
                 OPPORTUNITIES
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 mt-1 3xl:mx-[13.5vw]">
                 {testValues.map((item, index) => (
                     <InternshipOpportunityCard
                         key={index}

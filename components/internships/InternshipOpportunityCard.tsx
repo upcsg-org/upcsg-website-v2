@@ -39,7 +39,7 @@ const InternshipOpportunityCard = (props: PropsInterface) => {
                             p-5 lg:p-10 text-sm xl:text-lg leading-6 gap-2"
             >
                 <li>ANNOUNCEMENT</li>
-                <li className="font-bold text-base xl:text-2xl leading-3 xl:leading-5 tracking-wide">
+                <li className="font-bold text-base xl:text-2xl leading-4 xl:leading-5 tracking-wide">
                     {props.title}
                 </li>
                 <li>{formattedDate}</li>
