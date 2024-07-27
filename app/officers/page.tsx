@@ -71,13 +71,8 @@ const Officers = () => {
                     </span>
                 </h1>
             </div>
-            <section
-                className="md:grid md:grid-cols-3 flex flex-col items-center  gap-y-8 md:gap-y-16 justify-items-center mt-16"
-                style={{
-                    gridTemplateAreas: `'first first first' 'second second second ' 'third third third' 'fourth fourth fourth'`,
-                }}
-            >
-                <div className="col-span-3" style={{ gridArea: 'first' }}>
+            <section className="grid md:grid-cols-3 grid-cols-2 gap-y-8  md:gap-y-16 justify-items-center mt-16">
+                <div className="md:col-span-3 col-span-2">
                     <OfficerCard
                         firstName={UPCSGofficers[0].FirstName}
                         lastName={UPCSGofficers[0].LastName}
@@ -95,8 +90,7 @@ const Officers = () => {
                             firstName={officer.FirstName}
                             lastName={officer.LastName}
                             title={officer.title}
-                            className="col-span-1 "
-                            style={{ gridArea: `officer${index + 1}` }}
+                            className="col-span-1"
                             bgStyle={{
                                 backgroundImage:
                                     'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1)),url(/images/placeholder.png)',
@@ -104,7 +98,7 @@ const Officers = () => {
                         />
                     )
                 )}
-                <div className="col-span-3" style={{ gridArea: 'fourth' }}>
+                <div className="md:col-span-3 col-span-2">
                     <OfficerCard
                         firstName={
                             UPCSGofficers[UPCSGofficers.length - 1].FirstName
