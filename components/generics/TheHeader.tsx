@@ -41,7 +41,7 @@ const TheHeader = () => {
                 </button>
             </header>
             <aside
-                className={`tracking-widest text-xs md:hidden flex flex-col rounded-lg gap-5 items-end bg-main-dark/90 right-7 fixed z-30 transform transition-transform duration-300 ease-in-out ${isNavbarDropdownOpen ? 'translate-y-[3.5rem]' : '-translate-y-52'} py-5 px-10 `}
+                className={`tracking-widest text-xs md:hidden flex flex-col rounded-lg gap-5 items-end bg-main-dark/90 right-7 fixed z-30 transform transition-transform duration-300 ease-in-out ${isNavbarDropdownOpen ? 'translate-y-[4.5rem]' : '-translate-y-52'} py-5 px-10 `}
             >
                 <TheNavBar setIsNavbarDropdownOpen={setIsNavbarDropdownOpen} />
             </aside>
