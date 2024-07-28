@@ -33,3 +33,22 @@ jobs:
                   context: .
                   push: true
                   tags: milaymaxell/upcsg:latest
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup SSH
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                  ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+
+            - name: SSH into Deployment Server
+              run: ssh ${{ secrets.REMOTE_SERVER_USER }}:${{ secrets.EXTERNAL_IP_ADDRESS }}
+
+            - name: Pull Docker Image
+              run: docker pull milaymaxell/upcsg:latest
+
+            - name: Delete Old Docker Container
+              run: docker rm -f ci-cd-pipeline-container || true
+
+            - name: Run Docker Container
+              run: docker run -d -p 3000:3000 --name ci-cd-pipeline-container milaymaxell/upcsg
