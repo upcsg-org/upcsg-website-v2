@@ -57,5 +57,5 @@ jobs:
                       docker rm $CONTAINER_IDS
                     fi
                     docker run -d -p 3000:3000 milaymaxell/upcsg:latest
-                    docker image prune
+                    docker image prune -f
                   EOF
