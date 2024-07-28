@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 interface AnnouncementCardProps {
     image: string
@@ -19,7 +20,9 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
             transition={{ duration: 0.3 }}
             onClick={() => (location.href = '/coming-soon')}
         >
-            <img src={image} alt={title} className="w-full h-40 object-cover" />
+            <div className="relative h-40 w-full">
+                <Image src={image} alt={title} fill className="object-cover" />
+            </div>
             <div className="p-3 relative h-40">
                 <h2 className="text-xs sm:text-base font-thin font-vietnam mb-1 text-white">
                     ANNOUNCEMENT

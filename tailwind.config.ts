@@ -68,6 +68,8 @@ const config: Config = {
                 // => @media (min-width: 948px) { ... }
                 'ms': '648px',
                 // => @media (min-width: 648px) { ... }
+                '3xl': '2560px',
+                // => @media (min-width: 648px) { ... }
             },
         },
     },
