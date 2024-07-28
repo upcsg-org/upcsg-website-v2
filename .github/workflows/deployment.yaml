@@ -45,7 +45,7 @@ jobs:
             - name: Add server to known hosts
               run: |
                   mkdir -p ~/.ssh
-                  ssh-keyscan -H 34.143.159.141 >> ~/.ssh/known_hosts
+                  ssh-keyscan -H ${{ secrets.EXTERNAL_IP_ADDRESS }} >> ~/.ssh/known_hosts
 
             - name: SSH into Deployment Server
               run: ssh ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }}
