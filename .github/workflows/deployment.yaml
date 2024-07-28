@@ -18,7 +18,7 @@ jobs:
             - name: Setup QEMU
               uses: docker/setup-qemu-action@v3
 
-            - name: Setup DockerBuildx
+            - name: Setup Docker Buildx
               uses: docker/setup-buildx-action@v3
 
             - name: Login to Docker Hub
@@ -30,5 +30,6 @@ jobs:
             - name: Build and Push
               uses: docker/build-push-action@v6
               with:
+                  context: .
                   push: true
                   tags: milaymaxell/upcsg:latest
