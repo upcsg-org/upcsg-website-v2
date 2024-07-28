@@ -15,6 +15,7 @@ const config: Config = {
             },
             fontFamily: {
                 vietnam: ['Be Vietnam Pro', 'sans-serif'],
+                economica: ['Economica', 'sans-serif']
             },
             colors: {
                 'main-dark': '#111120',

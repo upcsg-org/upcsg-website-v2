@@ -18,6 +18,7 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
             className="bg-csg-blue-400 overflow-hidden w-full max-w-64 h-80 text-left"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
+            onClick={() => (location.href = '/coming-soon')}
         >
             <div className="relative h-40 w-full">
                 <Image src={image} alt={title} fill className="object-cover" />
