@@ -50,9 +50,9 @@ jobs:
             - name: SSH into Deployment Server
               run: |
                   ssh ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }}
-                  docker pull milaymaxell/upcsg:latest
-                  docker rm -f ci-cd-pipeline-container || true
-                  docker run -d -p 3000:3000 --name ci-cd-pipeline-container milaymaxell/upcsg
+                  docker pull milaymaxell/upcsg
+                  docker ps -aq | xargs docker stop | xargs docker rm
+                  docker run -d -p 3000:3000 milaymaxell/upcsg:latest
 
             # - name: Pull Docker Image
             #   run: docker pull milaymaxell/upcsg:latest
