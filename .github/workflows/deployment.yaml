@@ -48,13 +48,17 @@ jobs:
                   ssh-keyscan -H ${{ secrets.EXTERNAL_IP_ADDRESS }} >> ~/.ssh/known_hosts
 
             - name: SSH into Deployment Server
-              run: ssh ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }}
+              run: |
+                  ssh ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }}
+                  docker pull milaymaxell/upcsg:latest
+                  docker rm -f ci-cd-pipeline-container || true
+                  docker run -d -p 3000:3000 --name ci-cd-pipeline-container milaymaxell/upcsg
 
-            - name: Pull Docker Image
-              run: docker pull milaymaxell/upcsg:latest
+            # - name: Pull Docker Image
+            #   run: docker pull milaymaxell/upcsg:latest
 
-            - name: Delete Old Docker Container
-              run: docker rm -f ci-cd-pipeline-container || true
+            # - name: Delete Old Docker Container
+            #   run: docker rm -f ci-cd-pipeline-container || true
 
-            - name: Run Docker Container
-              run: docker run -d -p 3000:3000 --name ci-cd-pipeline-container milaymaxell/upcsg
+            # - name: Run Docker Container
+            #   run: docker run -d -p 3000:3000 --name ci-cd-pipeline-container milaymaxell/upcsg
