@@ -17,6 +17,7 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
             className="bg-csg-blue-400 overflow-hidden w-full max-w-64 h-80 text-left"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
+            onClick={() => (location.href = '/coming-soon')}
         >
             <img src={image} alt={title} className="w-full h-40 object-cover" />
             <div className="p-3 relative h-40">
@@ -26,7 +27,9 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
                 <p className="text-sm sm:text-base font-semibold mb-1 text-white">
                     {title}
                 </p>
-                <p className="text-xs sm:text-base text-white absolute bottom-4">{date}</p>
+                <p className="text-xs sm:text-base text-white absolute bottom-4">
+                    {date}
+                </p>
             </div>
         </motion.button>
     )
