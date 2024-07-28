@@ -1,7 +1,7 @@
 import React from 'react'
 import ComingSoon from '@/components/generics/ComingSoon'
 
-const EducAndDevPage = () => {
+const LearningPage = () => {
     return (
         <>
             <section>
@@ -11,4 +11,4 @@ const EducAndDevPage = () => {
     )
 }
 
-export default EducAndDevPage
+export default LearningPage
