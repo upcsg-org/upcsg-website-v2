@@ -19,7 +19,7 @@ const OfficersSection = () => {
                     KNOW YOUR OFFICERS FROM THE GUILD
                 </h2>
                 <h3 className="md:w-2/3 text-xl md:text-3xl font-semibold tracking-wider">
-                    The Board of Directors, UPCSG '24-25
+                    The Board of Directors, UPCSG &apos;24-25
                 </h3>
                 <p className="md:w-2/3 tracking-wide">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
