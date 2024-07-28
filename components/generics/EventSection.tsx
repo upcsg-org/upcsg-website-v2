@@ -167,7 +167,10 @@ const EventSection: React.FC = () => {
                             >
                                 {showAll ? 'See less' : 'See more'}
                             </button>
-                            <button className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full underline">
+                            <button
+                                className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full underline"
+                                onClick={() => (location.href = '/coming-soon')}
+                            >
                                 View all events →
                             </button>
                         </motion.div>

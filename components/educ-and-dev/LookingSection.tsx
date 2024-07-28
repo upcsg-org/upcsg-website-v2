@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
 
@@ -20,7 +22,10 @@ const LookingSection = () => {
                 Check out our collection of materials, procured for your best
                 perusal!
             </p>
-            <button className="bg-main-dark text-white text-md sm:text-lg font-vietnam font-bold w-64 h-14 py-2 px-8 sm:px-7 mt-8 rounded-full border-white border-2">
+            <button
+                className="bg-main-dark text-white text-md sm:text-lg font-vietnam font-bold w-64 h-14 py-2 px-8 sm:px-7 mt-8 rounded-full border-white border-2"
+                onClick={() => (location.href = '/coming-soon')}
+            >
                 Learning Materials
             </button>
         </div>
