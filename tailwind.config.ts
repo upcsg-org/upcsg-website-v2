@@ -15,6 +15,7 @@ const config: Config = {
             },
             fontFamily: {
                 vietnam: ['Be Vietnam Pro', 'sans-serif'],
+                economica: ['Economica', 'sans-serif']
             },
             colors: {
                 'main-dark': '#111120',
@@ -66,6 +67,8 @@ const config: Config = {
                 'ls': '948px',
                 // => @media (min-width: 948px) { ... }
                 'ms': '648px',
+                // => @media (min-width: 648px) { ... }
+                '3xl': '2560px',
                 // => @media (min-width: 648px) { ... }
             },
         },

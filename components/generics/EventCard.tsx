@@ -27,6 +27,7 @@ const EventCard: React.FC<EventCardProps> = ({
             }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
+            onClick={() => (location.href = '/coming-soon')}
         >
             <div className="flex flex-col justify-between h-full p-4">
                 <div>
