@@ -48,7 +48,7 @@ jobs:
                   ssh-keyscan -H 34.143.159.141 >> ~/.ssh/known_hosts
 
             - name: SSH into Deployment Server
-              run: ssh mirai@34.143.159.141
+              run: ssh ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }}
 
             - name: Pull Docker Image
               run: docker pull milaymaxell/upcsg:latest
