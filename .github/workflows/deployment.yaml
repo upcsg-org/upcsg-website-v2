@@ -49,10 +49,15 @@ jobs:
 
             - name: SSH into Deployment Server
               run: |
-                  ssh ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }}
-                  docker pull milaymaxell/upcsg
-                  docker ps -aq | xargs docker stop | xargs docker rm
-                  docker run -d -p 3000:3000 milaymaxell/upcsg:latest
+                  ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }} << 'EOF'
+                    docker pull milaymaxell/upcsg
+                    CONTAINER_IDS=$(docker ps -aq)
+                    if [ ! -z "$CONTAINER_IDS" ]; then
+                      docker stop $CONTAINER_IDS
+                      docker rm $CONTAINER_IDS
+                    fi
+                    docker run -d -p 3000:3000 milaymaxell/upcsg:latest
+                  EOF
 
             # - name: Pull Docker Image
             #   run: docker pull milaymaxell/upcsg:latest
