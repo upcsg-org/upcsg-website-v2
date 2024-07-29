@@ -20,9 +20,9 @@ const MyPurchasesPage = () => {
                 <div>
                     <HistoryButton />
                 </div>
-            </section>
-            <section>
-                <PurchaseList />
+                <div className="col-span-full">
+                    <PurchaseList />
+                </div>
             </section>
         </div>
     )
