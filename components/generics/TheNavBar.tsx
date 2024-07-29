@@ -10,7 +10,7 @@ const TheNavBar = (props: PropsInterface) => {
     return (
         <>
             <Link
-                href="/"
+                href="/merch"
                 className="hover:-translate-y-1 duration-200"
                 onClick={() => setIsNavbarDropdownOpen(false)}
             >
