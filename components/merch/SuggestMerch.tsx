@@ -14,7 +14,7 @@ const SuggestMerch = () => {
 
 
     return (
-    <div className='w-full h-fit bg-[#090C0F] pb-[50px] lg:pb-[300px] pt-10 md:pt-14'>
+    <div className='w-full h-fit bg-[#090C0F] pb-[80px] lg:pb-[300px] pt-10 md:pt-14 relative'>
         {showForm && <SuggestMerchForm handleClick={handleClick} />}
         <div className='relative flex flex-col items-center h-fit z-10'>
             <h1 className='font-press-start text-2xl md:text-6xl text-[#6E7E95] max-w-[20ch] text-center'>
@@ -30,13 +30,13 @@ const SuggestMerch = () => {
                 SUBMIT HERE
             </button>
         </div>
-        <div className='absolute bottom-[156px] lg:bottom-[300px] w-full z-1'>
+        <div className='bg-[#090C0F] flex items-center justify-center absolute  bottom-[-150px] w-full z-1'>
             <Image
                 src={'/images/suggest-merch-bg.png'}
                 alt='Suggest Merch'
                 height={1375}
                 width={785}
-                className='object-cover object-top w-full h-full md:max-h-[500px]'
+                className='object-cover object-top w-full h-full max-w-[300px] md:max-w-[450px] lg:max-w-[700px]'
             />
         </div>
     </div>
