@@ -24,7 +24,7 @@ const TabSelector = () => {
         },
         {
             icon: IoIosCloseCircleOutline,
-            text: 'To Pay',
+            text: 'Cancelled',
         },
     ]
 
