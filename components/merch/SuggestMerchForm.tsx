@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { FaCloudArrowUp } from 'react-icons/fa6'
-import { FaXmark } from 'react-icons/fa6'
+import { FaCloudArrowUp, FaXmark } from 'react-icons/fa6'
 
 type SuggestMerchFormProps = {
     handleClick: () => void
@@ -64,7 +63,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                 <form onSubmit={handleSubmit} className="">
                     <div className="font-vietnam font-bold">
                         <h1 className="text-2xl md:text-4xl text-white tracking-widest flex flex-row justify-between items-center">
-                            SUBMISSION FORM
+                            <p>SUBMISSION FORM</p>
                             <button
                                 onClick={handleClick}
                                 className="bg-transparent border-none"
@@ -82,7 +81,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                             <div>
                                 <label
                                     htmlFor="name"
-                                    className="text-white font-light text-[#8E8E8E]"
+                                    className="font-light text-[#8E8E8E]"
                                 >
                                     NAME
                                 </label>
@@ -99,7 +98,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                                 <div className="flex flex-col w-4/12 grow">
                                     <label
                                         htmlFor="year"
-                                        className="text-white font-light text-[#8E8E8E] whitespace-nowrap truncate"
+                                        className="font-light text-[#8E8E8E] whitespace-nowrap truncate"
                                     >
                                         YEAR (optional)
                                     </label>
@@ -129,7 +128,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                                 <div className="w-7/12 grow">
                                     <label
                                         htmlFor="course"
-                                        className="text-white font-light text-[#8E8E8E]"
+                                        className="font-light text-[#8E8E8E]"
                                     >
                                         COURSE (optional)
                                     </label>
@@ -146,7 +145,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                             <div className="">
                                 <label
                                     htmlFor="email"
-                                    className="text-white font-light text-[#8E8E8E]"
+                                    className="font-light text-[#8E8E8E]"
                                 >
                                     EMAIL
                                 </label>
@@ -162,7 +161,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                             <div>
                                 <label
                                     htmlFor="number"
-                                    className="text-white font-light text-[#8E8E8E]"
+                                    className="font-light text-[#8E8E8E]"
                                 >
                                     PHONE NUMBER
                                 </label>
@@ -178,7 +177,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                             <div>
                                 <label
                                     htmlFor="productname"
-                                    className="text-white font-light text-[#8E8E8E]"
+                                    className="font-light text-[#8E8E8E]"
                                 >
                                     NAME OF PRODUCT
                                 </label>
@@ -194,7 +193,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                             <div>
                                 <label
                                     htmlFor="description"
-                                    className="text-white font-light text-[#8E8E8E]"
+                                    className="font-light text-[#8E8E8E]"
                                 >
                                     SHORT DESCRIPTION
                                 </label>
@@ -210,7 +209,7 @@ const SuggestMerchForm = ({ handleClick }: SuggestMerchFormProps) => {
                             <div className="flex flex-col">
                                 <label
                                     htmlFor="type"
-                                    className="text-white font-light text-[#8E8E8E]"
+                                    className="font-light text-[#8E8E8E]"
                                 >
                                     PRODUCT TYPE
                                 </label>
