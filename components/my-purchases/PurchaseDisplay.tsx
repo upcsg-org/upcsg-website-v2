@@ -67,7 +67,7 @@ const PurchaseDisplay = (props: PropsInterface) => {
             <span className="max-md:hidden">{estimatedDate}</span>
             <div
                 onClick={toggleDropdown}
-                className="flex flex-row items-center gap-0.5 md:hidden w-fit h-fit bg-[#6A90D9] rounded-lg justify-self-center uppercase text-black text-center p-1 lg:p-2"
+                className="flex flex-row items-center gap-0.5 md:hidden w-fit h-fit bg-[#6A90D9] rounded-lg justify-self-center uppercase text-black text-center p-1 lg:p-2 cursor-pointer hover:text-white/75 transition-colors"
             >
                 <span className="text-lg sm:text-2xl lg:hidden">
                     {openDropdown !== index ? (
@@ -82,7 +82,7 @@ const PurchaseDisplay = (props: PropsInterface) => {
             </div>
             <div
                 onClick={cancelFunction}
-                className="w-fit h-fit bg-[#6A90D9] rounded-lg justify-self-center uppercase text-xs text-black text-center p-1 lg:p-2"
+                className="w-fit h-fit bg-[#6A90D9] rounded-lg justify-self-center uppercase text-xs text-black text-center p-1 lg:p-2 cursor-pointer hover:text-white/75 transition-colors"
             >
                 <span className="text-lg sm:text-2xl lg:hidden">
                     <IoIosCloseCircleOutline />
