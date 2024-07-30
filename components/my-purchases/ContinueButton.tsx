@@ -1,12 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
+import { MdAddShoppingCart } from 'react-icons/md'
 
 const ContinueButton = () => {
     return (
         <>
             <Link href="/" className="md:border-lg w-fill">
-                <div className="w-fill bg-csg-green-100 rounded-full uppercase text-sm text-center px-4 py-3">
-                    <p className="font-semibold w-fill">← Continue Shopping</p>
+                <div className="w-full flex justify-center bg-csg-green-100 rounded-xl uppercase text-[10px] md:text-xs lg:text-sm text-center p-1.5 sm:px-2 sm:py-3">
+                    <p className="max-sm:hidden font-semibold w-full">
+                        ← Continue Shopping
+                    </p>
+                    <span className="sm:hidden text-lg">
+                        <MdAddShoppingCart />
+                    </span>
                 </div>
             </Link>
         </>
