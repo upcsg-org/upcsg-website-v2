@@ -9,7 +9,8 @@ interface OrderFormProps {
         type: string
         price: number
         image: string
-        color: string
+        sizes: string[]
+        colors: string[]
         BestSeller: boolean
     }
     onClose: () => void
@@ -17,8 +18,8 @@ interface OrderFormProps {
 
 const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
     const [quantity, setQuantity] = useState(1)
-    const [size, setSize] = useState('ONE SIZE')
-    const [color, setColor] = useState(product.color)
+    const [size, setSize] = useState(product.sizes[0])
+    const [color, setColor] = useState(product.colors[0])
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -37,14 +38,18 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                 </button>
                 <div className="flex flex-col xs:flex-row space-y-4 xs:space-y-0 xs:space-x-4">
                     <div className="w-full xs:w-1/2 bg-gray-300 rounded-2xl border-csg-blue-400 border-2 flex justify-center relative">
-                        <VscSparkle className="absolute top-2 left-2 text-black text-xl xl:text-3xl" />
+                        {product.BestSeller ? (
+                            <VscSparkle className="absolute top-2 left-2 text-black text-xl xl:text-3xl" />
+                        ) : (
+                            <>&#8203;</>
+                        )}
                         <Image
                             src={product.image}
                             alt={product.name}
                             width={500}
                             height={500}
                             objectFit="cover"
-                            className="rounded-lg xs:scale-100 lg:scale-150"
+                            className="rounded-lg scale-100"
                         />
                     </div>
                     <div className="w-full xs:w-1/2 space-y-2">
@@ -75,7 +80,11 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                                     onChange={(e) => setSize(e.target.value)}
                                     className="bg-csg-green-100 text-white rounded-2xl px-2 py-1 w-32 xs:w-32 text-xs"
                                 >
-                                    <option>ONE SIZE</option>
+                                    {product.sizes.map((s) => (
+                                        <option key={s} value={s}>
+                                            {s}
+                                        </option>
+                                    ))}
                                 </select>
                             </p>
                         </div>
@@ -87,7 +96,11 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                                     onChange={(e) => setColor(e.target.value)}
                                     className="bg-csg-green-100 text-white rounded-2xl px-2 py-1 w-32 xs:w-32 text-xs"
                                 >
-                                    <option>{product.color}</option>
+                                    {product.colors.map((c) => (
+                                        <option key={c} value={c}>
+                                            {c}
+                                        </option>
+                                    ))}
                                 </select>
                             </p>
                         </div>

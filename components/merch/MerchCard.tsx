@@ -10,12 +10,13 @@ interface PropsInterface {
     type: string
     price: number
     images: string[]
+    sizes: string[]
     colors: string[]
     isBestSeller: boolean
 }
 
 const MerchCard = (props: PropsInterface) => {
-    const { name, type, price, images, colors, isBestSeller } = props
+    const { name, type, price, images, colors, sizes, isBestSeller } = props
     const [currentImage, setCurrentImage] = useState(0)
     const [showOrderForm, setShowOrderForm] = useState(false)
 
@@ -74,7 +75,7 @@ const MerchCard = (props: PropsInterface) => {
                             alt="Background"
                             layout="fill"
                             objectFit="cover"
-                            className="opacity-50"
+                            className=""
                         />
                     </div>
                 </div>
@@ -97,9 +98,10 @@ const MerchCard = (props: PropsInterface) => {
                         name,
                         type,
                         price,
-                        image: '/images/TempMerch.png',
-                        color: colors[currentImage],
-                        BestSeller: true,
+                        image: images[currentImage],
+                        sizes: sizes,
+                        colors: colors,
+                        BestSeller: isBestSeller,
                     }}
                     onClose={() => setShowOrderForm(false)}
                 />

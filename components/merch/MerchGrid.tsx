@@ -6,62 +6,64 @@ import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
 
 const testValues = [
     {
-        name: 'Sample Tote Bag 1',
-        type: 'TOTE BAG',
-        price: 29.99,
+        name: 'BYTE BRIMS',
+        type: 'HATS',
+        price: 175.0,
         images: [
-            '/logo/upcsg-logo.png',
+            '/images/TempMerch.png',
             '/title_header.png',
-            '/logo/upcsg-logo.png',
+            '/images/TempMerch.png',
         ],
+        sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
         colors: ['#FF0000', '#00FF00', '#0000FF'],
         isBestSeller: true,
     },
     {
-        name: 'Sample Tote Bag 2',
+        name: 'TECH TOTES',
         type: 'TOTE BAG',
-        price: 29.99,
-        images: ['/logo/upcsg-logo.png', '/title_header.png'],
+        price: 150.0,
+        sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
+        images: ['/images/Tote.png', '/title_header.png'],
         colors: ['#FF0000', '#0000FF'],
         isBestSeller: false,
     },
     {
-        name: 'Sample Tote Bag 3',
-        type: 'TOTE BAG',
-        price: 5.25,
-        images: [
-            '/logo/upcsg-logo.png',
-            '/title_header.png',
-            '/logo/upcsg-logo.png',
-        ],
+        name: 'T-SHIRTS',
+        type: 'SHIRTS',
+        price: 250.0,
+        sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
+        images: ['/images/shirt.png', '/title_header.png', '/images/shirt.png'],
         colors: ['#111120', '#41A01E', '#FFFFFF'],
         isBestSeller: true,
     },
     {
-        name: 'Sample Tote Bag 1',
-        type: 'TOTE BAG',
-        price: 29.99,
-        images: ['/logo/upcsg-logo.png'],
+        name: 'HATS',
+        type: 'HATS',
+        price: 175.0,
+        sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
+        images: ['/images/hat.png'],
         colors: ['#FF0000'],
         isBestSeller: true,
     },
     {
-        name: 'Sample Tote Bag 2',
-        type: 'TOTE BAG',
-        price: 29.99,
-        images: ['/logo/upcsg-logo.png', '/title_header.png'],
-        colors: ['#FF0000', '#0000FF'],
-        isBestSeller: false,
+        name: 'BYTE BRIMS 2',
+        type: 'HATS',
+        price: 175.0,
+        images: [
+            '/images/TempMerch.png',
+            '/title_header.png',
+            '/images/TempMerch.png',
+        ],
+        sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
+        colors: ['#FF0000', '#00FF00', '#0000FF'],
+        isBestSeller: true,
     },
     {
-        name: 'Sample Tote Bag 3',
-        type: 'TOTE BAG',
-        price: 5.25,
-        images: [
-            '/logo/upcsg-logo.png',
-            '/title_header.png',
-            '/logo/upcsg-logo.png',
-        ],
+        name: 'T-SHIRTS 2',
+        type: 'SHIRTS',
+        price: 250.0,
+        images: ['/images/shirt.png', '/title_header.png', '/images/shirt.png'],
+        sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
         colors: ['#111120', '#41A01E', '#FFFFFF'],
         isBestSeller: true,
     },
@@ -91,6 +93,7 @@ const MerchGrid = () => {
                         price={item.price}
                         images={item.images}
                         colors={item.colors}
+                        sizes={item.sizes}
                         isBestSeller={item.isBestSeller}
                     />
                 ))}
