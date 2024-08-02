@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import Confetti from 'react-confetti'
-import { HiOutlineShoppingBag } from 'react-icons/hi2'
 
 interface Props {
     onClose: () => void
@@ -33,14 +31,6 @@ const CancelPop: React.FC<Props> = ({ onClose }) => {
         return () => clearTimeout(timer)
     }, [onClose])
 
-    useEffect(() => {
-        const confettiTimer = setTimeout(() => {
-            setShowConfetti(false)
-        }, 2000)
-
-        return () => clearTimeout(confettiTimer)
-    }, [])
-
     return (
         <motion.div
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
@@ -49,9 +39,6 @@ const CancelPop: React.FC<Props> = ({ onClose }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
         >
-            {showConfetti && (
-                <Confetti width={windowSize.width} height={windowSize.height} />
-            )}
             <motion.div
                 className="bg-csg-blue-700 rounded-lg flex flex-col items-center border-csg-blue-400 border-2 w-96"
                 initial={{ scale: 0.5, opacity: 0 }}
