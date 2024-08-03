@@ -22,7 +22,7 @@ const TheFooter = () => {
             <div className=" bg-csg-green-300 flex flex-col text-white pb-8 gap-y-3 justify-around font-vietnam font-bold tracking-widest">
                 <div className="flex flex-col items-center gap-3 text-xs lg:text-base">
                     <p className="md:text-xl text-lg">Connect with Us!</p>
-                    <div className="flex flex-row gap-3 md:*:ps-12">
+                    <div className="flex flex-row gap-7">
                         <div className="flex gap-3 items-center ">
                             <FaEnvelope className="md:h-6 md:w-6 w-4 h-4" />
                             <p>upcsg mail</p>
