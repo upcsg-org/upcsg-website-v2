@@ -5,7 +5,7 @@ import { FaLongArrowAltRight } from 'react-icons/fa'
 
 const ScholarshipsSection = () => {
     return (
-        <div className="flex flex-col basis-96 md:flex-row">
+        <div className="flex flex-col basis-96 md:flex-row bg-[#1E2546]">
             <div className="flex flex-col basis-[65%] p-6 md:p-16 order-2 md:order-1 gap-6">
                 <h2 className="text-3xl md:text-5xl font-bold tracking-widest font-vietnam text-center md:text-left pb-4 md:pb-8">
                     SCHOLARSHIP &<br />

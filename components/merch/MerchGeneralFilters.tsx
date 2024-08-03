@@ -63,21 +63,24 @@ const MerchGeneralFilters = () => {
             <div
                 className={`sticky top-28 xl:top-20 left-0 w-full p-4 bg-main-dark xl:py-12 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
             >
-                <form className="font-bold text-white text-lg xl:text-3xl tracking-wider pb-4 xl:px-0">
+                <form
+                    className="font-bold text-white text-lg xl:text-3xl tracking-wider pb-4 xl:px-0"
+                    onSubmit={(e) => e.preventDefault()}
+                >
                     FILTERS
                     <div className="flex flex-col bg-black text-sm xl:text-xl rounded-lg p-4 mt-2 xl:mt-4">
-                        <div
+                        <button
                             onClick={() => toggleMenu(0)}
-                            className="flex flex-row justify-between text-white cursor-pointer gap-10 hover:text-white/75"
+                            className="flex flex-row justify-between text-white cursor-pointer  hover:text-white/75"
                         >
                             PRODUCT TYPE
                             {isOpen[0] ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                        </div>
+                        </button>
                         {isOpen[0] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col font-normal">
-                                {ProductTypes.map((type, index) => (
+                                {ProductTypes.map((type) => (
                                     <li
-                                        key={index}
+                                        key={type}
                                         className="flex items-center mt-2"
                                     >
                                         <input
@@ -98,18 +101,18 @@ const MerchGeneralFilters = () => {
                             </ul>
                         )}
 
-                        <div
+                        <button
                             onClick={() => toggleMenu(1)}
-                            className="flex flex-row justify-between text-white cursor-pointer mt-4 gap-10 hover:text-white/75"
+                            className="flex flex-row justify-between text-white cursor-pointer mt-4  hover:text-white/75"
                         >
                             PRICE RANGE
                             {isOpen[1] ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                        </div>
+                        </button>
                         {isOpen[1] && (
                             <ul className="text-white font-normal">
-                                {PriceRange.map((type, index) => (
+                                {PriceRange.map((type) => (
                                     <li
-                                        key={index}
+                                        key={type}
                                         className="flex items-center mt-2"
                                     >
                                         <input
@@ -130,18 +133,18 @@ const MerchGeneralFilters = () => {
                             </ul>
                         )}
 
-                        <div
+                        <button
                             onClick={() => toggleMenu(2)}
-                            className="flex flex-row justify-between text-white cursor-pointer mt-4 gap-10 hover:text-white/75"
+                            className="flex flex-row justify-between text-white cursor-pointer mt-4 hover:text-white/75"
                         >
                             SIZE
                             {isOpen[2] ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                        </div>
+                        </button>
                         {isOpen[2] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
-                                {Sizes.map((type, index) => (
+                                {Sizes.map((type) => (
                                     <li
-                                        key={index}
+                                        key={type}
                                         className="flex items-center mt-2"
                                     >
                                         <input
@@ -172,7 +175,7 @@ const MerchGeneralFilters = () => {
                 <div className="flex w-full justify-center lg:hidden">
                     <button
                         onClick={toggleVisibility}
-                        className="flex flex-row items-center text-white text-lg text-sm xl:text-xl gap-3 underline hover:text-white/75"
+                        className="flex flex-row items-center text-white  text-sm xl:text-xl gap-3 underline hover:text-white/75"
                     >
                         {isVisible ? <FaEyeSlash /> : <FaEye />}
                         {isVisible ? 'Hide Filters' : 'Show Filters'}

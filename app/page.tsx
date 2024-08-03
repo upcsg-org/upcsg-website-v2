@@ -4,12 +4,15 @@ import ContactUsForm from '@/components/generics/ContactUsForm'
 import { Carousel } from '@/components/landing-page/Carousel'
 import FacultySection from '@/components/landing/FacultySection'
 import EventSection from '@/components/generics/EventSection'
+import { LandingPageImages } from '@/enums/carousel'
 
 export default function Home() {
+    const images = Object.values(LandingPageImages)
+
     return (
         <>
             <section className="h-[calc(100vh-3rem)]">
-                <Carousel />
+                <Carousel images={images} />
             </section>
             <section>
                 <EventSection />

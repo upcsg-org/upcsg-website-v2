@@ -4,12 +4,14 @@ import SuggestMerch from '@/components/merch/SuggestMerch'
 import MerchGrid from '@/components/merch/MerchGrid'
 import MerchGeneralFilters from '@/components/merch/MerchGeneralFilters'
 import { Carousel } from '@/components/landing-page/Carousel'
+import { MerchLandingPageImages } from '@/enums/carousel'
 
 const MerchPage = () => {
+    const images = Object.values(MerchLandingPageImages)
     return (
         <>
             <section className="h-[calc(100vh-3rem)]">
-                <Carousel />
+                <Carousel images={images} />
             </section>
             <div className="flex flex-col font-vietnam text-[#D8DCDF] bg-main-dark min-h-screen">
                 <section>
