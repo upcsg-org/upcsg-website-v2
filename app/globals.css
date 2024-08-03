@@ -1,7 +1,9 @@
+/* Temporary import to test the font */
+@import '../styles/fonts.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+  
 :root {
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;

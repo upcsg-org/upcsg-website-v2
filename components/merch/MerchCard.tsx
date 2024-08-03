@@ -39,7 +39,7 @@ const MerchCard = (props: PropsInterface) => {
 
     return (
         <>
-            <button
+            <div
                 className="flex flex-col w-full items-center gap-2 lg:gap-4 p-1 lg:p-4 rounded-lg hover:bg-csg-blue-600/25 duration-150"
                 onClick={handleCardClick}
             >
@@ -56,7 +56,7 @@ const MerchCard = (props: PropsInterface) => {
                                 {colors.length > 1 &&
                                     colors.map((currentColor, index) => (
                                         <button
-                                            key={index}
+                                            key={index + currentColor}
                                             className="rounded-full size-3 xl:size-4 border-[1px] border-black"
                                             style={{
                                                 backgroundColor: currentColor,
@@ -104,7 +104,7 @@ const MerchCard = (props: PropsInterface) => {
                         PHP {price}
                     </li>
                 </ul>
-            </button>
+            </div>
 
             {showOrderForm && (
                 <OrderForm
