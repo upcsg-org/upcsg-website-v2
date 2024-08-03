@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { IoClose } from 'react-icons/io5'
 import { VscSparkle } from 'react-icons/vsc'
+import ShopPop from './ShopPop'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface OrderFormProps {
     product: {
@@ -20,11 +22,15 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
     const [quantity, setQuantity] = useState(1)
     const [size, setSize] = useState(product.sizes[0])
     const [color, setColor] = useState(product.colors[0])
+    const [showShopPop, setShowShopPop] = useState(false)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         console.log('Order submitted:', { ...product, quantity, size, color })
-        onClose()
+        setShowShopPop(true)
+        setTimeout(() => {
+            setShowShopPop(false)
+        }, 1500)
     }
 
     return (
@@ -147,6 +153,23 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                     </div>
                 </div>
             </div>
+            <AnimatePresence>
+                {showShopPop && (
+                    <motion.div
+                        key="shopPop"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        <ShopPop
+                            onClose={() => {
+                                setShowShopPop(false)
+                                onClose()
+                            }}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }

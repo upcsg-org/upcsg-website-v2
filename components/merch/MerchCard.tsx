@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { AiOutlineHeart, AiFillHeart, AiOutlineShopping } from 'react-icons/ai'
 import { VscSparkle } from 'react-icons/vsc'
 import OrderForm from './OrderForm'
+import { AnimatePresence } from 'framer-motion'
+import LikedPop from './LikedPop'
 
 interface PropsInterface {
     name: string
@@ -18,6 +20,7 @@ const MerchCard = (props: PropsInterface) => {
     const { name, type, price, images, colors, sizes, isBestSeller } = props
     const [currentImage, setCurrentImage] = useState(0)
     const [showOrderForm, setShowOrderForm] = useState(false)
+    const [showLiked, setShowLiked] = useState(false)
 
     const handleColorChange = (index: number) => {
         setCurrentImage(index)
@@ -26,6 +29,12 @@ const MerchCard = (props: PropsInterface) => {
     const handleCardClick = (e: React.MouseEvent) => {
         e.preventDefault()
         setShowOrderForm(true)
+    }
+
+    const handleLikeClick = (e: React.MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setShowLiked(true)
     }
 
     return (
@@ -62,9 +71,15 @@ const MerchCard = (props: PropsInterface) => {
                         </li>
                         <li className="flex flex-row w-full font-bold text-main-dark text-xl xl:text-3xl justify-end">
                             <AiOutlineShopping />
-                            <span className="group">
+                            <span
+                                className="group"
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 <AiOutlineHeart className="group-hover:hidden" />
-                                <AiFillHeart className="hidden group-hover:block" />
+                                <AiFillHeart
+                                    className="hidden group-hover:block"
+                                    onClick={handleLikeClick}
+                                />
                             </span>
                         </li>
                     </ul>
@@ -105,6 +120,10 @@ const MerchCard = (props: PropsInterface) => {
                     onClose={() => setShowOrderForm(false)}
                 />
             )}
+
+            <AnimatePresence>
+                {showLiked && <LikedPop onClose={() => setShowLiked(false)} />}
+            </AnimatePresence>
         </>
     )
 }
