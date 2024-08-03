@@ -60,9 +60,18 @@ const config: Config = {
                     100: '#A0293F',
                     200: '#780F4E',
                 },
-                'csg-violet': '#7B00C6',
+                'csg-orange': {
+                    100: '#EE6C45',
+                    200: '#8F3318',
+                },
+                'csg-violet': {
+                    100: '#7B00C6',
+                    200: '#5959B0'
+                }
             },
             screens: {
+                'ps': '372px',
+                // => @media (min-width: 372px) { ... } 
                 'xs': '500px',
                 // => @media (min-width: 500px) { ... }
                 'ls': '948px',
