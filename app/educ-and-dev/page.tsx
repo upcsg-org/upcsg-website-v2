@@ -4,7 +4,7 @@ import ContactUsForm from '@/components/generics/ContactUsForm'
 import EventSection from '@/components/generics/EventSection'
 import { Carousel } from '@/components/landing-page/Carousel'
 import LookingSection from '@/components/educ-and-dev/LookingSection'
-import { LandingPageImages } from '@/enums/carousel'
+import { LandingPageImages } from '@/constants/carousel'
 
 const EducAndDevPage = () => {
     const images = Object.values(LandingPageImages)

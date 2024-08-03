@@ -4,7 +4,7 @@ import SuggestMerch from '@/components/merch/SuggestMerch'
 import MerchGrid from '@/components/merch/MerchGrid'
 import MerchGeneralFilters from '@/components/merch/MerchGeneralFilters'
 import { Carousel } from '@/components/landing-page/Carousel'
-import { MerchLandingPageImages } from '@/enums/carousel'
+import { MerchLandingPageImages } from '@/constants/carousel'
 
 const MerchPage = () => {
     const images = Object.values(MerchLandingPageImages)

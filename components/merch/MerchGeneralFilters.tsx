@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
+import { IoIosArrowDown } from 'react-icons/io'
 import { LuFilter } from 'react-icons/lu'
 
 const ProductTypes = [
@@ -74,7 +74,9 @@ const MerchGeneralFilters = () => {
                             className="flex flex-row justify-between text-white cursor-pointer  hover:text-white/75"
                         >
                             PRODUCT TYPE
-                            {isOpen[0] ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                            <IoIosArrowDown
+                                className={`${isOpen[0] ? 'rotate-180 duration-500' : 'rotate-0 duration-500'}`}
+                            />
                         </button>
                         {isOpen[0] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col font-normal">
@@ -106,7 +108,9 @@ const MerchGeneralFilters = () => {
                             className="flex flex-row justify-between text-white cursor-pointer mt-4  hover:text-white/75"
                         >
                             PRICE RANGE
-                            {isOpen[1] ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                            <IoIosArrowDown
+                                className={`${isOpen[1] ? 'rotate-180 duration-500' : 'rotate-0 duration-500'}`}
+                            />
                         </button>
                         {isOpen[1] && (
                             <ul className="text-white font-normal">
@@ -138,7 +142,9 @@ const MerchGeneralFilters = () => {
                             className="flex flex-row justify-between text-white cursor-pointer mt-4 hover:text-white/75"
                         >
                             SIZE
-                            {isOpen[2] ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                            <IoIosArrowDown
+                                className={`${isOpen[2] ? 'rotate-180 duration-500' : 'rotate-0 duration-500'}`}
+                            />
                         </button>
                         {isOpen[2] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
@@ -186,7 +192,7 @@ const MerchGeneralFilters = () => {
                 <div className="sticky top-20 py-5 xl:pt-10 md:top-20 lg:top-24">
                     <button
                         onClick={toggleVisibility}
-                        className=" flex flex-row items-center text-white text-lg 
+                        className=" flex flex-row items-center text-white
                                     bg-csg-green-100 text-sm xl:text-xl gap-3 underline p-2 xl:p-3 rounded-r-lg
                                     hover:bg-csg-green-200 hover:text-white/75"
                     >

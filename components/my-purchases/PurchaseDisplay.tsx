@@ -1,10 +1,6 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
-import {
-    IoIosArrowDropdown,
-    IoIosArrowDropup,
-    IoIosCloseCircleOutline,
-} from 'react-icons/io'
+import React from 'react'
+import { IoIosArrowDropdown, IoIosCloseCircleOutline } from 'react-icons/io'
 
 interface PropsInterface {
     index: number
