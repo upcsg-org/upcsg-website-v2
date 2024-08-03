@@ -19,21 +19,21 @@ const TheFooter = () => {
                     className=""
                 />
             </div>
-            <div className=" bg-csg-green-300 flex flex-col md:flex-row  text-white pb-8 md:gap-y-0 gap-y-3 justify-around font-vietnam font-bold tracking-widest">
-                <div className="flex flex-col items-center md:items-start gap-3 text-xs lg:text-base">
-                    <p className="md:text-xl text-lg">Contact Us!</p>
-                    <div className="flex flex-col gap-3 md:*:ps-12">
+            <div className=" bg-csg-green-300 flex flex-col text-white pb-8 gap-y-3 justify-around font-vietnam font-bold tracking-widest">
+                <div className="flex flex-col items-center gap-3 text-xs lg:text-base">
+                    <p className="md:text-xl text-lg">Connect with Us!</p>
+                    <div className="flex flex-row gap-7">
                         <div className="flex gap-3 items-center ">
                             <FaEnvelope className="md:h-6 md:w-6 w-4 h-4" />
-                            <p>upcsg.upcebu@gmail.com</p>
+                            <p>upcsg mail</p>
                         </div>
                         <div className="flex gap-3 items-center">
                             <FaPhone className="md:h-6 md:w-6 w-4 h-4 scale-x-[-1]" />
-                            <p>096969696969</p>
+                            <p>upcsg phone</p>
                         </div>
                     </div>
                 </div>
-                <div className="flex gap-5  justify-center md:justify-start">
+                <div className="flex gap-5  justify-center ">
                     <a href="/" target="_blank" rel="noreferrer">
                         <FaFacebook className="md:h-10 md:w-10 h-7 w-7 hover:scale-125 duration-200" />
                     </a>
