@@ -1,1 +1,1 @@
-![UPCSG Header](./public/title_header.png)
+![UPCSG Header](./public/title-header.png)
