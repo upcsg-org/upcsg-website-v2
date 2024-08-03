@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FaLongArrowAltRight } from 'react-icons/fa'
 
 const FacultySection = () => {
     return (
@@ -30,8 +31,9 @@ const FacultySection = () => {
 
                 <div className="text-center md:text-left md:w-fit">
                     <Link href="/" className="md:border-lg w-fit">
-                        <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3">
-                            <p className="font-semibold">Know More →</p>
+                        <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
+                            <span>Know More</span>
+                            <FaLongArrowAltRight />
                         </div>
                     </Link>
                 </div>

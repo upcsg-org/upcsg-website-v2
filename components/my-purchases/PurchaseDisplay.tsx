@@ -65,22 +65,20 @@ const PurchaseDisplay = (props: PropsInterface) => {
             <span className="max-md:hidden">PHP {totalCost}</span>
             <span className="max-md:hidden">{status}</span>
             <span className="max-md:hidden">{estimatedDate}</span>
-            <div
+            <button
                 onClick={toggleDropdown}
                 className="flex flex-row items-center gap-0.5 md:hidden w-fit h-fit bg-[#6A90D9] rounded-lg justify-self-center uppercase text-black text-center p-1 lg:p-2 cursor-pointer hover:text-white/75 transition-colors"
             >
                 <span className="text-lg sm:text-2xl lg:hidden">
-                    {openDropdown !== index ? (
-                        <IoIosArrowDropdown />
-                    ) : (
-                        <IoIosArrowDropup />
-                    )}
+                    <IoIosArrowDropdown
+                        className={`${openDropdown !== index ? 'rotate-180 duration-500' : 'rotate-0 duration-500'}`}
+                    />
                 </span>
-                <p className="max-sm:hidden sm:text-[10px] md:text-xs font-semibold w-fill">
+                <p className="max-sm:hidden sm:text-[10px] md:text-xs font-semibold w-fill px-1">
                     Details
                 </p>
-            </div>
-            <div
+            </button>
+            <button
                 onClick={cancelFunction}
                 className="w-fit h-fit bg-[#6A90D9] rounded-lg justify-self-center uppercase text-xs text-black text-center p-1 lg:p-2 cursor-pointer hover:text-white/75 transition-colors"
             >
@@ -88,7 +86,7 @@ const PurchaseDisplay = (props: PropsInterface) => {
                     <IoIosCloseCircleOutline />
                 </span>
                 <p className="max-lg:hidden font-semibold w-fill">Cancel</p>
-            </div>
+            </button>
 
             {/* Dropdown */}
             <div

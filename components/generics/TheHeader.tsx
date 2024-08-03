@@ -12,7 +12,7 @@ const TheHeader = () => {
 
     return (
         <>
-            <header className="h-20 sticky z-50 flex items-center top-0 py-4 w-screen px-8 md:px-16 lg:px-32 justify-between text-xs font-bold bg-main-dark">
+            <header className="h-20 sticky z-50 flex items-center top-0 py-4 w-screen px-8 md:px-16 lg:px-32 justify-between text-xs font-bold bg-main-dark border-b-[0.5px] border-[#242460]">
                 <Link href="/" className="flex items-center space-x-2">
                     <figure className="relative aspect-square w-8 md:w-14 hover:-translate-y-1 duration-200">
                         <Image

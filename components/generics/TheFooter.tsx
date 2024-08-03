@@ -12,12 +12,7 @@ const TheFooter = () => {
     return (
         <footer className="flex flex-col bg-main-dark">
             <div className="relative w-full h-[10rem] md:h-[18rem] aspect-[1920/900]">
-                <Image
-                    src="/images/footer-bg.png"
-                    alt="Footer"
-                    fill
-                    className=""
-                />
+                <Image src="/images/footer-bg.png" alt="Footer" fill />
             </div>
             <div className=" bg-csg-green-300 flex flex-col text-white pb-8 gap-y-3 justify-around font-vietnam font-bold tracking-widest">
                 <div className="flex flex-col items-center gap-3 text-xs lg:text-base">
