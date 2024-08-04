@@ -42,9 +42,9 @@ function page() {
                 OPPORTUNITIES
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 mt-1 3xl:mx-[13.5vw]">
-                {testValues.map((item, index) => (
+                {testValues.map((item) => (
                     <InternshipOpportunityCard
-                        key={index}
+                        key={item.title + item.dateOfPosting}
                         title={item.title}
                         dateOfPosting={item.dateOfPosting}
                         imageURL={item.imageURL}

@@ -4,12 +4,14 @@ import ContactUsForm from '@/components/generics/ContactUsForm'
 import EventSection from '@/components/generics/EventSection'
 import { Carousel } from '@/components/landing-page/Carousel'
 import LookingSection from '@/components/educ-and-dev/LookingSection'
+import { LandingPageImages } from '@/constants/carousel'
 
 const EducAndDevPage = () => {
+    const images = Object.values(LandingPageImages)
     return (
         <>
             <section className="h-[calc(100vh-3rem)]">
-                <Carousel />
+                <Carousel images={images} />
             </section>
             <section>
                 <EventSection />

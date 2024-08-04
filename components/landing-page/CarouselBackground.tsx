@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { LuMoveRight } from 'react-icons/lu'
+import { usePathname } from 'next/navigation'
 
 interface News {
     title: string
@@ -19,6 +20,7 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
     images,
     currentImageIndex,
 }) => {
+    const pathname = usePathname()
     return (
         <div className="overflow-hidden relative w-full h-full ">
             <div
@@ -29,7 +31,7 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
             >
                 {images.map((image, index) => (
                     <div
-                        key={index}
+                        key={image}
                         className="w-full h-full flex-shrink-0 relative"
                     >
                         <Image
@@ -63,16 +65,18 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                                         : news[index].description}
                                 </p>
                             </div>
-                            <div className="flex items-center space-x-4">
-                                <a href={news[index].link} className="">
-                                    <div className="bg-black/40 rounded-full py-2 px-6 border-4 gap-x-1 font-bold flex justify-center items-center hover:scale-110 duration-300 hover:duration-300">
-                                        <div className="text-xs md:text-base border-b-1 border-white flex items-center gap-x-1 border-b-[1px]">
-                                            Read more
-                                            <LuMoveRight className="underline decoration-1 underline-offset-2" />
+                            {pathname !== '/merch' && (
+                                <div className="flex items-center space-x-4">
+                                    <a href={news[index].link} className="">
+                                        <div className="bg-black/40 rounded-full py-2 px-6 border-4 gap-x-1 font-bold flex justify-center items-center hover:scale-110 duration-300 hover:duration-300">
+                                            <div className="text-xs md:text-base border-b-1 border-white flex items-center gap-x-1 border-b-[1px]">
+                                                Read more
+                                                <LuMoveRight className="underline decoration-1 underline-offset-2" />
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}

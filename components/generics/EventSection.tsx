@@ -3,6 +3,8 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import EventCard from './EventCard'
+import Link from 'next/link'
+import { FaLongArrowAltRight } from 'react-icons/fa'
 
 interface EventItemProps {
     image: string
@@ -128,9 +130,9 @@ const EventSection: React.FC = () => {
                     <div ref={contentRef}>
                         <div className="grid grid-cols-1 ms:grid-cols-2 ls:grid-cols-3 gap-6 ms:gap-8 ls:gap-10 pb-6 justify-items-center">
                             <AnimatePresence initial={false}>
-                                {visibleEvents.map((Event, index) => (
+                                {visibleEvents.map((Event) => (
                                     <motion.div
-                                        key={index}
+                                        key={Event.title + Event.date}
                                         layout
                                         initial={{ opacity: 0, scale: 0.8 }}
                                         animate={{ opacity: 1, scale: 1 }}
@@ -167,12 +169,15 @@ const EventSection: React.FC = () => {
                             >
                                 {showAll ? 'See less' : 'See more'}
                             </button>
-                            <button
-                                className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full underline"
-                                onClick={() => (location.href = '/coming-soon')}
+                            <Link
+                                href="/coming-soon"
+                                className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full "
                             >
-                                View all events →
-                            </button>
+                                <div className="  flex items-center justify-center gap-x-2 border-b-[1px] border-white">
+                                    <span>View All Events</span>
+                                    <FaLongArrowAltRight />
+                                </div>
+                            </Link>
                         </motion.div>
                     )}
                 </AnimatePresence>

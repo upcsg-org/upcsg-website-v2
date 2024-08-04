@@ -3,11 +3,9 @@ import ComingSoon from '@/components/generics/ComingSoon'
 
 const LearningPage = () => {
     return (
-        <>
-            <section>
-                <ComingSoon />
-            </section>
-        </>
+        <section>
+            <ComingSoon />
+        </section>
     )
 }
 
