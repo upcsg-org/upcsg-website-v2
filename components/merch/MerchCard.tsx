@@ -51,13 +51,14 @@ const MerchCard = (props: PropsInterface) => {
     return (
         <>
             <div
-                className="flex flex-col w-full items-center gap-2 lg:gap-4 p-1 lg:p-4 
-                            rounded-lg hover:bg-csg-blue-600/25 duration-150"
+                className={`flex flex-col w-full items-center gap-2 lg:gap-4 p-1 lg:p-4 
+                            rounded-lg hover:bg-csg-blue-600/25 duration-150
+                            ${isAvailable && 'cursor-pointer'}`}
+                onClick={isAvailable ? handleCardClick : undefined}
             >
                 <div
-                    className={`relative flex items-center w-full h-48 xl:h-96 overflow-hidden
-                                bg-[#D8DCDF] rounded-lg hover:scale-[1.02] duration-200
-                                ${isAvailable && 'cursor-pointer'}`}
+                    className="relative flex items-center w-full h-48 xl:h-96 overflow-hidden
+                                bg-[#D8DCDF] rounded-lg hover:scale-[1.02] duration-200"
                 >
                     {!isAvailable && (
                         <div
@@ -74,7 +75,6 @@ const MerchCard = (props: PropsInterface) => {
                     <div
                         className={`absolute flex items-center w-full h-full
                                     ${!isAvailable && 'blur-sm'}`}
-                        onClick={handleCardClick}
                     >
                         <ul className="absolute flex flex-col w-full h-full tracking-wider p-2 xl:p-6 z-10">
                             <li className="flex flex-row items-center w-full text-black text-xl xl:text-3xl gap-2">
