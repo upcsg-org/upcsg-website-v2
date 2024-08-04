@@ -11,6 +11,7 @@ export const merchItems = [
         sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
         colors: ['#FF0000', '#00FF00', '#0000FF'],
         isBestSeller: true,
+        isAvailable: false
     },
     {
         name: 'TECH TOTES',
@@ -20,6 +21,7 @@ export const merchItems = [
         images: ['/images/tote-bag.png', '/title-header.png'],
         colors: ['#FF0000', '#0000FF'],
         isBestSeller: false,
+        isAvailable: true
     },
     {
         name: 'T-SHIRTS',
@@ -29,6 +31,7 @@ export const merchItems = [
         images: ['/images/shirt.png', '/title-header.png', '/images/shirt.png'],
         colors: ['#111120', '#41A01E', '#FFFFFF'],
         isBestSeller: true,
+        isAvailable: true
     },
     {
         name: 'HATS',
@@ -38,6 +41,7 @@ export const merchItems = [
         images: ['/images/hat.png'],
         colors: ['#FF0000'],
         isBestSeller: true,
+        isAvailable: true
     },
     {
         name: 'BYTE BRIMS 2',
@@ -51,6 +55,7 @@ export const merchItems = [
         sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
         colors: ['#FF0000', '#00FF00', '#0000FF'],
         isBestSeller: true,
+        isAvailable: true
     },
     {
         name: 'T-SHIRTS 2',
@@ -60,5 +65,6 @@ export const merchItems = [
         sizes: ['Small', 'Medium', 'Large', 'Extra-Large'],
         colors: ['#111120', '#41A01E', '#FFFFFF'],
         isBestSeller: true,
+        isAvailable: true
     },
 ]

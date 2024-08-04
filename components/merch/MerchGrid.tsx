@@ -31,6 +31,7 @@ const MerchGrid = () => {
                         colors={item.colors}
                         sizes={item.sizes}
                         isBestSeller={item.isBestSeller}
+                        isAvailable={item.isAvailable}
                     />
                 ))}
             </div>
