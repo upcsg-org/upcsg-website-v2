@@ -28,7 +28,7 @@ const TextForm = () => {
     }
 
     return (
-        <div className="flex flex-col items-center mx-3 mt-16">
+        <div className="flex flex-col items-center mx-3 mt-8">
             <div className="w-full md:w-10/12 max-w-[1200px]">
                 <div className="">
                     <h1 className="font-vietnam font-bold text-3xl md:text-5xl mb-1">

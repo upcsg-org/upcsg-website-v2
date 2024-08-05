@@ -24,7 +24,7 @@ const TheNavBar = (props: PropsInterface) => {
                 Learn
             </Link>
             <Link
-                href="/"
+                href="/contact-us"
                 className="md:border-lg"
                 onClick={() => setIsNavbarDropdownOpen(false)}
             >
