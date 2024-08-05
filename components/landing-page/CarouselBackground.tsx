@@ -42,6 +42,7 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                         />
 
                         <div className="absolute top-0 left-0 w-1/5 h-full bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />
+                        <div className="absolute bottom-0 left-0 w-full h-1/5 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
                         <div className="absolute top-0 right-0 w-1/5 h-full bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
                         <div className="absolute justify-center items-center flex flex-col w-full h-full gap-y-1">
                             <div className="text-2xl lg:text-7xl md:text-4xl tracking-wide font-bold">
