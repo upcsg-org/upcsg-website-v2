@@ -7,6 +7,7 @@ import MerchCard from './MerchCard'
 import { IoIosArrowDropdown } from 'react-icons/io'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
 import { MdAddShoppingCart } from 'react-icons/md'
+import LikesFilters from './LikesFilters'
 
 interface PropsInterface {
     handleClose: () => void
@@ -38,26 +39,14 @@ const MyLikesModal = (props: PropsInterface) => {
                         </span>
                     </button>
                 </div>
-                <div className="w-full flex flex-row flex-wrap justify-between align-middle">
+                <div className="w-full flex flex-row flex-wrap justify-between gap-x-8 gap-y-4 align-middle">
                     <MerchHeaderFilterTabs />
-                    <button
-                        onClick={console.log}
-                        className="flex flex-row items-center gap-0.5 w-fit h-fit bg-[#45AAC1] rounded-full justify-self-center uppercase text-black text-center p-1 lg:p-2 cursor-pointer hover:text-white/75 transition-colors"
-                    >
-                        <p className="sm:text-[10px] md:text-xs font-semibold w-fill px-1 tracking-wider">
-                            Filters
-                        </p>
-                        <span className="text-lg sm:text-2xl">
-                            <IoIosArrowDropdown
-                                className={`${modalOpen ? 'rotate-180 duration-500' : 'rotate-0 duration-500'}`}
-                            />
-                        </span>
-                    </button>
+                    <LikesFilters />
                 </div>
 
                 <div
                     className="gap-2 lg:gap-1 w-full text-site-main grid items-center justify-around
-                                grid-cols-3 sm:grid-cols-4"
+                                grid-cols-2 xs:grid-cols-3 sm:grid-cols-4"
                 >
                     {merchItems.map((item, index) => (
                         <MerchCard
