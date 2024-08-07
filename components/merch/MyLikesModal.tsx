@@ -40,7 +40,7 @@ const MyLikesModal = (props: PropsInterface) => {
                     </button>
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-between gap-x-8 gap-y-4 align-middle">
-                    <MerchHeaderFilterTabs />
+                    <MerchHeaderFilterTabs selectedColor="bg-[#7D66AD]" />
                     <LikesFilters />
                 </div>
 
