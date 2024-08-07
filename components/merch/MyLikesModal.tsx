@@ -5,8 +5,16 @@ import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
 import { merchItems } from '@/constants/merch'
 import MerchCard from './MerchCard'
 import { IoIosArrowDropdown } from 'react-icons/io'
+import { FaLongArrowAltLeft } from 'react-icons/fa'
+import { MdAddShoppingCart } from 'react-icons/md'
 
-const MyLikesModal = () => {
+interface PropsInterface {
+    handleClose: () => void
+}
+
+const MyLikesModal = (props: PropsInterface) => {
+    const { handleClose } = props
+
     const [modalOpen, setModalOpen] = useState(false)
 
     return (
@@ -16,18 +24,30 @@ const MyLikesModal = () => {
                     <p className="min-w-fit font-bold tracking-wider text-lg sm:text-2xl xl:text-4xl uppercase">
                         My Likes
                     </p>
-                    <ContinueButton />
+
+                    <button
+                        className="w-fill flex justify-center bg-csg-green-100 rounded-xl uppercase text-[10px] md:text-xs lg:text-sm text-center p-1.5 sm:px-2 sm:py-3 cursor-pointer hover:text-white/75 transition-colors"
+                        onClick={handleClose}
+                    >
+                        <p className="max-sm:hidden font-semibold w-full flex items-center justify-center gap-x-2">
+                            <FaLongArrowAltLeft />
+                            <span>Continue Shopping</span>
+                        </p>
+                        <span className="sm:hidden text-lg">
+                            <MdAddShoppingCart />
+                        </span>
+                    </button>
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-between align-middle">
                     <MerchHeaderFilterTabs />
                     <button
                         onClick={console.log}
-                        className="flex flex-row items-center gap-0.5 md:hidden w-fit h-fit bg-[#45AAC1] rounded-full justify-self-center uppercase text-black text-center p-1 lg:p-2 cursor-pointer hover:text-white/75 transition-colors"
+                        className="flex flex-row items-center gap-0.5 w-fit h-fit bg-[#45AAC1] rounded-full justify-self-center uppercase text-black text-center p-1 lg:p-2 cursor-pointer hover:text-white/75 transition-colors"
                     >
-                        <p className="max-sm:hidden sm:text-[10px] md:text-xs font-semibold w-fill px-1 tracking-wider">
+                        <p className="sm:text-[10px] md:text-xs font-semibold w-fill px-1 tracking-wider">
                             Filters
                         </p>
-                        <span className="text-lg sm:text-2xl lg:hidden">
+                        <span className="text-lg sm:text-2xl">
                             <IoIosArrowDropdown
                                 className={`${modalOpen ? 'rotate-180 duration-500' : 'rotate-0 duration-500'}`}
                             />

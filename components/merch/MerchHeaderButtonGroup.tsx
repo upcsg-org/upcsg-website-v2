@@ -5,11 +5,14 @@ import {
     AiOutlineShopping,
     AiOutlineProfile,
 } from 'react-icons/ai'
+import MyLikesModal from './MyLikesModal'
 
 const MerchHeaderButtonGroup = () => {
     const [bagCount, setBagCount] = useState(0)
     const [likeCount, setLikeCount] = useState(0)
     const [purchaseCount, setPurchaseCount] = useState(0)
+
+    const [likesModalShow, setLikesModalShow] = useState(false)
 
     return (
         <div className="w-fit h-fill text-black tracking-wide flex flex-row flex-wrap justify-end gap-1 sm:gap-2 grow">
@@ -24,6 +27,7 @@ const MerchHeaderButtonGroup = () => {
                 Icon={AiOutlineHeart}
                 text="Likes"
                 count={likeCount}
+                clickEvent={() => setLikesModalShow(true)}
                 className="bg-[#5B67CC]"
             />
 
@@ -33,6 +37,10 @@ const MerchHeaderButtonGroup = () => {
                 count={purchaseCount}
                 className="bg-[#D7584B]"
             />
+
+            {likesModalShow && (
+                <MyLikesModal handleClose={() => setLikesModalShow(false)} />
+            )}
         </div>
     )
 }
