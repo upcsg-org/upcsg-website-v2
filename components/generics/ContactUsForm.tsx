@@ -1,11 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
+import { useState, Dispatch, SetStateAction } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 
-const TextForm = () => {
+interface PropsInterface {
+    setIsContactUsModalOpen: Dispatch<SetStateAction<boolean>>
+}
+
+const ContactUsForm = (props: PropsInterface) => {
+    const { setIsContactUsModalOpen } = props
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -24,7 +28,7 @@ const TextForm = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // Handle form submission
+        setIsContactUsModalOpen(true)
     }
 
     return (
@@ -97,4 +101,4 @@ const TextForm = () => {
     )
 }
 
-export default TextForm
+export default ContactUsForm
