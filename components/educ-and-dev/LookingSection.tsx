@@ -8,7 +8,7 @@ const LookingSection = () => {
     return (
         <div className="bg-csg-blue-400 w-full overflow-x-hidden h-[600px] flex flex-col items-center justify-center">
             <Image
-                src="/images/Study.png"
+                src="/images/study.png"
                 alt="Student studying"
                 width={2000}
                 height={2000}
