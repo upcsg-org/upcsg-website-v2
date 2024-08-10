@@ -32,7 +32,7 @@ const SuggestMerch = (props: PropsInterface) => {
                 </p>
                 <button
                     onClick={handleSubmit}
-                    className="bg-black text-[#5F6566] font-vietnam text-lg md:text-xl py-1 md:py-2 px-12 border-white border-2 mt-4 rounded-3xl"
+                    className="bg-black text-[#5F6566] font-vietnam text-lg md:text-xl py-1 md:py-2 px-12 border-white border-2 mt-4 rounded-3xl duration-200 hover:scale-110"
                 >
                     SUBMIT HERE
                 </button>
