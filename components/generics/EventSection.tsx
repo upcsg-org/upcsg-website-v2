@@ -170,11 +170,11 @@ const EventSection: React.FC = () => {
                                 {showAll ? 'See less' : 'See more'}
                             </button>
                             <Link
-                                href="/coming-soon"
+                                href="/events"
                                 className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full "
                             >
-                                <div className="  flex items-center justify-center gap-x-2 border-b-[1px] border-white">
-                                    <span>View All Events</span>
+                                <div className=" flex items-center justify-center gap-x-2">
+                                    <p>View All Events</p>
                                     <FaLongArrowAltRight />
                                 </div>
                             </Link>
