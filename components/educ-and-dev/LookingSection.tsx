@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const LookingSection = () => {
     return (
@@ -22,12 +23,12 @@ const LookingSection = () => {
                 Check out our collection of materials, procured for your best
                 perusal!
             </p>
-            <button
-                className="bg-main-dark text-white text-md sm:text-lg font-vietnam font-bold w-64 h-14 py-2 px-8 sm:px-7 mt-8 rounded-full border-white border-2"
-                onClick={() => (location.href = '/coming-soon')}
+            <Link
+                className="bg-main-dark text-white text-md sm:text-lg font-vietnam font-bold py-3 px-8 sm:px-7 mt-8 rounded-full border-white border-2"
+                href="/learning"
             >
                 Learning Materials
-            </button>
+            </Link>
         </div>
     )
 }
