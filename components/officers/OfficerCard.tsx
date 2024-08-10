@@ -1,6 +1,6 @@
 import { Officer, OfficerRank } from '@/interface/officers'
 import React from 'react'
-import { HEAD, MEMBER } from '@/constants/officerRanks'
+import { HEAD, MEMBER } from '@/constants/officers/officerRanks'
 import {
     TRANSPARENT_TO_CYAN,
     TRANSPARENT_TO_VIOLET,

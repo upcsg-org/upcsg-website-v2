@@ -1,6 +1,6 @@
 import React from 'react'
 import { OfficerCard } from '@/components/officers/OfficerCard'
-import { officers } from '@/constants/officers'
+import { officers } from '@/constants/officers/officers'
 import { LIGHT_GREEN_TO_CYAN } from '@/constants/generic/colorGradients'
 
 const Officers = () => {
