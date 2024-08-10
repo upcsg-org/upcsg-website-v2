@@ -3,7 +3,7 @@ import ComingSoon from '@/components/generics/ComingSoon'
 
 const LearningPage = () => {
     return (
-        <section>
+        <section className="h-[calc(100vh-6rem)]">
             <ComingSoon />
         </section>
     )
