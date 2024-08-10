@@ -14,9 +14,7 @@ interface PropsInterface {
 
 export const OfficerCard = (props: PropsInterface) => {
     const { officer, className, style } = props
-    const { firstName, lastName, role, rank } = officer
-
-    const OFFICER_IMAGE = 'url(/images/placeholder.png)'
+    const { firstName, lastName, image, role, rank } = officer
 
     const getBackgroundColor = (rank: OfficerRank) => {
         if (rank === HEAD) {
@@ -31,7 +29,7 @@ export const OfficerCard = (props: PropsInterface) => {
         <div
             className="w-36 h-[13rem] md:w-52 md:h-[18rem] lg:w-72 lg:h-[25rem] min-[1200px]:w-80 min-[1200px]:h-[25rem] rounded-xl  flex flex-col md:p-4 p-3 tracking-widest bg-cover bg-top"
             style={{
-                backgroundImage: `${getBackgroundColor(rank)},${OFFICER_IMAGE}`,
+                backgroundImage: `${getBackgroundColor(rank)},${image}`,
             }}
         >
             <span className="mt-auto font-bold lg:text-xl md:text-base text-[0.65rem]">
