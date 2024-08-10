@@ -1,9 +1,10 @@
 'use client'
+
 import React, { useState, useEffect, useRef } from 'react'
 import CarouselBackground from './CarouselBackground'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
-interface ImageData {
+interface CarouselInterface {
     image: string
     news: {
         title: string
@@ -12,11 +13,15 @@ interface ImageData {
     }
 }
 
-interface CarouselProps {
-    images: ImageData[]
+interface PropsInterface {
+    carouselContentList: CarouselInterface[]
 }
 
-export const Carousel: React.FC<CarouselProps> = ({ images }) => {
+export const Carousel = (props: PropsInterface) => {
+    const { carouselContentList } = props
+
+    const carouselContentCount = carouselContentList.length
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [isDragging, setIsDragging] = useState(false)
     const [startX, setStartX] = useState(0)
@@ -25,19 +30,24 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+            setCurrentImageIndex(
+                (prevIndex) => (prevIndex + 1) % carouselContentCount
+            )
         }, 6000)
 
         return () => clearInterval(timer)
-    }, [currentImageIndex, images.length])
+    }, [currentImageIndex, carouselContentCount])
 
     const handleNext = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+        setCurrentImageIndex(
+            (prevIndex) => (prevIndex + 1) % carouselContentCount
+        )
     }
 
     const handlePrev = () => {
         setCurrentImageIndex(
-            (prevIndex) => (prevIndex - 1 + images.length) % images.length
+            (prevIndex) =>
+                (prevIndex - 1 + carouselContentCount) % carouselContentCount
         )
     }
 
@@ -76,8 +86,12 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
         >
             <CarouselBackground
                 currentImageIndex={currentImageIndex}
-                news={images.map((img) => img.news)}
-                images={images.map((img) => img.image)}
+                news={carouselContentList.map(
+                    (carouselContent) => carouselContent.news
+                )}
+                images={carouselContentList.map(
+                    (carouselContent) => carouselContent.image
+                )}
             />
 
             <button
@@ -86,16 +100,18 @@ export const Carousel: React.FC<CarouselProps> = ({ images }) => {
             >
                 <FaChevronRight size={30} />
             </button>
+
             <button
                 className="absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer hover:scale-125 duration-300 hidden md:block"
                 onClick={handlePrev}
             >
                 <FaChevronLeft size={30} />
             </button>
+
             <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex flex-row space-x-1">
-                {images.map((image, index) => (
+                {carouselContentList.map((carouselContent, index) => (
                     <button
-                        key={image.image}
+                        key={carouselContent.image}
                         className={`rounded-full w-3 h-3 border cursor-pointer ${currentImageIndex === index ? 'bg-white' : ''}`}
                         onClick={() => handleSelect(index)}
                     />
