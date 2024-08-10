@@ -23,7 +23,10 @@ const ScholarshipsSection = () => {
                             elit.
                         </p>
                         <div className="text-center md:text-left md:w-fit mt-auto">
-                            <Link href="/" className="md:border-lg w-fit">
+                            <Link
+                                href="/scholarships"
+                                className="md:border-lg w-fit"
+                            >
                                 <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
                                     <span>Apply Now</span>
                                     <FaLongArrowAltRight />
@@ -43,7 +46,10 @@ const ScholarshipsSection = () => {
                             aliquam.
                         </p>
                         <div className="text-center md:text-left md:w-fit mt-auto">
-                            <Link href="/" className="md:border-lg w-fit">
+                            <Link
+                                href="/internships"
+                                className="md:border-lg w-fit"
+                            >
                                 <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
                                     <span>Apply Now</span>
                                     <FaLongArrowAltRight />
