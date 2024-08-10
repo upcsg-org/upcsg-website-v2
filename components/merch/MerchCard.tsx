@@ -6,19 +6,14 @@ import OrderForm from './OrderForm'
 import { AnimatePresence } from 'framer-motion'
 import LikedPop from './LikedPop'
 import { TfiFaceSad } from 'react-icons/tfi'
+import { MerchItem } from '@/interface/merch'
 
-// interface PropsInterface {
-//     name: string
-//     type: string
-//     price: number
-//     images: string[]
-//     sizes: string[]
-//     colors: string[]
-//     isBestSeller: boolean
-//     isAvailable: boolean
-// }
+interface PropsInterface {
+    merch: MerchItem
+}
 
-const MerchCard = (props: any) => {
+const MerchCard = (props: PropsInterface) => {
+    const { merch } = props
     const {
         name,
         type,
@@ -28,7 +23,8 @@ const MerchCard = (props: any) => {
         sizes,
         isBestSeller,
         isAvailable,
-    } = props
+    } = merch
+
     const [currentImage, setCurrentImage] = useState(0)
     const [showOrderForm, setShowOrderForm] = useState(false)
     const [showLiked, setShowLiked] = useState(false)
@@ -82,14 +78,13 @@ const MerchCard = (props: any) => {
                             </li>
                             <li className="flex flex-grow w-full h-full text-[#A6A6B1] text-base items-center justify-end">
                                 <div className="flex flex-col gap-1">
-                                    {colors.length > 1 &&
-                                        colors.map((currentColor, index) => (
+                                    {!!colors.length &&
+                                        colors.map((color, index) => (
                                             <button
-                                                key={index + currentColor}
+                                                key={index + color.hex}
                                                 className="rounded-full size-3 xl:size-4 border-[1px] border-black"
                                                 style={{
-                                                    backgroundColor:
-                                                        currentColor,
+                                                    backgroundColor: color.hex,
                                                 }}
                                                 onClick={(e) => {
                                                     e.stopPropagation()
@@ -100,17 +95,16 @@ const MerchCard = (props: any) => {
                                 </div>
                             </li>
                             <li className="flex flex-row w-full font-bold text-main-dark text-xl xl:text-3xl justify-end">
-                                <AiOutlineShopping />
-                                <span
+                                <button
                                     className="group"
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <AiOutlineHeart className="group-hover:hidden" />
                                     <AiFillHeart
-                                        className="hidden group-hover:block"
+                                        className="hidden group-hover:block text-red-600"
                                         onClick={handleLikeClick}
                                     />
-                                </span>
+                                </button>
                             </li>
                         </ul>
                         <div className="w-full h-full relative">
@@ -129,7 +123,7 @@ const MerchCard = (props: any) => {
                         {name}
                     </li>
                     <li className="w-full text-[#A6A6B1] text-sm xl:text-base truncate text-ellipsis">
-                        {type}
+                        {type.text}
                     </li>
                     <li className="w-full text-[#6479CB] text-sm xl:text-2xl truncate text-ellipsis">
                         PHP {price}
@@ -139,15 +133,7 @@ const MerchCard = (props: any) => {
 
             {showOrderForm && (
                 <OrderForm
-                    product={{
-                        name,
-                        type,
-                        price,
-                        image: images[currentImage],
-                        sizes: sizes,
-                        colors: colors,
-                        BestSeller: isBestSeller,
-                    }}
+                    product={{ ...merch, image: images[currentImage] }}
                     onClose={() => setShowOrderForm(false)}
                 />
             )}

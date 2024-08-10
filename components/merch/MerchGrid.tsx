@@ -21,17 +21,10 @@ const MerchGrid = () => {
                 className="gap-2 lg:gap-1 w-full text-site-main grid items-center justify-around
                             grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3"
             >
-                {merchItems.map((item, index) => (
+                {merchItems.map((merch, index) => (
                     <MerchCard
-                        key={index + item.name + item.type}
-                        name={item.name}
-                        type={item.type}
-                        price={item.price}
-                        images={item.images}
-                        colors={item.colors}
-                        sizes={item.sizes}
-                        isBestSeller={item.isBestSeller}
-                        isAvailable={item.isAvailable}
+                        key={index + merch.name + merch.type.text}
+                        merch={merch}
                     />
                 ))}
             </div>
