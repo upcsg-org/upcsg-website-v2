@@ -9,7 +9,7 @@ import FacultySection from '@/components/landing/FacultySection'
 import EventSection from '@/components/generics/EventSection'
 import { LandingPageCarouselContent } from '@/constants/carousel'
 import ComingSoonModal from '@/components/generics/ComingSoonModal'
-import AnnouncementSection from '@/components/educ-and-dev/AnnouncementSection'
+import AnnouncementSection from '@/components/landing/AnnouncementSection'
 
 export default function Home() {
     const [isContactUsModalOpen, setIsContactUsModalOpen] = useState(false)
