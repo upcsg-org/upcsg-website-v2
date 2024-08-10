@@ -13,9 +13,9 @@ const page = () => {
             <section>
                 <ArticleBody />
             </section>
-            <section className="bg-[#171A33] mt-12">
+            {/* <section className="bg-[#171A33] mt-12">
                 <TextForm />
-            </section>
+            </section> */}
             <section className="mt-8">
                 <EventSection />
             </section>
