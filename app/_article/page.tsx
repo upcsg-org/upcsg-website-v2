@@ -1,7 +1,7 @@
 import React from 'react'
 import { ArticleImage } from '@/components/article/ArticleImage'
 import { ArticleBody } from '@/components/article/ArticleBody'
-import TextForm from '@/components/generics/ContactUsForm'
+// import TextForm from '@/components/generics/ContactUsForm'
 import EventSection from '@/components/generics/EventSection'
 
 const page = () => {
@@ -13,9 +13,9 @@ const page = () => {
             <section>
                 <ArticleBody />
             </section>
-            <section className="bg-[#171A33] mt-12">
+            {/* <section className="bg-[#171A33] mt-12">
                 <TextForm />
-            </section>
+            </section> */}
             <section className="mt-8">
                 <EventSection />
             </section>

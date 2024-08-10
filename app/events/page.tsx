@@ -1,7 +1,7 @@
 import React from 'react'
 import ComingSoon from '@/components/generics/ComingSoon'
 
-const InternshipsPage = () => {
+const EventsPage = () => {
     return (
         <section className="h-[calc(100vh-6rem)]">
             <ComingSoon />
@@ -9,4 +9,4 @@ const InternshipsPage = () => {
     )
 }
 
-export default InternshipsPage
+export default EventsPage

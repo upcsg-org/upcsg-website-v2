@@ -3,8 +3,8 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import EventCard from './EventCard'
-import Link from 'next/link'
 import { FaLongArrowAltRight } from 'react-icons/fa'
+import TheButton from './TheButton'
 
 interface EventItemProps {
     image: string
@@ -115,9 +115,9 @@ const EventSection: React.FC = () => {
     }
 
     return (
-        <div className="bg-main-dark w-full overflow-x-hidden">
-            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
-                <h1 className="text-2xl font-bold font-vietnam py-6 sm:py-6 text-white text-center ms:text-left">
+        <div className="w-full overflow-x-hidden">
+            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 flex flex-col gap-10">
+                <h1 className="text-2xl font-bold font-vietnam text-center ms:text-left">
                     UPCOMING EVENTS
                 </h1>
                 <motion.div
@@ -127,30 +127,31 @@ const EventSection: React.FC = () => {
                         ease: [0.43, 0.13, 0.23, 0.96],
                     }}
                 >
-                    <div ref={contentRef}>
-                        <div className="grid grid-cols-1 ms:grid-cols-2 ls:grid-cols-3 gap-6 ms:gap-8 ls:gap-10 pb-6 justify-items-center">
-                            <AnimatePresence initial={false}>
-                                {visibleEvents.map((Event) => (
-                                    <motion.div
-                                        key={Event.title + Event.date}
-                                        layout
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.8 }}
-                                        transition={{
-                                            opacity: { duration: 0.3 },
-                                            scale: { duration: 0.5 },
-                                            layout: { duration: 0.5 },
-                                        }}
-                                        className="flex justify-center"
-                                    >
-                                        <div className="w-full min-w-[300px]">
-                                            <EventCard {...Event} />
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-                        </div>
+                    <div
+                        ref={contentRef}
+                        className="grid grid-cols-1 ms:grid-cols-2 ls:grid-cols-3 gap-6 ms:gap-8 ls:gap-10"
+                    >
+                        <AnimatePresence initial={false}>
+                            {visibleEvents.map((Event) => (
+                                <motion.div
+                                    key={Event.title + Event.date}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
+                                    transition={{
+                                        opacity: { duration: 0.3 },
+                                        scale: { duration: 0.5 },
+                                        layout: { duration: 0.5 },
+                                    }}
+                                    className="flex justify-center"
+                                >
+                                    <div className="w-full min-w-[300px]">
+                                        <EventCard {...Event} />
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
                     </div>
                 </motion.div>
                 <AnimatePresence mode="wait">
@@ -161,23 +162,17 @@ const EventSection: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="flex justify-center pb-6 gap-6 "
+                            className="flex justify-end gap-6"
                         >
-                            <button
-                                className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full"
-                                onClick={handleToggle}
-                            >
+                            <TheButton onClick={handleToggle}>
                                 {showAll ? 'See less' : 'See more'}
-                            </button>
-                            <Link
-                                href="/coming-soon"
-                                className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full "
-                            >
-                                <div className="  flex items-center justify-center gap-x-2 border-b-[1px] border-white">
-                                    <span>View All Events</span>
+                            </TheButton>
+                            <TheButton link="/events">
+                                <div className=" flex items-center justify-center gap-x-2">
+                                    <p>View All Events</p>
                                     <FaLongArrowAltRight />
                                 </div>
-                            </Link>
+                            </TheButton>
                         </motion.div>
                     )}
                 </AnimatePresence>

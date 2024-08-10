@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { FaLongArrowAltRight } from 'react-icons/fa'
+import TheButton from '../generics/TheButton'
 
 const OfficersSection = () => {
     return (
@@ -15,7 +15,7 @@ const OfficersSection = () => {
                 />
             </figure>
 
-            <div className="bg-csg-blue-400 md:w-7/12 md:min-w-96 flex flex-col gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
+            <div className="bg-csg-blue-400 md:w-7/12 md:min-w-96 flex flex-col items-center md:items-start gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
                 <h2 className="mb-4 md:mb-8 text-3xl md:text-5xl font-semibold tracking-widest">
                     KNOW YOUR OFFICERS FROM THE GUILD
                 </h2>
@@ -29,14 +29,13 @@ const OfficersSection = () => {
                     ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
 
-                <div className="text-center md:text-left md:w-fit">
-                    <Link href="/" className="md:border-lg w-fit">
-                        <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
-                            <span>Know More</span>
-                            <FaLongArrowAltRight />
-                        </div>
-                    </Link>
-                </div>
+                <TheButton
+                    link="/officers"
+                    style="flex justify-center gap-x-2 w-fit"
+                >
+                    <span>Know More</span>
+                    <FaLongArrowAltRight />
+                </TheButton>
             </div>
         </div>
     )

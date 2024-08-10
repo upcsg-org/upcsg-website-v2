@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AnnouncementCard from './AnnouncementCard'
+import TheButton from '../generics/TheButton'
 
 interface AnnouncementItemProps {
     image: string
@@ -82,8 +83,8 @@ const AnnouncementSection: React.FC = () => {
 
     return (
         <div className="bg-main-dark w-full overflow-x-hidden">
-            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8">
-                <h1 className="text-2xl font-bold font-vietnam py-6 sm:py-6 text-white text-center sm:text-left">
+            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 flex flex-col gap-10">
+                <h1 className="text-2xl font-bold font-vietnam text-white text-center sm:text-left">
                     RECENT NEWS AND ANNOUNCEMENTS
                 </h1>
                 <motion.div
@@ -94,7 +95,7 @@ const AnnouncementSection: React.FC = () => {
                     }}
                 >
                     <div ref={contentRef}>
-                        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 pb-6 justify-items-center">
+                        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 justify-items-center">
                             <AnimatePresence initial={false}>
                                 {visibleAnnouncements.map(
                                     (announcement, index) => (
@@ -131,14 +132,11 @@ const AnnouncementSection: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="flex justify-center pb-6"
+                            className="flex justify-center"
                         >
-                            <button
-                                className="bg-csg-green-100 text-white text-sm sm:text-md font-semibold py-2 px-5 sm:px-7 rounded-full"
-                                onClick={handleToggle}
-                            >
+                            <TheButton onClick={handleToggle}>
                                 {showAll ? 'See less' : 'See more'}
-                            </button>
+                            </TheButton>
                         </motion.div>
                     )}
                 </AnimatePresence>

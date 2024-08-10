@@ -66,11 +66,15 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                                         : news[index].description}
                                 </p>
                             </div>
-                            {pathname !== '/merch' && (
+                            {pathname !== '/merch' && news[index].link && (
                                 <div className="flex items-center space-x-4">
-                                    <a href={news[index].link} className="">
+                                    <a
+                                        href={news[index].link}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
                                         <div className="bg-black/40 rounded-full py-2 px-6 border-4 gap-x-1 font-bold flex justify-center items-center hover:scale-110 duration-300 hover:duration-300">
-                                            <div className="text-xs md:text-base border-b-1 border-white flex items-center gap-x-1 border-b-[1px]">
+                                            <div className="text-xs md:text-base flex items-center gap-x-1">
                                                 Read more
                                                 <LuMoveRight className="underline decoration-1 underline-offset-2" />
                                             </div>
