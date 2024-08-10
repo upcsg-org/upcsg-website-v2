@@ -1,30 +1,26 @@
-import React from 'react'
-import AnnouncementSection from '@/components/educ-and-dev/AnnouncementSection'
+'use client'
+
+import { useState } from 'react'
 import ContactUsForm from '@/components/generics/ContactUsForm'
-import EventSection from '@/components/generics/EventSection'
-import { Carousel } from '@/components/landing-page/Carousel'
 import LookingSection from '@/components/educ-and-dev/LookingSection'
-import { LandingPageImages } from '@/constants/carousel'
+import ComingSoonModal from '@/components/generics/ComingSoonModal'
 
 const EducAndDevPage = () => {
-    const images = Object.values(LandingPageImages)
+    const [isContactUsModalOpen, setIsContactUsModalOpen] = useState(false)
+
     return (
         <>
-            <section className="h-[calc(100vh-3rem)]">
-                <Carousel images={images} />
-            </section>
-            <section>
-                <EventSection />
-            </section>
-            <section>
-                <AnnouncementSection />
-            </section>
-            <section>
+            <section className="h-[calc(100vh-6rem)] flex flex-col justify-center">
                 <LookingSection />
             </section>
             <section>
-                <ContactUsForm />
+                <ContactUsForm
+                    setIsContactUsModalOpen={setIsContactUsModalOpen}
+                />
             </section>
+            {isContactUsModalOpen && (
+                <ComingSoonModal toggleModal={setIsContactUsModalOpen} />
+            )}
         </>
     )
 }
