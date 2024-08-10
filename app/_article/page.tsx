@@ -1,7 +1,7 @@
 import React from 'react'
 import { ArticleImage } from '@/components/article/ArticleImage'
 import { ArticleBody } from '@/components/article/ArticleBody'
-import TextForm from '@/components/generics/ContactUsForm'
+// import TextForm from '@/components/generics/ContactUsForm'
 import EventSection from '@/components/generics/EventSection'
 
 const page = () => {

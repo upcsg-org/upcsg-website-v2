@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import EventCard from './EventCard'
-import Link from 'next/link'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import TheButton from './TheButton'
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import TheButton from '../generics/TheButton'
 
