@@ -4,6 +4,9 @@ import Link from 'next/link'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 
 const FacultySection = () => {
+    const DCS_FACULTY_PAGE_LINK =
+        'https://cs.upcebu.edu.ph/faculty-members/#dcs-faculty'
+
     return (
         <div className="flex flex-col basis-96 md:flex-row-reverse w-full">
             <figure className="min-h-96 md:w-5/12 relative object-contain bg-[url('/images/placeholder.png')]">
@@ -30,12 +33,17 @@ const FacultySection = () => {
                 </p>
 
                 <div className="text-center md:text-left md:w-fit">
-                    <Link href="/" className="md:border-lg w-fit">
+                    <a
+                        href={DCS_FACULTY_PAGE_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="md:border-lg w-fit"
+                    >
                         <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
                             <span>Know More</span>
                             <FaLongArrowAltRight />
                         </div>
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>
