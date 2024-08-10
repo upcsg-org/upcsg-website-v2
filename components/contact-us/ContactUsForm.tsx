@@ -3,7 +3,7 @@
 import { useState, Dispatch, SetStateAction } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
-import TheButton from './TheButton'
+import TheButton from '../generics/TheButton'
 
 interface PropsInterface {
     setIsContactUsModalOpen: Dispatch<SetStateAction<boolean>>

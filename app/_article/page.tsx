@@ -1,8 +1,8 @@
 import React from 'react'
-import { ArticleImage } from '@/components/article/ArticleImage'
-import { ArticleBody } from '@/components/article/ArticleBody'
+import { ArticleImage } from '@/components/generics/ArticleImage'
+import { ArticleBody } from '@/components/generics/ArticleBody'
 // import TextForm from '@/components/generics/ContactUsForm'
-import EventSection from '@/components/generics/EventSection'
+import EventSection from '@/components/events/EventSection'
 
 const page = () => {
     return (

@@ -1,24 +1,22 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { FaRegCalendarAlt } from 'react-icons/fa'
+import { getDateString, getTimeString, getDayOfWeek } from '@/utils/datetime'
 
-interface EventCardProps {
+interface PropsInterface {
+    id: number
     image: string
     title: string
-    date: string
-    time: string
-    dayOfWeek: string
+    schedule: {
+        start: Date
+        end: Date
+    }
     backgroundStyle: string
 }
 
-const EventCard: React.FC<EventCardProps> = ({
-    image,
-    title,
-    date,
-    time,
-    dayOfWeek,
-    backgroundStyle,
-}) => {
+const EventCard = (props: PropsInterface) => {
+    const { id, image, title, schedule, backgroundStyle } = props
+
     return (
         <motion.button
             className="relative overflow-hidden rounded-2xl w-full h-64 text-left bg-cover bg-center"
@@ -40,15 +38,16 @@ const EventCard: React.FC<EventCardProps> = ({
                         <FaRegCalendarAlt className="h-4 w-4 mt-3" />
                         <div className="pl-2">
                             <p className="text-sm font-bold font-vietnam text-white">
-                                {date}
+                                {getDateString(schedule.start)}
                             </p>
                             <p className="text-sm font-thin font-vietnam text-white">
-                                {time}
+                                {getTimeString(schedule.start)} -{' '}
+                                {getTimeString(schedule.end)}
                             </p>
                         </div>
                     </div>
                     <p className="text-sm font-thin text-white mb-2">
-                        {dayOfWeek}
+                        {getDayOfWeek(schedule.start)}
                     </p>
                 </div>
             </div>

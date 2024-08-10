@@ -4,17 +4,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import EventCard from './EventCard'
 import { FaLongArrowAltRight } from 'react-icons/fa'
-import TheButton from './TheButton'
+import TheButton from '../generics/TheButton'
 import { events } from '@/constants/events'
-
-interface EventItemProps {
-    image: string
-    title: string
-    date: string
-    time: string
-    dayOfWeek: string
-    backgroundStyle: string
-}
 
 const EventSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
@@ -70,9 +61,9 @@ const EventSection: React.FC = () => {
                         className="grid grid-cols-1 ms:grid-cols-2 ls:grid-cols-3 gap-6 ms:gap-8 ls:gap-10"
                     >
                         <AnimatePresence initial={false}>
-                            {visibleEvents.map((Event) => (
+                            {visibleEvents.map((event, index) => (
                                 <motion.div
-                                    key={Event.title + Event.date}
+                                    key={index + event.title}
                                     layout
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
@@ -85,7 +76,7 @@ const EventSection: React.FC = () => {
                                     className="flex justify-center"
                                 >
                                     <div className="w-full min-w-[300px]">
-                                        <EventCard {...Event} />
+                                        <EventCard {...event} />
                                     </div>
                                 </motion.div>
                             ))}

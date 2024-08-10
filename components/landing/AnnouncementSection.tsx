@@ -6,12 +6,6 @@ import AnnouncementCard from './AnnouncementCard'
 import TheButton from '../generics/TheButton'
 import { announcements } from '@/constants/announcements'
 
-interface AnnouncementItemProps {
-    image: string
-    title: string
-    date: string
-}
-
 const AnnouncementSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
     const [visibleCount, setVisibleCount] = useState(3)

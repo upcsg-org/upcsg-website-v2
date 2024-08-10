@@ -1,18 +1,17 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { getDateString } from '@/utils/datetime'
 
-interface AnnouncementCardProps {
+interface PropsInterface {
     image: string
     title: string
-    date: string
+    date: Date
 }
 
-const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
-    image,
-    title,
-    date,
-}) => {
+const AnnouncementCard = (props: PropsInterface) => {
+    const { image, title, date } = props
+
     return (
         <motion.button
             className="bg-csg-blue-400 overflow-hidden w-full max-w-64 h-80 text-left"
@@ -31,7 +30,7 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({
                     {title}
                 </p>
                 <p className="text-xs sm:text-base text-white absolute bottom-4">
-                    {date}
+                    {getDateString(date)}
                 </p>
             </div>
         </motion.button>
