@@ -7,18 +7,18 @@ import { AnimatePresence } from 'framer-motion'
 import LikedPop from './LikedPop'
 import { TfiFaceSad } from 'react-icons/tfi'
 
-interface PropsInterface {
-    name: string
-    type: string
-    price: number
-    images: string[]
-    sizes: string[]
-    colors: string[]
-    isBestSeller: boolean
-    isAvailable: boolean
-}
+// interface PropsInterface {
+//     name: string
+//     type: string
+//     price: number
+//     images: string[]
+//     sizes: string[]
+//     colors: string[]
+//     isBestSeller: boolean
+//     isAvailable: boolean
+// }
 
-const MerchCard = (props: PropsInterface) => {
+const MerchCard = (props: any) => {
     const {
         name,
         type,

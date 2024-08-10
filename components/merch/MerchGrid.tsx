@@ -3,7 +3,7 @@ import React from 'react'
 import MerchCard from './MerchCard'
 import MerchHeaderButtonGroup from './MerchHeaderButtonGroup'
 import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
-import { merchItems } from '@/constants/merch'
+import { merchItems } from '@/constants/merch/merch'
 
 const MerchGrid = () => {
     return (

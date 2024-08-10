@@ -1,16 +1,6 @@
-export const HAT = 1
-export const BAG = 2
-export const SHIRT = 3
-export const STICKER = 4
-export const PIN = 5
-
-export const SMALL = 1
-export const MEDIUM = 2
-export const LARGE = 3
-export const XL = 4
-
-export const merchSizes = [SMALL, MEDIUM, LARGE, XL]
-export const merchTypes = [HAT, BAG, SHIRT, STICKER, PIN]
+import { HAT, BAG, SHIRT, STICKER, PIN } from "./merchTypes"
+import { SMALL, MEDIUM, LARGE, XL } from "./merchSizes"
+import { RED, GREEN, BLUE, WHITE, VULCAN, VIDA_LOCA } from "../generic/color"
 
 export const merchItems = [
     {
@@ -24,7 +14,7 @@ export const merchItems = [
             '/images/temp-merch.png',
         ],
         sizes: [SMALL, MEDIUM, LARGE, XL],
-        colors: ['#FF0000', '#00FF00', '#0000FF'],
+        colors: [RED, GREEN, BLUE],
         isBestSeller: true,
         isAvailable: false,
         isLimitedEdition: false,
@@ -37,7 +27,7 @@ export const merchItems = [
         price: 150.0,
         sizes: [SMALL, MEDIUM, LARGE, XL],
         images: ['/images/tote-bag.png', '/title-header.png'],
-        colors: ['#FF0000', '#0000FF'],
+        colors: [RED, BLUE],
         isBestSeller: false,
         isAvailable: false,
         isLimitedEdition: false,
@@ -50,7 +40,7 @@ export const merchItems = [
         price: 250.0,
         sizes: [SMALL, MEDIUM, LARGE, XL],
         images: ['/images/shirt.png', '/title-header.png', '/images/shirt.png'],
-        colors: ['#111120', '#41A01E', '#FFFFFF'],
+        colors: [VULCAN, VIDA_LOCA, WHITE],
         isBestSeller: true,
         isAvailable: false,
         isLimitedEdition: false,
@@ -63,7 +53,7 @@ export const merchItems = [
         price: 175.0,
         sizes: [SMALL, MEDIUM, LARGE, XL],
         images: ['/images/hat.png'],
-        colors: ['#FF0000'],
+        colors: [BLUE],
         isBestSeller: true,
         isAvailable: false,
         isLimitedEdition: false,
