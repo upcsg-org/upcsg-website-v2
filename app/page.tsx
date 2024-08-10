@@ -17,26 +17,28 @@ export default function Home() {
 
     return (
         <>
-            <section className="h-[calc(100vh-3rem)]">
+            <section className="h-[calc(100vh-5rem)]">
                 <Carousel carouselContentList={images} />
             </section>
-            <section>
-                <EventSection />
-            </section>
-            <section>
-                <ScholarshipsSection />
-            </section>
-            <section>
-                <OfficersSection />
-            </section>
-            <section>
-                <FacultySection />
-            </section>
-            <section>
-                <ContactUsForm
-                    setIsContactUsModalOpen={setIsContactUsModalOpen}
-                />
-            </section>
+            <div className="flex flex-col gap-10 py-10">
+                <section>
+                    <EventSection />
+                </section>
+                <section>
+                    <ScholarshipsSection />
+                </section>
+                <section>
+                    <OfficersSection />
+                </section>
+                <section>
+                    <FacultySection />
+                </section>
+                <section>
+                    <ContactUsForm
+                        setIsContactUsModalOpen={setIsContactUsModalOpen}
+                    />
+                </section>
+            </div>
             {isContactUsModalOpen && (
                 <ComingSoonModal toggleModal={setIsContactUsModalOpen} />
             )}

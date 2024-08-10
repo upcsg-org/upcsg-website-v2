@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { FaLongArrowAltRight } from 'react-icons/fa'
+import TheButton from '../generics/TheButton'
 
 const ScholarshipsSection = () => {
     return (
@@ -12,7 +13,7 @@ const ScholarshipsSection = () => {
                     STUDENT OPPORTUNITIES
                 </h2>
                 <div className="flex flex-col md:flex-row items-start gap-10 md:gap-0">
-                    <div className="w-full h-full md:w-1/2 flex flex-col gap-6 grow">
+                    <div className="w-full h-full md:w-1/2 flex flex-col justify-between items-center md:items-start gap-6 grow">
                         <h3 className="text-white text-xl md:text-3xl font-semibold font-vietnam text-center md:text-left">
                             {'Scholarships '}
                             <br className="hidden md:inline" />
@@ -22,19 +23,15 @@ const ScholarshipsSection = () => {
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit.
                         </p>
-                        <div className="text-center md:text-left md:w-fit mt-auto">
-                            <Link
-                                href="/scholarships"
-                                className="md:border-lg w-fit"
-                            >
-                                <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
-                                    <span>Apply Now</span>
-                                    <FaLongArrowAltRight />
-                                </div>
-                            </Link>
-                        </div>
+                        <TheButton
+                            link="/scholarships"
+                            style="flex gap-2 items-center w-fit"
+                        >
+                            <p>Apply Now</p>
+                            <FaLongArrowAltRight />
+                        </TheButton>
                     </div>
-                    <div className="w-full h-full md:w-1/2 flex flex-col gap-6 grow">
+                    <div className="w-full h-full md:w-1/2 flex flex-col justify-between items-center md:items-start gap-6 grow">
                         <h3 className="text-white text-xl md:text-3xl font-semibold font-vietnam text-center md:text-left">
                             {'Internship '}
                             <br className="hidden md:inline" />
@@ -45,17 +42,13 @@ const ScholarshipsSection = () => {
                             elit. Nullam fermentum sollicitudin odio sed
                             aliquam.
                         </p>
-                        <div className="text-center md:text-left md:w-fit mt-auto">
-                            <Link
-                                href="/internships"
-                                className="md:border-lg w-fit"
-                            >
-                                <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
-                                    <span>Apply Now</span>
-                                    <FaLongArrowAltRight />
-                                </div>
-                            </Link>
-                        </div>
+                        <TheButton
+                            link="/internships"
+                            style="flex gap-2 items-center w-fit"
+                        >
+                            <p>Apply Now</p>
+                            <FaLongArrowAltRight />
+                        </TheButton>
                     </div>
                 </div>
             </div>

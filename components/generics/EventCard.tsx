@@ -21,7 +21,7 @@ const EventCard: React.FC<EventCardProps> = ({
 }) => {
     return (
         <motion.button
-            className="relative overflow-hidden rounded-2xl w-full max-w-80 h-64 text-left bg-cover bg-center"
+            className="relative overflow-hidden rounded-2xl w-full h-64 text-left bg-cover bg-center"
             style={{
                 backgroundImage: `${backgroundStyle}, url('${image}')`,
             }}

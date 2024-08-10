@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import TheButton from './TheButton'
 
 interface PropsInterface {
     setIsNavbarDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -23,15 +24,12 @@ const TheNavBar = (props: PropsInterface) => {
             >
                 Learn
             </Link>
-            <Link
-                href="/contact-us"
-                className="md:border-lg"
+            <TheButton
+                link="/contact-us"
                 onClick={() => setIsNavbarDropdownOpen(false)}
             >
-                <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 md:bg-csg-green-100 md:rounded-xl md:uppercase md:text-sm md:px-4 md:py-3">
-                    Contact Us
-                </div>
-            </Link>
+                Contact Us
+            </TheButton>
         </>
     )
 }
