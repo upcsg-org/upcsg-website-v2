@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AnnouncementCard from './AnnouncementCard'
 import TheButton from '../generics/TheButton'
+import { announcements } from '@/constants/announcements'
 
 interface AnnouncementItemProps {
     image: string
@@ -16,39 +17,6 @@ const AnnouncementSection: React.FC = () => {
     const [visibleCount, setVisibleCount] = useState(3)
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
-
-    const announcements: AnnouncementItemProps[] = [
-        {
-            image: '/images/placeholder.png',
-            title: 'API Generation with Postman this Wednesday',
-            date: 'September 19, 2023',
-        },
-        {
-            image: '/images/placeholder.png',
-            title: 'API Generation with Postman this Wednesday',
-            date: 'September 19, 2023',
-        },
-        {
-            image: '/images/placeholder.png',
-            title: 'API Generation with Postman this Wednesday',
-            date: 'September 19, 2023',
-        },
-        {
-            image: '/images/placeholder.png',
-            title: 'API Generation with Postman this Wednesday',
-            date: 'September 19, 2023',
-        },
-        {
-            image: '/images/placeholder.png',
-            title: 'API Generation with Postman this Wednesday',
-            date: 'September 19, 2023',
-        },
-        {
-            image: '/images/placeholder.png',
-            title: 'API Generation with Postman this Wednesday',
-            date: 'September 19, 2023',
-        },
-    ]
 
     useEffect(() => {
         const updateVisibleCount = () => {
@@ -100,7 +68,7 @@ const AnnouncementSection: React.FC = () => {
                                 {visibleAnnouncements.map(
                                     (announcement, index) => (
                                         <motion.div
-                                            key={index}
+                                            key={index + announcement.title}
                                             layout
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}

@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import EventCard from './EventCard'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import TheButton from './TheButton'
+import { events } from '@/constants/events'
 
 interface EventItemProps {
     image: string
@@ -15,74 +16,11 @@ interface EventItemProps {
     backgroundStyle: string
 }
 
-const backgroundStyles = [
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(65, 160, 30,0.7), rgba(65, 160, 30,1))',
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1))',
-    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(57, 162, 174,0.7), rgba(57, 162, 174, 1))',
-]
-
-const getRandomBackgroundStyle = (): string => {
-    const randomIndex = Math.floor(Math.random() * backgroundStyles.length)
-    return backgroundStyles[randomIndex]
-}
-
 const EventSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
     const [visibleEventCount, setVisibleEventCount] = useState(3)
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
-
-    const Events: EventItemProps[] = useMemo(
-        () =>
-            [
-                {
-                    image: '/images/placeholder.png',
-                    title: 'API Generation / Postman Workshop',
-                    date: 'September 20, 2023',
-                    time: '8:00 AM - 11:00 AM',
-                    dayOfWeek: 'Wednesday',
-                },
-                {
-                    image: '/images/placeholder.png',
-                    title: 'API Generation / Postman Workshop',
-                    date: 'September 20, 2023',
-                    time: '8:00 AM - 11:00 AM',
-                    dayOfWeek: 'Wednesday',
-                },
-                {
-                    image: '/images/placeholder.png',
-                    title: 'API Generation / Postman Workshop',
-                    date: 'September 20, 2023',
-                    time: '8:00 AM - 11:00 AM',
-                    dayOfWeek: 'Wednesday',
-                },
-                {
-                    image: '/images/placeholder.png',
-                    title: 'API Generation / Postman Workshop',
-                    date: 'September 20, 2023',
-                    time: '8:00 AM - 11:00 AM',
-                    dayOfWeek: 'Wednesday',
-                },
-                {
-                    image: '/images/placeholder.png',
-                    title: 'API Generation / Postman Workshop',
-                    date: 'September 20, 2023',
-                    time: '8:00 AM - 11:00 AM',
-                    dayOfWeek: 'Wednesday',
-                },
-                {
-                    image: '/images/placeholder.png',
-                    title: 'API Generation / Postman Workshop',
-                    date: 'September 20, 2023',
-                    time: '8:00 AM - 11:00 AM',
-                    dayOfWeek: 'Wednesday',
-                },
-            ].map((event) => ({
-                ...event,
-                backgroundStyle: getRandomBackgroundStyle(),
-            })),
-        []
-    )
 
     useEffect(() => {
         const updateVisibleEventCount = () => {
@@ -108,7 +46,7 @@ const EventSection: React.FC = () => {
         }
     }, [showAll, visibleEventCount])
 
-    const visibleEvents = showAll ? Events : Events.slice(0, visibleEventCount)
+    const visibleEvents = showAll ? events : events.slice(0, visibleEventCount)
 
     const handleToggle = () => {
         setShowAll(!showAll)
@@ -155,26 +93,27 @@ const EventSection: React.FC = () => {
                     </div>
                 </motion.div>
                 <AnimatePresence mode="wait">
-                    {Events.length > visibleEventCount && (
-                        <motion.div
-                            key="button"
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className="flex justify-end gap-6"
-                        >
+                    <motion.div
+                        key="button"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex justify-end gap-6"
+                    >
+                        {events.length > visibleEventCount && (
                             <TheButton onClick={handleToggle}>
                                 {showAll ? 'See less' : 'See more'}
                             </TheButton>
-                            <TheButton link="/events">
-                                <div className=" flex items-center justify-center gap-x-2">
-                                    <p>View All Events</p>
-                                    <FaLongArrowAltRight />
-                                </div>
-                            </TheButton>
-                        </motion.div>
-                    )}
+                        )}
+
+                        <TheButton link="/events">
+                            <div className=" flex items-center justify-center gap-x-2">
+                                <p>View All Events</p>
+                                <FaLongArrowAltRight />
+                            </div>
+                        </TheButton>
+                    </motion.div>
                 </AnimatePresence>
             </div>
         </div>
