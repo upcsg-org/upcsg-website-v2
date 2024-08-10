@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
-import { IoClose } from 'react-icons/io5'
-import ContinueButton from '../my-purchases/ContinueButton'
 import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
 import { merchItems } from '@/constants/merch/merch'
 import MerchCard from './MerchCard'
-import { IoIosArrowDropdown } from 'react-icons/io'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
 import { MdAddShoppingCart } from 'react-icons/md'
 import LikesFilters from './LikesFilters'
@@ -48,17 +45,10 @@ const MyLikesModal = (props: PropsInterface) => {
                     className="gap-2 lg:gap-1 w-full text-site-main grid items-center justify-around
                                 grid-cols-2 xs:grid-cols-3 sm:grid-cols-4"
                 >
-                    {merchItems.map((item, index) => (
+                    {merchItems.map((merch, index) => (
                         <MerchCard
-                            key={index + item.name + item.type}
-                            name={item.name}
-                            type={item.type}
-                            price={item.price}
-                            images={item.images}
-                            colors={item.colors}
-                            sizes={item.sizes}
-                            isBestSeller={item.isBestSeller}
-                            isAvailable={item.isAvailable}
+                            key={index + merch.name + merch.type.text}
+                            merch={merch}
                         />
                     ))}
                 </div>
