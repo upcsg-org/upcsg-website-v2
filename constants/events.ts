@@ -1,6 +1,4 @@
-const LIGHT_GREEN = 'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(65, 160, 30,0.7), rgba(65, 160, 30,1))'
-const VIOLET = 'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1))'
-const CYAN = 'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(57, 162, 174,0.7), rgba(57, 162, 174, 1))'
+import { TRANSPARENT_TO_CYAN, TRANSPARENT_TO_LIGHT_GREEN, TRANSPARENT_TO_VIOLET } from "./generic/colorGradients"
 
 export const events = [
     {
@@ -11,7 +9,7 @@ export const events = [
             start: new Date(2023, 8, 20, 8),
             end: new Date(2023, 8, 20, 11),
         },
-        backgroundStyle: LIGHT_GREEN
+        backgroundStyle: TRANSPARENT_TO_LIGHT_GREEN
     },
     {
         id: 2,
@@ -21,7 +19,7 @@ export const events = [
             start: new Date(2023, 8, 20, 8),
             end: new Date(2023, 8, 20, 11),
         },
-        backgroundStyle: VIOLET
+        backgroundStyle: TRANSPARENT_TO_VIOLET
     },
     {
         id: 3,
@@ -31,6 +29,6 @@ export const events = [
             start: new Date(2023, 8, 20, 8),
             end: new Date(2023, 8, 20, 11),
         },
-        backgroundStyle: CYAN
+        backgroundStyle: TRANSPARENT_TO_CYAN
     }
 ]
