@@ -19,8 +19,8 @@ const MyLikesModal = (props: PropsInterface) => {
     const [modalOpen, setModalOpen] = useState(false)
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-main-dark text-white p-4 xs:p-10 rounded-2xl max-h-[90%] max-w-[90%] w-full relative flex flex-col gap-y-4 border-csg-blue-400 border-2 right-0.5 overflow-y-scroll">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 xs:p-4">
+            <div className="bg-main-dark text-white p-4 xs:p-10 rounded-2xl max-h-[95%] max-w-[95%] xs:max-h-[90%] xs:max-w-[90%] w-full relative flex flex-col gap-y-4 border-csg-blue-400 border-2 right-0.5 overflow-y-scroll">
                 <div className="w-full flex flex-row flex-wrap justify-between align-middle">
                     <p className="min-w-fit font-bold tracking-wider text-lg sm:text-2xl xl:text-4xl uppercase">
                         My Likes
