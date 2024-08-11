@@ -16,7 +16,7 @@ export const merchItems = [
         sizes: [SMALL, MEDIUM, LARGE, XL],
         colors: [RED, GREEN, BLUE],
         isBestSeller: true,
-        isAvailable: true,
+        isAvailable: false,
         isLimitedEdition: false,
         onSale: false
     },
@@ -29,7 +29,7 @@ export const merchItems = [
         images: ['/images/tote-bag.png', '/title-header.png'],
         colors: [RED, BLUE],
         isBestSeller: false,
-        isAvailable: true,
+        isAvailable: false,
         isLimitedEdition: false,
         onSale: false
     },
@@ -42,7 +42,7 @@ export const merchItems = [
         images: ['/images/shirt.png', '/title-header.png', '/images/shirt.png'],
         colors: [VULCAN, VIDA_LOCA, WHITE],
         isBestSeller: true,
-        isAvailable: true,
+        isAvailable: false,
         isLimitedEdition: false,
         onSale: false
     },
@@ -55,7 +55,7 @@ export const merchItems = [
         images: ['/images/hat.png'],
         colors: [BLUE],
         isBestSeller: true,
-        isAvailable: true,
+        isAvailable: false,
         isLimitedEdition: false,
         onSale: false
     }
