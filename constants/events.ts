@@ -9,7 +9,17 @@ export const events = [
             start: new Date(2023, 8, 20, 8),
             end: new Date(2023, 8, 20, 11),
         },
-        backgroundStyle: TRANSPARENT_TO_LIGHT_GREEN
+        backgroundStyle: TRANSPARENT_TO_LIGHT_GREEN,
+        article: {
+            title: 'Test',
+            date: new Date(0),
+            body: 'sdfsdf\nfdsfds\n',
+            author: {
+                name: 'test',
+                email: 'test',
+                jobTitle: 'test'
+            }
+        }
     },
     {
         id: 2,
@@ -19,7 +29,19 @@ export const events = [
             start: new Date(2023, 8, 20, 8),
             end: new Date(2023, 8, 20, 11),
         },
-        backgroundStyle: TRANSPARENT_TO_VIOLET
+        backgroundStyle: TRANSPARENT_TO_VIOLET,
+        article: {
+            title: 'Test',
+            date: new Date(0),
+            body: `test
+            set
+            setes`,
+            author: {
+                name: 'test',
+                email: 'test',
+                jobTitle: 'test'
+            }
+        }
     },
     {
         id: 3,
@@ -29,6 +51,18 @@ export const events = [
             start: new Date(2023, 8, 20, 8),
             end: new Date(2023, 8, 20, 11),
         },
-        backgroundStyle: TRANSPARENT_TO_CYAN
+        backgroundStyle: TRANSPARENT_TO_CYAN,
+        article: {
+            title: 'Test',
+            date: new Date(0),
+            body: `test
+            set
+            setes`,
+            author: {
+                name: 'test',
+                email: 'test',
+                jobTitle: 'test'
+            }
+        }
     }
 ]

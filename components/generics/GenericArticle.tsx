@@ -1,21 +1,25 @@
 import React from 'react'
 import { ArticleImage } from '@/components/generics/ArticleImage'
 import { ArticleBody } from '@/components/generics/ArticleBody'
-// import TextForm from '@/components/generics/ContactUsForm'
 import EventSection from '@/components/events/EventSection'
+import { Article } from '@/interface/article'
 
-const page = () => {
+interface PropsInterface {
+    article: Article
+}
+
+const GenericArticle = (props: PropsInterface) => {
+    const { article } = props
+    const { title, date, body, author } = article
+
     return (
         <>
             <section className="h-[calc(100vh-3rem)]">
-                <ArticleImage />
+                <ArticleImage title={title} date={date} />
             </section>
             <section>
-                <ArticleBody />
+                <ArticleBody content={body} author={author} />
             </section>
-            {/* <section className="bg-[#171A33] mt-12">
-                <TextForm />
-            </section> */}
             <section className="mt-8">
                 <EventSection />
             </section>
@@ -23,4 +27,4 @@ const page = () => {
     )
 }
 
-export default page
+export default GenericArticle

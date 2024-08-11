@@ -17,6 +17,8 @@ interface PropsInterface {
 const EventCard = (props: PropsInterface) => {
     const { id, image, title, schedule, backgroundStyle } = props
 
+    const eventPath = `/events/${id}`
+
     return (
         <motion.button
             className="relative overflow-hidden rounded-2xl w-full h-64 text-left bg-cover bg-center"
@@ -25,7 +27,7 @@ const EventCard = (props: PropsInterface) => {
             }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            onClick={() => (location.href = '/coming-soon')}
+            onClick={() => (location.href = eventPath)}
         >
             <div className="flex flex-col justify-between h-full p-4">
                 <div>

@@ -1,7 +1,15 @@
 import React from 'react'
 import Image from 'next/image'
+import { getDateString } from '@/utils/datetime'
 
-export const ArticleImage = () => {
+interface PropsInterface {
+    title: string
+    date: Date
+}
+
+export const ArticleImage = (props: PropsInterface) => {
+    const { title, date } = props
+
     return (
         <div className="relative w-full h-full">
             <Image
@@ -15,9 +23,11 @@ export const ArticleImage = () => {
             <div className="absolute top-0 right-0 w-1/5 h-full bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
             <div className="absolute flex flex-col bottom-20 ml-8 md:ml-16 lg:ml-28 w-[85%] gap-y-4 md:gap-y-8 tracking-widest">
                 <h1 className="text-xl md:text-3xl lg:text-5xl font-semibold md:underline-offset-8 underline md:decoration-2  leading-tight">
-                    API Generation with Postman workshop this Wednesday
+                    {title}
                 </h1>
-                <p className="text-xs md:text-lg lg:text-xl"> July 09, 2024</p>
+                <p className="text-xs md:text-lg lg:text-xl">
+                    {getDateString(date)}
+                </p>
             </div>
         </div>
     )
