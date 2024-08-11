@@ -5,7 +5,7 @@ import { LuMoveRight } from 'react-icons/lu'
 interface News {
     title: string
     description: string
-    link: string
+    link?: string
 }
 
 interface CarouselBackgroundProps {

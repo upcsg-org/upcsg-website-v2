@@ -9,7 +9,7 @@ interface CarouselInterface {
     news: {
         title: string
         description: string
-        link: string
+        link?: string
     }
 }
 
