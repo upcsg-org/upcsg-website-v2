@@ -15,7 +15,7 @@ interface PropsInterface {
 const MyLikesModal = (props: PropsInterface) => {
     const { handleClose } = props
 
-    const [headerFilterType, setHeaderFitlerType] = useState('All Items')
+    const [headerFilterType, setHeaderFilterType] = useState('All Items')
 
     // const myLikes = merchItems
     const myLikes = [] as MerchItem[]
@@ -40,7 +40,7 @@ const MyLikesModal = (props: PropsInterface) => {
                 <div className="w-full flex flex-row flex-wrap justify-around md:justify-between items-center gap-x-8 gap-y-4 align-middle">
                     <MerchHeaderFilterTabs
                         selectedColor="data-[selected=true]:bg-csg-violet-300"
-                        handleSwitchFilter={setHeaderFitlerType}
+                        handleSwitchFilter={setHeaderFilterType}
                     />
                     <LikesFilters />
                 </div>
