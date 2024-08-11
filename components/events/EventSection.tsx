@@ -75,7 +75,7 @@ const EventSection: React.FC = () => {
                                     }}
                                     className="flex justify-center"
                                 >
-                                    <div className="w-full min-w-[300px]">
+                                    <div className="w-full min-w-[300px] max-md:flex max-md:justify-center">
                                         <EventCard {...event} />
                                     </div>
                                 </motion.div>

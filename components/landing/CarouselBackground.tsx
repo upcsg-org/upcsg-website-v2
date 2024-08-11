@@ -45,7 +45,7 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                         <div className="absolute bottom-0 left-0 w-full h-1/5 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
                         <div className="absolute top-0 right-0 w-1/5 h-full bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
                         <div className="absolute justify-center items-center flex flex-col w-full h-full gap-y-1">
-                            <div className="text-2xl lg:text-7xl md:text-4xl tracking-wide font-bold">
+                            <div className="text-xl lg:text-7xl md:text-4xl tracking-wide font-bold">
                                 <h1>{news[index].title}</h1>
                             </div>
                             <div className="w-[70%]  text-sm md:text-xl lg:text-3xl tracking-wide  text-center overflow-hidden mb-4">
@@ -73,9 +73,9 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        <div className="bg-black/40 rounded-full py-2 px-6 border-4 gap-x-1 font-bold flex justify-center items-center hover:scale-110 duration-300 hover:duration-300">
+                                        <div className="bg-black/40 rounded-full py-2 px-6 border-2 md:border-4 gap-x-1 font-bold flex justify-center items-center hover:scale-110 duration-300 hover:duration-300">
                                             <div className="text-xs md:text-base flex items-center gap-x-1">
-                                                Read more
+                                                Learn more
                                                 <LuMoveRight className="underline decoration-1 underline-offset-2" />
                                             </div>
                                         </div>

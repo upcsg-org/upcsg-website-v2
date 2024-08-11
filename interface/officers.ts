@@ -8,6 +8,7 @@ export interface Officer {
     lastName: string;
     image: string;
     role: string;
-    rank: OfficerRank
+    year: string;
+    rank: OfficerRank;
 }
 

@@ -14,10 +14,10 @@ const IndividualEventPage: React.FC<PropsInterface> = (props) => {
     const { params } = props
 
     const event: Event | undefined = events.find(
-        (event) => event.id === parseInt(params.eventId, 10)
+        (event) => event.id === parseInt(params.eventId, 10) && event.article
     )
 
-    return event ? (
+    return event && event.article ? (
         <ArticleTemplate article={event.article} />
     ) : (
         <section className="h-[calc(100vh-6rem)]">

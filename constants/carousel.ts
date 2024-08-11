@@ -1,25 +1,33 @@
 export const LandingPageCarouselContent = {
     First: {
-        image: '/images/footer-bg.png',
+        image: 'https://res.cloudinary.com/dc7anycov/image/upload/v1723343899/upcsg_aqmm8h.png',
         news: {
-            title: 'PADAYON KOMSAI',
-            description: 'The University of the Philippines CoThe University of the The University of the Philippines CoPhilippines CoThe University of the Philippines CoThe UniveThe University of the Philippines Corsity of the Philippines CoThe University of the Philippines Computer Science Guild is porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
-            link: '',
+            title: 'UP Computer Science Guild ',
+            description: 'A diverse and dynamic community nurturing the next generation of trailblazing technology leaders',
+            link: 'https://www.facebook.com/UPCSG',
         }
     },
     Second: {
-        image: '/carousel/slideshow-cover.png',
+        image: 'https://res.cloudinary.com/dc7anycov/image/upload/v1723292944/Cespa_for_upcsg_website_ikmujk.png',
         news: {
-            title: 'NEW UPCSG COUNCIL',
-            description: 'A diverse and dynamic community nurturing the next generation of trailblazing technology leaders',
-            link: 'https://www.facebook.com/UPCSG',
+            title: '',
+            description: '',
+            link: '',
         }
     },
 }
 
 export const MerchPageCarouselContent = {
     First: {
-        image: '/merch/merchlanding.png',
+        image: 'https://res.cloudinary.com/dc7anycov/image/upload/v1723343899/upcsg_aqmm8h.png',
+        news: {
+            title: 'UP Computer Science Guild ',
+            description: 'A diverse and dynamic community nurturing the next generation of trailblazing technology leaders',
+            link: 'https://www.facebook.com/UPCSG',
+        }
+    },
+    Second: {
+        image: 'https://res.cloudinary.com/dc7anycov/image/upload/v1723292944/Cespa_for_upcsg_website_ikmujk.png',
         news: {
             title: '',
             description: '',

@@ -4,20 +4,16 @@ import { getDateString } from '@/utils/datetime'
 
 interface PropsInterface {
     title: string
+    image: string
     date: Date
 }
 
 export const ArticleImage = (props: PropsInterface) => {
-    const { title, date } = props
+    const { title, date, image } = props
 
     return (
         <div className="relative w-full h-full">
-            <Image
-                src="/carousel/slideshow-cover.png"
-                alt="temp-picture"
-                fill
-                className="object-cover"
-            />
+            <Image src={image} alt={title} fill className="object-cover" />
             <div className="absolute top-0 left-0 w-1/5 h-full bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-full h-1/5 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
             <div className="absolute top-0 right-0 w-1/5 h-full bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
@@ -26,7 +22,7 @@ export const ArticleImage = (props: PropsInterface) => {
                     {title}
                 </h1>
                 <p className="text-xs md:text-lg lg:text-xl">
-                    {getDateString(date)}
+                    Article Published on {getDateString(date)}
                 </p>
             </div>
         </div>

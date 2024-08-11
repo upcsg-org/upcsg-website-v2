@@ -14,7 +14,7 @@ const EventCard = (props: PropsInterface) => {
 
     return (
         <motion.button
-            className="relative overflow-hidden rounded-2xl w-full h-64 text-left bg-cover bg-center"
+            className="relative overflow-hidden rounded-2xl max-md:w-[90%] w-full h-52 md:h-64 text-left bg-cover bg-center"
             style={{
                 backgroundImage: `${backgroundStyle}, url('${image}')`,
             }}
@@ -28,22 +28,27 @@ const EventCard = (props: PropsInterface) => {
                         {title}
                     </p>
                 </div>
-                <div className="flex justify-between items-end">
-                    <div className="flex justify-between">
-                        <FaRegCalendarAlt className="h-4 w-4 mt-3" />
+                <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center">
+                        <FaRegCalendarAlt className="h-4 w-4" />
                         <div className="pl-2">
                             <p className="text-sm font-bold font-vietnam text-white">
                                 {getDateString(schedule.start)}
                             </p>
-                            <p className="text-sm font-thin font-vietnam text-white">
-                                {getTimeString(schedule.start)} -{' '}
-                                {getTimeString(schedule.end)}
-                            </p>
+                            {getTimeString(schedule.start) &&
+                                getTimeString(schedule.end) && (
+                                    <p className="text-sm font-thin font-vietnam text-white">
+                                        {getTimeString(schedule.start)} -{' '}
+                                        {getTimeString(schedule.end)}
+                                    </p>
+                                )}
                         </div>
                     </div>
-                    <p className="text-sm font-thin text-white mb-2">
-                        {getDayOfWeek(schedule.start)}
-                    </p>
+                    {getDayOfWeek(schedule.start) && (
+                        <p className="text-sm font-thin text-white mb-2">
+                            {getDayOfWeek(schedule.start)}
+                        </p>
+                    )}
                 </div>
             </div>
         </motion.button>

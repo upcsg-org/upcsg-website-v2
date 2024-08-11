@@ -31,10 +31,11 @@ const MyLikesModal = (props: PropsInterface) => {
                             <span className="max-sm:hidden">
                                 Continue Shopping
                             </span>
+                            <span className="sm:hidden">Go Back</span>
                         </p>
                     </TheButton>
                 </div>
-                <div className="w-full flex flex-row flex-wrap justify-around items-center gap-x-8 gap-y-4 align-middle">
+                <div className="w-full flex flex-row flex-wrap justify-around md:justify-between items-center gap-x-8 gap-y-4 align-middle">
                     <MerchHeaderFilterTabs selectedColor="data-[selected=true]:bg-csg-violet-300" />
                     <LikesFilters />
                 </div>

@@ -14,7 +14,7 @@ interface PropsInterface {
 
 export const OfficerCard = (props: PropsInterface) => {
     const { officer, className, style } = props
-    const { firstName, lastName, image, role, rank } = officer
+    const { firstName, lastName, image, role, rank, year } = officer
 
     const getBackgroundColor = (rank: OfficerRank) => {
         if (rank === HEAD) {
@@ -38,7 +38,12 @@ export const OfficerCard = (props: PropsInterface) => {
             <span className="font-bold lg:text-xl  md:text-base text-[0.65rem]">
                 {lastName}
             </span>
-            <span className="lg:text-sm md:text-xs text-[0.45rem]">{role}</span>
+            <span className="lg:text-sm md:text-xs text-[0.45rem] italic">
+                {role}
+            </span>
+            <span className="lg:text-sm md:text-xs text-[0.45rem]">
+                BS Computer Science {year}
+            </span>
         </div>
     )
 }
