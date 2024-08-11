@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import ContactUsForm from '@/components/generics/ContactUsForm'
+import ContactUsForm from '@/components/contact-us/ContactUsForm'
 import ComingSoonModal from '@/components/generics/ComingSoonModal'
 
 const ContactUsPage = () => {

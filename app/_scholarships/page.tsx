@@ -55,7 +55,7 @@ function page() {
             <div className="grid grid-cols-1 md:grid-cols-2 mt-10 3xl:mx-[13.5vw]">
                 {testValues.map((item, index) => (
                     <ScholarshipOpportunityCard
-                        key={index}
+                        key={index + item.title}
                         title={item.title}
                         benefits={item.benefits}
                         GWAreq={item.GWAreq}

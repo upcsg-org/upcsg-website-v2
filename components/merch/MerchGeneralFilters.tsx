@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { IoIosArrowDown } from 'react-icons/io'
 import { LuFilter } from 'react-icons/lu'
+import TheButton from '../generics/TheButton'
 
 const ProductTypes = [
     'TOTE BAGS',
@@ -37,6 +38,10 @@ const MerchGeneralFilters = () => {
         setIsVisible(!isVisible)
     }
 
+    const handleFilter = () => {
+        return
+    }
+
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 1024) {
@@ -61,14 +66,14 @@ const MerchGeneralFilters = () => {
     return (
         <>
             <div
-                className={`sticky top-28 xl:top-20 left-0 w-full p-4 bg-main-dark xl:py-12 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
+                className={`sticky top-28 xl:top-20 left-0 w-full  max-lg:gap-4 p-4 bg-main-dark xl:py-12 lg:pl-10 xl:pl-24 ${isVisible ? 'max-lg:flex max-lg:flex-col' : 'hidden '}`}
             >
                 <form
-                    className="font-bold text-white text-lg xl:text-3xl tracking-wider pb-4 xl:px-0"
+                    className="font-bold text-white text-lg xl:text-3xl flex flex-col gap-4 tracking-wider xl:px-0"
                     onSubmit={(e) => e.preventDefault()}
                 >
-                    FILTERS
-                    <div className="flex flex-col bg-black text-sm xl:text-xl rounded-lg p-4 mt-2 xl:mt-4">
+                    <p>FILTERS</p>
+                    <div className="flex flex-col bg-black text-sm xl:text-xl rounded-lg p-4">
                         <button
                             onClick={() => toggleMenu(0)}
                             className="flex flex-row justify-between text-white cursor-pointer  hover:text-white/75"
@@ -172,10 +177,13 @@ const MerchGeneralFilters = () => {
                         )}
                     </div>
                     <div className="flex flex-row justify-center">
-                        <button className="flex items-center bg-csg-green-100 rounded-lg font-normal text-sm xl:text-xl p-2 xl:p-3 gap-4 mt-4 tracking-wide hover:bg-csg-green-200 hover:text-white/75">
+                        <TheButton
+                            onClick={handleFilter}
+                            style="flex items-center gap-2"
+                        >
                             <LuFilter />
                             Apply Filters
-                        </button>
+                        </TheButton>
                     </div>
                 </form>
                 <div className="flex w-full justify-center lg:hidden">

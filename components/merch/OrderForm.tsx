@@ -4,24 +4,21 @@ import { IoClose } from 'react-icons/io5'
 import { VscSparkle } from 'react-icons/vsc'
 import ShopPop from './ShopPop'
 import { AnimatePresence, motion } from 'framer-motion'
+import { MerchItem } from '@/interface/merch'
 
-interface OrderFormProps {
-    product: {
-        name: string
-        type: string
-        price: number
-        image: string
-        sizes: string[]
-        colors: string[]
-        BestSeller: boolean
-    }
+interface ProductInterface extends MerchItem {
+    image: string
+}
+interface PropsInterface {
+    product: ProductInterface
     onClose: () => void
 }
 
-const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
+const OrderForm = (props: PropsInterface) => {
+    const { product, onClose } = props
     const [quantity, setQuantity] = useState(1)
-    const [size, setSize] = useState(product.sizes[0])
-    const [color, setColor] = useState(product.colors[0])
+    const [size, setSize] = useState(product.sizes[0].text)
+    const [color, setColor] = useState(product.colors[0].hex)
     const [showShopPop, setShowShopPop] = useState(false)
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -44,7 +41,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                 </button>
                 <div className="flex flex-col xs:flex-row space-y-4 xs:space-y-0 xs:space-x-4">
                     <div className="w-full xs:w-1/2 bg-gray-300 rounded-2xl border-csg-blue-400 border-2 flex justify-center relative">
-                        {product.BestSeller ? (
+                        {product.isBestSeller ? (
                             <VscSparkle className="absolute top-2 left-2 text-black text-xl xl:text-3xl" />
                         ) : (
                             <>&#8203;</>
@@ -70,7 +67,9 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                         </p>
                         <p className="text-csg-violet-200 font-vietnam font-extrabold flex justify-between text-xs xs:text-base">
                             CATEGORY{' '}
-                            <span className="text-white">{product.type}</span>
+                            <span className="text-white">
+                                {product.type.text}
+                            </span>
                         </p>
                         <p className="text-csg-violet-200 font-vietnam font-extrabold flex justify-between text-xs xs:text-base">
                             PRICE{' '}
@@ -86,9 +85,12 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                                     onChange={(e) => setSize(e.target.value)}
                                     className="bg-csg-green-100 text-white rounded-2xl px-2 py-1 w-32 xs:w-32 text-xs"
                                 >
-                                    {product.sizes.map((s) => (
-                                        <option key={s} value={s}>
-                                            {s}
+                                    {product.sizes.map((size, index) => (
+                                        <option
+                                            key={index + size.id}
+                                            value={size.id}
+                                        >
+                                            {size.text}
                                         </option>
                                     ))}
                                 </select>
@@ -96,15 +98,18 @@ const OrderForm: React.FC<OrderFormProps> = ({ product, onClose }) => {
                         </div>
                         <div>
                             <p className="text-csg-violet-200 font-vietnam font-extrabold flex justify-between items-center text-xs xs:text-base">
-                                COLOR
+                                COLOR{' '}
                                 <select
                                     value={color}
                                     onChange={(e) => setColor(e.target.value)}
                                     className="bg-csg-green-100 text-white rounded-2xl px-2 py-1 w-32 xs:w-32 text-xs"
                                 >
-                                    {product.colors.map((c) => (
-                                        <option key={c} value={c}>
-                                            {c}
+                                    {product.colors.map((color, index) => (
+                                        <option
+                                            key={index + color.id}
+                                            value={color.id}
+                                        >
+                                            {color.name}
                                         </option>
                                     ))}
                                 </select>

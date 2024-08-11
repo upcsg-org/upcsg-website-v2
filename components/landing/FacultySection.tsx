@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { FaLongArrowAltRight } from 'react-icons/fa'
+import TheButton from '../generics/TheButton'
 
 const FacultySection = () => {
     const DCS_FACULTY_PAGE_LINK =
@@ -9,42 +9,40 @@ const FacultySection = () => {
 
     return (
         <div className="flex flex-col basis-96 md:flex-row-reverse w-full">
-            <figure className="min-h-96 md:w-5/12 relative object-contain bg-[url('/images/placeholder.png')]">
+            <figure className="min-h-96 md:w-5/12 relative object-contain bg-[url('https://res.cloudinary.com/dc7anycov/image/upload/v1723341056/faculty_kmyfmt.png')]">
                 <Image
-                    src="/images/placeholder.png"
+                    src="https://res.cloudinary.com/dc7anycov/image/upload/v1723341056/faculty_kmyfmt.png"
                     alt="Faculty Section"
                     fill
                     className="object-contain backdrop-blur-md"
                 />
             </figure>
 
-            <div className="bg-secondary-light md:w-7/12 md:min-w-96 flex flex-col gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
-                <h2 className="mb-4 md:mb-8 text-3xl md:text-5xl font-semibold tracking-widest">
+            <div className="bg-secondary-light md:w-7/12 md:min-w-96 flex flex-col items-center md:items-start gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
+                <h2 className="mb-4 md:mb-8 text-md md:text-5xl font-semibold tracking-widest">
                     YOUR GUIDING LIGHT IN YOUR JOURNEY
                 </h2>
-                <h3 className="md:w-2/3 text-xl md:text-3xl font-semibold tracking-wider">
+                <h3 className="md:w-2/3 text-sm md:text-3xl font-semibold tracking-wider">
                     The Department of Computer Science Faculty
                 </h3>
-                <p className="md:w-2/3 tracking-wide">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <p className="md:w-2/3 tracking-wide max-sm:text-xs">
+                    As the backbone of the Computer Science Department, our
+                    professors and lecturers are dedicated to nurturing the next
+                    generation of computer scientists. With a wealth of
+                    knowledge and experience, they provide a solid foundation in
+                    both theory and practice, guiding students through the
+                    complexities of the field. Their commitment to excellence in
+                    teaching and research is instrumental in shaping the future
+                    of computer science.
                 </p>
 
-                <div className="text-center md:text-left md:w-fit">
-                    <a
-                        href={DCS_FACULTY_PAGE_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="md:border-lg w-fit"
-                    >
-                        <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
-                            <span>Know More</span>
-                            <FaLongArrowAltRight />
-                        </div>
-                    </a>
-                </div>
+                <TheButton
+                    link={DCS_FACULTY_PAGE_LINK}
+                    style="flex items-center justify-center gap-x-2 w-fit"
+                >
+                    <span>Know More</span>
+                    <FaLongArrowAltRight />
+                </TheButton>
             </div>
         </div>
     )

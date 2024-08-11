@@ -24,7 +24,7 @@ const LookingSection = () => {
                 perusal!
             </p>
             <Link
-                className="bg-main-dark text-white text-md sm:text-lg font-vietnam font-bold py-3 px-8 sm:px-7 mt-8 rounded-full border-white border-2"
+                className="bg-main-dark text-white text-md sm:text-lg font-vietnam font-bold py-3 px-8 sm:px-7 mt-8 rounded-full border-white border-2 duration-200 hover:scale-110"
                 href="/learning"
             >
                 Learning Materials

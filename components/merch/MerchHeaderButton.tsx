@@ -7,16 +7,19 @@ interface PropsInterface {
     text: string
     count: number
 
+    clickEvent?: () => void
+
     className?: string
 }
 
 const MerchHeaderButton = (props: PropsInterface) => {
-    const { Icon, text, count } = props
+    const { Icon, text, count, clickEvent } = props
     const styles = props.className
 
     return (
-        <div
-            className={`${styles} h-fill px-1 py-0.5 sm:px-2 sm:py-1 rounded-2xl flex flex-row gap-0.5 sm:gap-1 items-center cursor-pointer hover:text-white/75 transition-colors`}
+        <button
+            className={`${styles} h-fill px-2 py-1 rounded-2xl flex flex-row gap-0.5 sm:gap-1 items-center cursor-pointer hover:text-white/75 hover:-translate-y-1 duration-300`}
+            onClick={clickEvent}
         >
             <Icon className="text-sm md:text-lg" />
             <span className="uppercase tracking-widest max-sm:hidden text-[10px] lg:text-[11px] xl:text-sm">
@@ -25,7 +28,7 @@ const MerchHeaderButton = (props: PropsInterface) => {
             <span className="text-[10px] lg:text-[11px] xl:text-sm">
                 ({count})
             </span>
-        </div>
+        </button>
     )
 }
 

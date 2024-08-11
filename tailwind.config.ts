@@ -40,6 +40,7 @@ const config: Config = {
                     600: '#39407B',
                     700: '#000017',
                     800: '#C6E0FF',
+                    900: '#45AAC1'
                 },
                 'csg-pink': {
                     100: '#FF00F5',
@@ -68,7 +69,8 @@ const config: Config = {
                 },
                 'csg-violet': {
                     100: '#7B00C6',
-                    200: '#5959B0'
+                    200: '#5959B0',
+                    300: '#7D66AD'
                 }
             },
             screens: {

@@ -1,42 +1,44 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { FaLongArrowAltRight } from 'react-icons/fa'
+import TheButton from '../generics/TheButton'
 
 const OfficersSection = () => {
     return (
         <div className="flex flex-col basis-96 md:flex-row w-full">
-            <figure className="min-h-96 md:w-5/12 relative object-contain bg-[url('/images/placeholder.png')]">
+            <figure className="min-h-96 md:w-5/12 relative object-contain bg-[url('https://res.cloudinary.com/dc7anycov/image/upload/v1723340964/execom_okzenh.png')]">
                 <Image
-                    src="/images/placeholder.png"
+                    src="https://res.cloudinary.com/dc7anycov/image/upload/v1723340964/execom_okzenh.png"
                     alt="Officers Section"
                     fill
                     className="object-contain backdrop-blur-md"
                 />
             </figure>
 
-            <div className="bg-csg-blue-400 md:w-7/12 md:min-w-96 flex flex-col gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
-                <h2 className="mb-4 md:mb-8 text-3xl md:text-5xl font-semibold tracking-widest">
+            <div className="bg-csg-blue-400 md:w-7/12 md:min-w-96 flex flex-col items-center md:items-start gap-6 md:gap-10 p-6 md:p-16 font-vietnam text-center md:text-left">
+                <h2 className="mb-4 md:mb-8 text-md md:text-5xl font-semibold tracking-widest">
                     KNOW YOUR OFFICERS FROM THE GUILD
                 </h2>
-                <h3 className="md:w-2/3 text-xl md:text-3xl font-semibold tracking-wider">
+                <h3 className="md:w-2/3 text-sm md:text-3xl font-semibold tracking-wider">
                     The Board of Directors, UPCSG &apos;24-25
                 </h3>
-                <p className="md:w-2/3 tracking-wide">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <p className="md:w-2/3 tracking-wide max-sm:text-xs">
+                    The Executive Committee consists of elected guilders who are
+                    dedicated to serving the UPCSG community. Their role is to
+                    lead, represent, and uphold the values of the organization,
+                    ensuring that the voices of the members are heard and their
+                    needs are met. Through their leadership, they strive to
+                    enhance the overall experience of guilders and promote a
+                    collaborative and inclusive environment.
                 </p>
 
-                <div className="text-center md:text-left md:w-fit">
-                    <Link href="/officers" className="md:border-lg w-fit">
-                        <div className="hover:-translate-y-1 duration-200 md:hover:translate-y-0 bg-csg-green-100 rounded-full uppercase text-sm px-4 py-3 font-semibold flex items-center justify-center gap-x-2">
-                            <span>Know More</span>
-                            <FaLongArrowAltRight />
-                        </div>
-                    </Link>
-                </div>
+                <TheButton
+                    link="/officers"
+                    style="flex justify-center gap-x-2 w-fit"
+                >
+                    <span>Know More</span>
+                    <FaLongArrowAltRight />
+                </TheButton>
             </div>
         </div>
     )

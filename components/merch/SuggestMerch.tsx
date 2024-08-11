@@ -22,7 +22,7 @@ const SuggestMerch = (props: PropsInterface) => {
         <div className="w-full h-fit bg-[#090C0F] pb-[80px] lg:pb-[300px] pt-10 md:pt-14 relative">
             {showForm && <SuggestMerchForm handleClick={handleSubmit} />}
             <div className="relative flex flex-col items-center h-fit z-10">
-                <h1 className="font-press-start text-2xl md:text-6xl text-[#6E7E95] max-w-[20ch] text-center">
+                <h1 className="font-press-start text-xl md:text-6xl text-[#6E7E95] max-w-[20ch] text-center">
                     Have a tech-savvy design in mind?
                 </h1>
                 <p className="font-vietnam text-lg md:text-3xl text-[#3B4247] max-w-[32ch] text-center mt-4">
@@ -32,7 +32,7 @@ const SuggestMerch = (props: PropsInterface) => {
                 </p>
                 <button
                     onClick={handleSubmit}
-                    className="bg-black text-[#5F6566] font-vietnam text-lg md:text-xl py-1 md:py-2 px-12 border-white border-2 mt-4 rounded-3xl"
+                    className="bg-black text-[#5F6566] font-vietnam text-lg md:text-xl py-1 md:py-2 px-12 border-white border-2 mt-4 rounded-3xl duration-200 hover:scale-110"
                 >
                     SUBMIT HERE
                 </button>

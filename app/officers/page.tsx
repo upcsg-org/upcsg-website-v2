@@ -1,68 +1,18 @@
-import { OfficerCard } from '@/components/generics/OfficerCard'
 import React from 'react'
-/* green 'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(65, 160, 30,0.7), rgba(65, 160, 30,1))' */
-/*  skyblue 'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(57, 162, 174,0.7), rgba(57, 162, 174, 1))' */
-/* violet 'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1))' */
-const Officers = () => {
-    const backgroundStyles = [
-        {
-            background:
-                'linear-gradient(to bottom, rgba(65, 160, 60,1), rgba(65, 160, 60,0.9), rgba(57, 162, 174,0.9), rgba(57, 162, 174,1))',
-        },
-        {
-            background:
-                'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(57, 162, 174,0.7), rgba(57, 162, 174, 1))',
-        },
-        {
-            background:
-                'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1))',
-        },
-    ]
+import { OfficerCard } from '@/components/officers/OfficerCard'
+import { officers } from '@/constants/officers/officers'
+import { LIGHT_GREEN_TO_CYAN } from '@/constants/generic/colorGradients'
 
-    const UPCSGofficers = [
-        {
-            FirstName: 'BAZER TIMOTHY',
-            LastName: 'NUÑEZ',
-            title: 'Executive Director',
-        },
-        { FirstName: 'TRISHIA MAE', LastName: 'BASMAYOR', title: 'Secretary' },
-        {
-            FirstName: 'CHRISTIAN JAMES',
-            LastName: 'BAYADOG',
-            title: 'Co-Finance: Treasurer',
-        },
-        {
-            FirstName: 'CEFERINO',
-            LastName: 'JUMAO-AS V',
-            title: 'Co-Finance: Auditor',
-        },
-        {
-            FirstName: 'ISHAH NICHOLEI',
-            LastName: 'BAUTISTA',
-            title: 'Marketing Director',
-        },
-        {
-            FirstName: 'CHRISTINE MAE',
-            LastName: 'BAGAZIN',
-            title: 'Partnerships & Linkages Director',
-        },
-        {
-            FirstName: 'MON ANDREW',
-            LastName: 'RETUYA',
-            title: 'Communication & Logistics Director',
-        },
-        {
-            FirstName: 'JAMES GABRIEL',
-            LastName: 'ELIJAH TY',
-            title: 'Education & Development Director ',
-        },
-    ]
+const Officers = () => {
+    const officerCount = officers.length
+
+    const HEADER_BACKGROUND = LIGHT_GREEN_TO_CYAN
 
     return (
         <div>
             <div
                 className="w-full text-center py-12 "
-                style={backgroundStyles[0]}
+                style={{ background: HEADER_BACKGROUND }}
             >
                 <h1 className="uppercase md:text-4xl lg:text-6xl min-[1200px]:text-7xl font-bold tracking-widest">
                     Meet your <br />
@@ -73,45 +23,17 @@ const Officers = () => {
             </div>
             <section className="grid md:grid-cols-3 grid-cols-2 gap-y-8  md:gap-y-16 justify-items-center mt-16">
                 <div className="md:col-span-3 col-span-2">
-                    <OfficerCard
-                        firstName={UPCSGofficers[0].FirstName}
-                        lastName={UPCSGofficers[0].LastName}
-                        title={UPCSGofficers[0].title}
-                        bgStyle={{
-                            backgroundImage:
-                                'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(57, 162, 174,0.7), rgba(57, 162, 174, 1)),url(/images/placeholder.png)',
-                        }}
-                    />
+                    <OfficerCard officer={officers[0]} />
                 </div>
-                {UPCSGofficers.slice(1, UPCSGofficers.length - 1).map(
-                    (officer, index) => (
-                        <OfficerCard
-                            key={officer.title}
-                            firstName={officer.FirstName}
-                            lastName={officer.LastName}
-                            title={officer.title}
-                            className="col-span-1"
-                            bgStyle={{
-                                backgroundImage:
-                                    'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1)),url(/images/placeholder.png)',
-                            }}
-                        />
-                    )
-                )}
-                <div className="md:col-span-3 col-span-2">
+                {officers.slice(1, officerCount - 1).map((officer, index) => (
                     <OfficerCard
-                        firstName={
-                            UPCSGofficers[UPCSGofficers.length - 1].FirstName
-                        }
-                        lastName={
-                            UPCSGofficers[UPCSGofficers.length - 1].LastName
-                        }
-                        title={UPCSGofficers[UPCSGofficers.length - 1].title}
-                        bgStyle={{
-                            backgroundImage:
-                                'linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), rgba(123, 0, 198,0.7), rgba(123, 0, 198,1)),url(/images/placeholder.png)',
-                        }}
+                        key={index + officer.firstName + officer.lastName}
+                        officer={officer}
+                        className="col-span-1"
                     />
+                ))}
+                <div className="md:col-span-3 col-span-2">
+                    <OfficerCard officer={officers[officerCount - 1]} />
                 </div>
             </section>
         </div>
