@@ -4,12 +4,13 @@ import { FaRegCalendarAlt } from 'react-icons/fa'
 import { getDateString, getTimeString, getDayOfWeek } from '@/utils/datetime'
 import { Event } from '@/interface/event'
 
-type PropsInterface = Omit<Event, 'article'>
+interface PropsInterface extends Event {}
 
 const EventCard = (props: PropsInterface) => {
-    const { id, image, title, schedule, backgroundStyle } = props
+    const { id, image, title, schedule, backgroundStyle, link, article } = props
 
-    const eventPath = `/events/${id}`
+    // Prioritizes articles over external links
+    const eventPath = article ? `/events/${id}` : (link ?? '/')
 
     return (
         <motion.button

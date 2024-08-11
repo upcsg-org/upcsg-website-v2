@@ -9,5 +9,6 @@ export interface Event {
         end: Date;
     }
     backgroundStyle: string;
-    article: Article
+    article?: Article
+    link?: string
 }
