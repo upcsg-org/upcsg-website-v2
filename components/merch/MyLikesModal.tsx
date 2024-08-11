@@ -58,7 +58,13 @@ const MyLikesModal = (props: PropsInterface) => {
                     </div>
                 ) : (
                     <Empty>
-                        <p className="text-sm md:text-xl">No Likes</p>
+                        <p className="text-sm md:text-xl">
+                            No{' '}
+                            {headerFilterType === 'All Items'
+                                ? ''
+                                : headerFilterType}{' '}
+                            Likes
+                        </p>
                     </Empty>
                 )}
             </div>
