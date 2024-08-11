@@ -32,9 +32,9 @@ const LikesFilters = () => {
         <div className="z-50 max-w-64 text-[10px] md:text-xs font-semibold tracking-wider uppercase grow">
             <button
                 onClick={() => setModalOpen(!modalOpen)}
-                className="flex flex-row items-center justify-between gap-0.5 z-50 w-full h-full bg-[#45AAC1] rounded-full justify-self-center uppercase text-black text-center p-1 lg:p-2 px-4 cursor-pointer hover:text-white/75 transition-colors duration-100"
+                className="flex flex-row items-center justify-between z-50 px-5 py-2 w-full bg-csg-blue-900 rounded-full justify-self-center uppercase text-black text-center cursor-pointer hover:text-white/75 transition-colors duration-100"
             >
-                <p className="w-fill px-1">Filters</p>
+                <p className="w-fill">Filters</p>
                 <span className="text-lg sm:text-2xl">
                     <IoIosArrowDown
                         className={`${modalOpen ? 'rotate-180' : 'rotate-0'} duration-100`}
