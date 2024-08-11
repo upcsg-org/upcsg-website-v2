@@ -38,15 +38,15 @@ const ContactUsForm = (props: PropsInterface) => {
                 <h1 className="font-vietnam font-bold text-3xl md:text-5xl">
                     GOT ANY SUGGESTIONS?
                 </h1>
-                <p className="font-vietnam font-light text-xl md:text-2xl leading-8 max-w-[38ch]">
+                <p className="font-vietnam font-light text-sm md:text-2xl md:leading-8 max-w-[38ch]">
                     Shoot us your suggestions and concerns to help us create
                     better learning experiences for you! We&apos;ll get back to
                     them as soon as we can.
                 </p>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <div className="inline md:inline-flex w-full lg:w-9/12">
-                        <div className="flex flex-1 p-3 rounded-lg border-2 border-white md:mr-4 bg-secondary-dark md:max-w-[400px]">
-                            <label htmlFor="name" className="mr-2 md:mr-5">
+                    <div className="flex flex-col gap-4 w-full">
+                        <div className="flex flex-1 p-3 gap-5 rounded-lg border-2 border-white bg-secondary-dark">
+                            <label htmlFor="name">
                                 <FaUser size={25} color="white" />
                             </label>
                             <input
@@ -54,14 +54,14 @@ const ContactUsForm = (props: PropsInterface) => {
                                 id="name"
                                 name="name"
                                 className="bg-transparent outline-none text-white caret-white"
-                                placeholder="Name..."
+                                placeholder="Name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
                             />
                         </div>
-                        <div className="flex flex-1 p-3 rounded-lg border-2 border-white bg-secondary-dark md:max-w-[400px]">
-                            <label htmlFor="name" className="mr-2 md:mr-5">
+                        <div className="flex flex-1 p-3 gap-5 rounded-lg border-2 border-white bg-secondary-dark">
+                            <label htmlFor="name">
                                 <MdEmail size={25} color="white" />
                             </label>
                             <input
@@ -69,7 +69,7 @@ const ContactUsForm = (props: PropsInterface) => {
                                 id="email"
                                 name="email"
                                 className="bg-transparent outline-none text-white caret-white"
-                                placeholder="Email..."
+                                placeholder="Email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required

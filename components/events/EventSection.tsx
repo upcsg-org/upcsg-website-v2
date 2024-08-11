@@ -90,7 +90,7 @@ const EventSection: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="flex justify-end gap-6"
+                        className="flex justify-center md:justify-end gap-6"
                     >
                         {events.length > visibleEventCount && (
                             <TheButton onClick={handleToggle}>
