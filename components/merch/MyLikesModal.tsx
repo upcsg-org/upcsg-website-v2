@@ -1,6 +1,6 @@
-import React from 'react'
+import { useState } from 'react'
 import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
-import { merchItems } from '@/constants/merch/merch'
+
 import MerchCard from './MerchCard'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
 import LikesFilters from './LikesFilters'
@@ -14,6 +14,8 @@ interface PropsInterface {
 
 const MyLikesModal = (props: PropsInterface) => {
     const { handleClose } = props
+
+    const [headerFilterType, setHeaderFitlerType] = useState('All Items')
 
     // const myLikes = merchItems
     const myLikes = [] as MerchItem[]
@@ -36,7 +38,10 @@ const MyLikesModal = (props: PropsInterface) => {
                     </TheButton>
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-around md:justify-between items-center gap-x-8 gap-y-4 align-middle">
-                    <MerchHeaderFilterTabs selectedColor="data-[selected=true]:bg-csg-violet-300" />
+                    <MerchHeaderFilterTabs
+                        selectedColor="data-[selected=true]:bg-csg-violet-300"
+                        handleSwitchFilter={setHeaderFitlerType}
+                    />
                     <LikesFilters />
                 </div>
                 {myLikes.length ? (
@@ -52,7 +57,9 @@ const MyLikesModal = (props: PropsInterface) => {
                         ))}
                     </div>
                 ) : (
-                    <Empty>No Likes</Empty>
+                    <Empty>
+                        <p className="text-sm md:text-xl">No Likes</p>
+                    </Empty>
                 )}
             </div>
         </div>
