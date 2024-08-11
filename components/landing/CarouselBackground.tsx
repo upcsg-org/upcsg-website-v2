@@ -1,40 +1,32 @@
 import React from 'react'
 import Image from 'next/image'
 import { LuMoveRight } from 'react-icons/lu'
+import { CarouselItem } from '@/interface/carousel'
 
-interface News {
-    title: string
-    description: string
-    link?: string
+interface PropsInterface {
+    currentItemIndex: number
+    carouselData: CarouselItem[]
 }
 
-interface CarouselBackgroundProps {
-    news: News[]
-    currentImageIndex: number
-    images: string[]
-}
+const CarouselBackground = (props: PropsInterface) => {
+    const { currentItemIndex, carouselData } = props
 
-const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
-    news,
-    images,
-    currentImageIndex,
-}) => {
     return (
         <div className="overflow-hidden relative w-full h-full ">
             <div
                 className="flex transition-transform duration-700 ease-in-out relative w-full h-full"
                 style={{
-                    transform: `translateX(-${currentImageIndex * 100}%)`,
+                    transform: `translateX(-${currentItemIndex * 100}%)`,
                 }}
             >
-                {images.map((image, index) => (
+                {carouselData.map((carousel, index) => (
                     <div
-                        key={image}
+                        key={carousel.image}
                         className="w-full h-full flex-shrink-0 relative"
                     >
                         <Image
                             alt="image"
-                            src={image}
+                            src={carousel.image}
                             fill
                             className="object-cover"
                         />
@@ -44,31 +36,37 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                         <div className="absolute bottom-0 left-0 w-full h-1/5 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
                         <div className="absolute top-0 right-0 w-1/5 h-full bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
                         <div className="absolute justify-center items-center flex flex-col w-full h-full gap-y-1">
-                            <div className="text-xl lg:text-7xl md:text-4xl tracking-wide font-bold">
-                                <h1>{news[index].title}</h1>
-                            </div>
-                            <div className="w-[70%]  text-sm md:text-xl lg:text-3xl tracking-wide  text-center overflow-hidden mb-4">
-                                <p className="hidden lg:block">
-                                    {news[index].description.length > 200
-                                        ? news[index].description.substring(
-                                              0,
-                                              200
-                                          ) + '...'
-                                        : news[index].description}
-                                </p>
-                                <p className="block lg:hidden">
-                                    {news[index].description.length > 230
-                                        ? news[index].description.substring(
-                                              0,
-                                              100
-                                          ) + '...'
-                                        : news[index].description}
-                                </p>
-                            </div>
-                            {news[index].link && (
+                            {carouselData[index].title && (
+                                <div className="text-xl lg:text-7xl md:text-4xl tracking-wide font-bold">
+                                    <h1>{carouselData[index].title}</h1>
+                                </div>
+                            )}
+                            {carouselData[index].subtitle && (
+                                <div className="w-[70%]  text-sm md:text-xl lg:text-3xl tracking-wide  text-center overflow-hidden mb-4">
+                                    <p className="hidden lg:block">
+                                        {carouselData[index].subtitle.length >
+                                        200
+                                            ? carouselData[
+                                                  index
+                                              ].subtitle.substring(0, 200) +
+                                              '...'
+                                            : carouselData[index].subtitle}
+                                    </p>
+                                    <p className="block lg:hidden">
+                                        {carouselData[index].subtitle.length >
+                                        230
+                                            ? carouselData[
+                                                  index
+                                              ].subtitle.substring(0, 100) +
+                                              '...'
+                                            : carouselData[index].subtitle}
+                                    </p>
+                                </div>
+                            )}
+                            {carouselData[index].link && (
                                 <div className="flex items-center space-x-4">
                                     <a
-                                        href={news[index].link}
+                                        href={carouselData[index].link}
                                         target="_blank"
                                         rel="noreferrer"
                                     >
