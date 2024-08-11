@@ -2,17 +2,9 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { FaRegCalendarAlt } from 'react-icons/fa'
 import { getDateString, getTimeString, getDayOfWeek } from '@/utils/datetime'
+import { Event } from '@/interface/event'
 
-interface PropsInterface {
-    id: number
-    image: string
-    title: string
-    schedule: {
-        start: Date
-        end: Date
-    }
-    backgroundStyle: string
-}
+type PropsInterface = Omit<Event, 'article'>
 
 const EventCard = (props: PropsInterface) => {
     const { id, image, title, schedule, backgroundStyle } = props
