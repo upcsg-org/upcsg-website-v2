@@ -19,6 +19,8 @@
 # misc
 .DS_Store
 *.pem
+.vs/
+tailwind.extension.json
 
 # debug
 npm-debug.log*
