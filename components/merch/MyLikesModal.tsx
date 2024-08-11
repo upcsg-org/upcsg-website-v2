@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
 import { merchItems } from '@/constants/merch/merch'
 import MerchCard from './MerchCard'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
-import { MdAddShoppingCart } from 'react-icons/md'
 import LikesFilters from './LikesFilters'
+import TheButton from '../generics/TheButton'
 
 interface PropsInterface {
     handleClose: () => void
@@ -13,7 +13,7 @@ interface PropsInterface {
 const MyLikesModal = (props: PropsInterface) => {
     const { handleClose } = props
 
-    const [modalOpen, setModalOpen] = useState(false)
+    const myLikes = merchItems
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 xs:p-4">
@@ -22,22 +22,15 @@ const MyLikesModal = (props: PropsInterface) => {
                     <p className="min-w-fit font-bold tracking-wider text-lg sm:text-2xl xl:text-4xl uppercase">
                         My Likes
                     </p>
-
-                    <button
-                        className="w-fill flex justify-center bg-csg-green-100 rounded-xl uppercase text-[10px] md:text-xs lg:text-sm text-center p-1.5 sm:px-2 sm:py-3 cursor-pointer hover:text-white/75 transition-colors"
-                        onClick={handleClose}
-                    >
+                    <TheButton onClick={handleClose}>
                         <p className="max-sm:hidden font-semibold w-full flex items-center justify-center gap-x-2">
                             <FaLongArrowAltLeft />
                             <span>Continue Shopping</span>
                         </p>
-                        <span className="sm:hidden text-lg">
-                            <MdAddShoppingCart />
-                        </span>
-                    </button>
+                    </TheButton>
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-between gap-x-8 gap-y-4 align-middle">
-                    <MerchHeaderFilterTabs selectedColor="bg-[#7D66AD]" />
+                    <MerchHeaderFilterTabs selectedColor="data-[selected=true]:bg-csg-violet-300" />
                     <LikesFilters />
                 </div>
 
@@ -45,12 +38,13 @@ const MyLikesModal = (props: PropsInterface) => {
                     className="gap-2 lg:gap-1 w-full text-site-main grid items-center justify-around
                                 grid-cols-2 xs:grid-cols-3 sm:grid-cols-4"
                 >
-                    {merchItems.map((merch, index) => (
-                        <MerchCard
-                            key={index + merch.name + merch.type.text}
-                            merch={merch}
-                        />
-                    ))}
+                    {!!myLikes.length &&
+                        myLikes.map((merch, index) => (
+                            <MerchCard
+                                key={index + merch.name + merch.type.text}
+                                merch={merch}
+                            />
+                        ))}
                 </div>
             </div>
         </div>

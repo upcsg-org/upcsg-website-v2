@@ -68,7 +68,8 @@ const config: Config = {
                 },
                 'csg-violet': {
                     100: '#7B00C6',
-                    200: '#5959B0'
+                    200: '#5959B0',
+                    300: '#7D66AD'
                 }
             },
             screens: {
