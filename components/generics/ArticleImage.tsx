@@ -14,6 +14,7 @@ export const ArticleImage = (props: PropsInterface) => {
     return (
         <div className="relative w-full h-full">
             <Image src={image} alt={title} fill className="object-cover" />
+            <div className="absolute inset-0 bg-black opacity-70"></div>
             <div className="absolute top-0 left-0 w-1/5 h-full bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-full h-1/5 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
             <div className="absolute top-0 right-0 w-1/5 h-full bg-gradient-to-l from-black/50 to-transparent pointer-events-none" />
