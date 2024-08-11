@@ -18,7 +18,7 @@ const MerchHeaderButton = (props: PropsInterface) => {
 
     return (
         <button
-            className={`${styles} h-fill px-2 py-1 rounded-2xl flex flex-row gap-0.5 sm:gap-1 items-center cursor-pointer hover:text-white/75 transition-colors`}
+            className={`${styles} h-fill px-2 py-1 rounded-2xl flex flex-row gap-0.5 sm:gap-1 items-center cursor-pointer hover:text-white/75 hover:-translate-y-1 duration-300`}
             onClick={clickEvent}
         >
             <Icon className="text-sm md:text-lg" />

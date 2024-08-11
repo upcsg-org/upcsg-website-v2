@@ -29,9 +29,9 @@ export const MerchPageCarouselContent = {
     Second: {
         image: 'https://res.cloudinary.com/dc7anycov/image/upload/v1723292944/Cespa_for_upcsg_website_ikmujk.png',
         news: {
-            title: '',
-            description: '',
-            link: '',
+            title: 'CESPA',
+            description: 'A collective network for inter-university cooperation within Cebu programmer students',
+            link: 'https://www.facebook.com/profile.php?id=61563488252275',
         }
     },
 }

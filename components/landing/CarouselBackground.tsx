@@ -1,7 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
 import { LuMoveRight } from 'react-icons/lu'
-import { usePathname } from 'next/navigation'
 
 interface News {
     title: string
@@ -20,7 +19,6 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
     images,
     currentImageIndex,
 }) => {
-    const pathname = usePathname()
     return (
         <div className="overflow-hidden relative w-full h-full ">
             <div
@@ -40,6 +38,7 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                             fill
                             className="object-cover"
                         />
+                        <div className="absolute inset-0 bg-black opacity-65"></div>
 
                         <div className="absolute top-0 left-0 w-1/5 h-full bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />
                         <div className="absolute bottom-0 left-0 w-full h-1/5 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
@@ -66,7 +65,7 @@ const CarouselBackground: React.FC<CarouselBackgroundProps> = ({
                                         : news[index].description}
                                 </p>
                             </div>
-                            {pathname !== '/merch' && news[index].link && (
+                            {news[index].link && (
                                 <div className="flex items-center space-x-4">
                                     <a
                                         href={news[index].link}
