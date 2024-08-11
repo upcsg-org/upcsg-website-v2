@@ -11,7 +11,7 @@ export const LandingPageCarouselContent = {
         image: 'https://res.cloudinary.com/dc7anycov/image/upload/v1723355900/cespa2_kozetw.png',
         news: {
             title: 'CESPA',
-            description: 'A collective network for inter-university cooperation within Cebu programmer students',
+            description: 'A collective network for inter-university cooperation of programmer students within Cebu',
             link: 'https://www.facebook.com/profile.php?id=61563488252275',
         }
     },
