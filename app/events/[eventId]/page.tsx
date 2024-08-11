@@ -1,5 +1,5 @@
 import React from 'react'
-import GenericArticle from '@/components/generics/GenericArticle'
+import ArticleTemplate from '@/components/generics/ArticleTemplate'
 import { events } from '@/constants/events'
 import { Event } from '@/interface/event'
 import NotFound from '@/components/generics/NotFound'
@@ -18,7 +18,7 @@ const IndividualEventPage: React.FC<PropsInterface> = (props) => {
     )
 
     return event ? (
-        <GenericArticle article={event.article} />
+        <ArticleTemplate article={event.article} />
     ) : (
         <section className="h-[calc(100vh-6rem)]">
             <NotFound>Article Does Not Exist</NotFound>

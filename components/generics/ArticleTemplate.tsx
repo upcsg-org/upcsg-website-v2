@@ -8,7 +8,7 @@ interface PropsInterface {
     article: Article
 }
 
-const GenericArticle = (props: PropsInterface) => {
+const ArticleTemplate = (props: PropsInterface) => {
     const { article } = props
     const { title, date, body, author } = article
 
@@ -27,4 +27,4 @@ const GenericArticle = (props: PropsInterface) => {
     )
 }
 
-export default GenericArticle
+export default ArticleTemplate
