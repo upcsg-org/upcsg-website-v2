@@ -4,23 +4,15 @@ import ReciepientInformation from './ReciepientInformation'
 import OrderedList from './OrderedList'
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { useState } from 'react'
-import { merchItems } from '@/constants/merch'
+import { merchItems } from '@/constants/merch/merch';
+import { MerchItem } from '@/interface/merch';
 
 interface CheckoutPopProps {    
     handleCheckoutPop: () => void
 }
 
-interface Item {
-    name: string;
-    sizes: string[];
-    colors: string[];
-    quantity: number;
-    price: number;
-    images: string[];
-}
-
-const calculateTotalPrice = (items: Item[]): number => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+const calculateTotalPrice = (items: MerchItem[]): number => {
+    return items.reduce((total, item) => total + item.price, 0);
 };
 
 const CheckoutPop: React.FC<CheckoutPopProps> = ({ handleCheckoutPop }) => {
@@ -46,16 +38,8 @@ const CheckoutPop: React.FC<CheckoutPopProps> = ({ handleCheckoutPop }) => {
     const [selectedYear, setSelectedYear] = useState('N/A')
     const [selectedPaymentOption, setSeelctedPaymentOption] = useState('GCASH')
 
-    const items = merchItems.slice(0,3).map((item) => ({
-        name: item.name,
-        sizes: item.sizes,
-        colors: item.colors,
-        quantity: 1, // Quantity should be passed from the cart or system
-        price: item.price,
-        images: item.images
-    }));
-
-    const totalPrice = calculateTotalPrice(items);
+    const shoppingCartItems = merchItems.slice(0, 2)
+    const totalPrice = calculateTotalPrice(merchItems);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -127,7 +111,7 @@ const CheckoutPop: React.FC<CheckoutPopProps> = ({ handleCheckoutPop }) => {
                     </div>
 
                     <OrderedList 
-                    merchItems={items}
+                    merchItems={shoppingCartItems}
                     />
 
                     <ReciepientInformation 

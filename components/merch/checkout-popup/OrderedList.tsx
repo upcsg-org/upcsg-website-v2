@@ -1,17 +1,11 @@
-
 import RowMerchCard from "./RowMerchCard"
+import { MerchItem } from "@/interface/merch"
 
-interface ReciepientInformationProps {
-    merchItems: Array<{
-        name: string,
-        sizes: string[],
-        quantity: number,
-        colors: string[],
-        price: number,
-        images: string[]
-    }>
+interface OrderedListProps {
+    merchItems: MerchItem[];
 }
-const ReciepientInformation: React.FC<ReciepientInformationProps> = ({ merchItems })  => {
+
+const ReciepientInformation = ({ merchItems }: OrderedListProps) => {
     return (
         <div className='flex flex-col gap-4 px-6'>
             <div className="bg-[#00000C] w-full md:grid grid-cols-12 gap-4 justify-between py-2 rounded-xl font-sm lg:font-base hidden text-[#444466]">
@@ -26,9 +20,9 @@ const ReciepientInformation: React.FC<ReciepientInformationProps> = ({ merchItem
                     <RowMerchCard
                         key={index}
                         productType={item.name}
-                        size={item.sizes[0]}
-                        color={item.colors[0]}
-                        quantity={item.quantity}
+                        size={item.sizes[0].text}
+                        color={item.colors[0].name}
+                        quantity={1}
                         price={item.price}
                         imageSrc={item.images[0]}
                     />
