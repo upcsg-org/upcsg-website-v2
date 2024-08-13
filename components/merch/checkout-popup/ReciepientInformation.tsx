@@ -37,14 +37,14 @@ const ReciepientInformation = ({ handleChange, handleDropdownChange, selectedYea
                 <div className="flex w-full flex-wrap gap-4">
                     <div className="flex flex-col w-4/12 grow">
                         <label
-                            htmlFor="year"
+                            htmlFor="selectedYear"
                             className="whitespace-nowrap truncate"
                         >
                             YEAR (optional)
                         </label>
                         <select
-                            id="year"
-                            name="year"
+                            id="selectedYear"
+                            name="selectedYear"
                             value={selectedYear}
                             onChange={handleDropdownChange}
                             className="p-1 md:p-2 rounded-lg bg-white h-10 text-[#47376B] font-semibold"
@@ -115,14 +115,14 @@ const ReciepientInformation = ({ handleChange, handleDropdownChange, selectedYea
             <div className="flex flex-col bg-[#5F4C87] flex-1 rounded-b-xl md:rounded-bl-none md:rounded-r-xl p-5 gap-5 text-[#18083A] font-bold">
                 <div className='flex flex-row items-center'>
                     <label
-                        htmlFor="paymentOption"
+                        htmlFor="selectedPaymentOption"
                         className="w-1/2"
                     >
                         PAYMENT OPTION
                     </label>
                     <select
-                            id="paymentOption"
-                            name="paymentOption"
+                            id="selectedPaymentOption"
+                            name="selectedPaymentOption"
                             value={selectedPaymentOption}
                             onChange={handleDropdownChange}
                             className="p-1 md:px-5 rounded-2xl bg-white h-10 text-[#47376B] font-semibold w-1/2"
