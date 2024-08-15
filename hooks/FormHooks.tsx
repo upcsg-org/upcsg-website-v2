@@ -1,4 +1,6 @@
-import {useState } from 'react';
+
+import { useState } from 'react';
+import { InputFieldProps } from '@/interface/formfield';
 
 const useFormHandler = (initialValues: any) => {
   const [formData, setFormData] = useState(initialValues);
@@ -23,14 +25,20 @@ const useFormHandler = (initialValues: any) => {
         ...formData,
         image: file || null,
     });
-};
+  };
+
+  const handleSubmit = (callback: (data: any) => void) => (e: any) => {
+    e.preventDefault();
+    callback(formData);
+  };
 
   return {
     formData,
     handleChange,
     handleDropdownChange,
     setFormData,
-    handleImageChange
+    handleImageChange,
+    handleSubmit,
   };
 };
 
