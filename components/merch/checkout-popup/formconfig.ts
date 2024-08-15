@@ -3,8 +3,7 @@ import { FormFieldProps } from "@/interface/formfield";
 
 const getFormConfig = (
     formData: any,
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    handleDropdownChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
 ) => {
 
@@ -29,7 +28,7 @@ const getFormConfig = (
                 options: ['N/A', '1st year', '2nd year', '3rd year', '4th year', 'Staff'],
                 className: 'w-full p-1 md:p-2 rounded-lg bg-white h-10 text-[#47376B] font-semibold',
             },
-            onChange: handleDropdownChange,
+            onChange: handleChange,
         },
         {
             field: {
@@ -75,7 +74,7 @@ const getFormConfig = (
                 className: 'w-full bg-transparent outline-none bg-white p-2 rounded-lg text-[#47376B] font-semibold',
             },
             layout: 'horizontal',
-            onChange: handleDropdownChange,
+            onChange: handleChange,
         },
         {
             field: {

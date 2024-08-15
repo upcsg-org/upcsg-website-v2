@@ -1,18 +1,10 @@
 
 import { useState } from 'react';
-import { InputFieldProps } from '@/interface/formfield';
 
 const useFormHandler = (initialValues: any) => {
   const [formData, setFormData] = useState(initialValues);
 
   const handleChange = (e: any) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleDropdownChange = (e: any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -35,7 +27,6 @@ const useFormHandler = (initialValues: any) => {
   return {
     formData,
     handleChange,
-    handleDropdownChange,
     setFormData,
     handleImageChange,
     handleSubmit,

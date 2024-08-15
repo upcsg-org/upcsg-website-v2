@@ -24,7 +24,7 @@ const RowMerchCard: React.FC<RowMerchCardProps> = ({ productType, size, color, q
                 </div>
                 <div className="flex flex-col ml-2 gap-2">
                     <div className='flex flex-col'>
-                        <p className='font-bold tracking-wide'>NAME OF PRODUCT</p>
+                        <p className='font-bold tracking-wide text-white'>NAME OF PRODUCT</p>
                         <p className='text-sm text-[#A6A6B1]'>{productType}</p>
                     </div>
                     <p className='text-[#6479CB] text-lg'>PHP {price}</p>

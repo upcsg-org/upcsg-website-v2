@@ -31,12 +31,11 @@ const CheckoutPop: React.FC<CheckoutPopProps> = ({ handleCheckoutPop }) => {
             estimatedDate: '8/23/2024',
         };
     
-        const { formData, handleChange, handleDropdownChange, handleImageChange, handleSubmit } = useFormHandler(initialValues);
+        const { formData, handleChange, handleImageChange, handleSubmit } = useFormHandler(initialValues);
 
         const formConfig = getFormConfig(
             formData, 
             handleChange, 
-            handleDropdownChange, 
             handleImageChange, 
         );
 
