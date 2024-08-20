@@ -2,10 +2,9 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import AnnouncementCard from '@/components/landing/AnnouncementCard'
 import TheButton from '@/components/generics/TheButton'
 import { announcements } from '@/constants/announcements'
-import LearningMat from '@/components/educ-and-dev/LearningMat'
+import VideoMat from '@/components/educ-and-dev/VideoMat'
 
 const AnnouncementSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
@@ -76,9 +75,7 @@ const AnnouncementSection: React.FC = () => {
                                             className="flex justify-center"
                                         >
                                             <div className="w-full max-w-[320px]">
-                                                <LearningMat
-                                                    {...announcement}
-                                                />
+                                                <VideoMat />
                                             </div>
                                         </motion.div>
                                     )
