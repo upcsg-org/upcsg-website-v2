@@ -1,22 +1,22 @@
 export const HAT = {
     id: 0,
-    text: 'Hat'
+    text: 'HAT'
 }
 export const BAG = {
     id: 1,
-    text: 'Bag'
+    text: 'BAG'
 }
 export const SHIRT = {
     id: 2,
-    text: 'Shirt'
+    text: 'SHIRT'
 }
 export const STICKER = {
     id: 3,
-    text: 'Sticker'
+    text: 'STICKER'
 }
 export const PIN = {
     id: 4,
-    text: 'Pin'
+    text: 'PIN'
 }
 
-export const merchTypes = new Set([HAT, BAG, SHIRT, STICKER, PIN])
+export const merchTypes = [HAT, BAG, SHIRT, STICKER, PIN]

@@ -51,7 +51,7 @@ export const merchItems = [
         name: 'HATS',
         type: HAT,
         price: 175.0,
-        sizes: [SMALL, MEDIUM, LARGE, XL],
+        sizes: [SMALL, XL],
         images: ['/images/hat.png'],
         colors: [BLUE],
         isBestSeller: true,

@@ -1,32 +1,51 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+    setProductTypes,
+    setPriceRange,
+    setSizes,
+    setSort,
+} from '@/app/slices/filterSlice'
+import { RootState } from '@/app/store'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { IoIosArrowDown } from 'react-icons/io'
 import { LuFilter } from 'react-icons/lu'
 import TheButton from '../generics/TheButton'
+import { merchTypes } from '@/constants/merch/merchTypes'
+import {
+    PRICE_RANGE_20_50,
+    PRICE_RANGE_50_100,
+    PRICE_RANGE_100_150,
+    PRICE_RANGE_150_200,
+    PRICE_RANGE_200_250,
+    PRICE_RANGE_250_PLUS,
+    PRICE_RANGE_LOWEST_TO_HIGHEST,
+    PRICE_RANGE_HIGHEST_TO_LOWEST,
+} from '@/constants/merch/merchRanges'
+import { merchSizes } from '@/constants/merch/merchSizes'
 
-const ProductTypes = [
-    'TOTE BAGS',
-    'SHIRTS',
-    'HOODIES',
-    'HATS',
-    'PINS',
-    'STICKERS',
+const PriceRanges = [
+    PRICE_RANGE_20_50,
+    PRICE_RANGE_50_100,
+    PRICE_RANGE_100_150,
+    PRICE_RANGE_150_200,
+    PRICE_RANGE_200_250,
+    PRICE_RANGE_250_PLUS,
 ]
-const PriceRange = [
-    'PHP 20 – PHP 50',
-    'PHP 50 – PHP 100',
-    'PHP 100 – PHP 150',
-    'PHP 150 – PHP 200',
-    'PHP 200 – PHP 250',
-    'PHP 250+',
-    'Lowest to Highest',
-    'Highest to Lowest',
-]
-const Sizes = ['XSMALL', 'SMALL', 'MEDIUM', 'LARGE', 'XLARGE']
+const Sorting = [PRICE_RANGE_LOWEST_TO_HIGHEST, PRICE_RANGE_HIGHEST_TO_LOWEST]
 
 const MerchGeneralFilters = () => {
+    const dispatch = useDispatch()
+    const filterState = useSelector((state: RootState) => state.filters)
     const [isOpen, setIsOpen] = useState([false, false, false])
     const [isVisible, setIsVisible] = useState(false)
+
+    const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>(
+        []
+    )
+    const [selectedPriceRange, setSelectedPriceRange] = useState<string[]>([])
+    const [selectedSizes, setSelectedSizes] = useState<string[]>([])
+    const [selectedSort, setSelectedSort] = useState<string[]>([])
 
     const toggleMenu = (index: number) => {
         setIsOpen((prevState) =>
@@ -39,7 +58,25 @@ const MerchGeneralFilters = () => {
     }
 
     const handleFilter = () => {
-        return
+        dispatch(setProductTypes(selectedProductTypes))
+        dispatch(setPriceRange(selectedPriceRange))
+        dispatch(setSizes(selectedSizes))
+        dispatch(setSort(selectedSort))
+        console.log('Types:', selectedProductTypes)
+        console.log('Price Range:', selectedPriceRange)
+        console.log('Sizes:', selectedSizes)
+    }
+
+    const handleCheckboxChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        setSelected: React.Dispatch<React.SetStateAction<string[]>>
+    ) => {
+        const { value, checked } = event.target
+        setSelected((prevSelected) =>
+            checked
+                ? [...prevSelected, value]
+                : prevSelected.filter((item) => item !== value)
+        )
     }
 
     useEffect(() => {
@@ -85,23 +122,32 @@ const MerchGeneralFilters = () => {
                         </button>
                         {isOpen[0] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col font-normal">
-                                {ProductTypes.map((type) => (
+                                {merchTypes.map((type) => (
                                     <li
-                                        key={type}
+                                        key={type.id}
                                         className="flex items-center mt-2"
                                     >
                                         <input
                                             type="checkbox"
-                                            id={type}
+                                            id={type.text}
                                             name="product_type"
                                             className="size-3 xl:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
-                                            value={type}
+                                            value={type.text}
+                                            checked={selectedProductTypes.includes(
+                                                type.text
+                                            )}
+                                            onChange={(e) =>
+                                                handleCheckboxChange(
+                                                    e,
+                                                    setSelectedProductTypes
+                                                )
+                                            }
                                         />
                                         <label
-                                            htmlFor={type}
+                                            htmlFor={type.text}
                                             className="text-[#A6A6B1] text-sm xl:text-base ml-2"
                                         >
-                                            {type}
+                                            {type.text}
                                         </label>
                                     </li>
                                 ))}
@@ -119,23 +165,61 @@ const MerchGeneralFilters = () => {
                         </button>
                         {isOpen[1] && (
                             <ul className="text-white font-normal">
-                                {PriceRange.map((type) => (
+                                {PriceRanges.map((range) => (
                                     <li
-                                        key={type}
+                                        key={range.label}
                                         className="flex items-center mt-2"
                                     >
                                         <input
                                             type="checkbox"
-                                            id={type}
+                                            id={range.label}
                                             name="product_type"
                                             className="size-3 xl:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
-                                            value={type}
+                                            value={range.label}
+                                            checked={selectedPriceRange.includes(
+                                                range.label
+                                            )}
+                                            onChange={(e) =>
+                                                handleCheckboxChange(
+                                                    e,
+                                                    setSelectedPriceRange
+                                                )
+                                            }
                                         />
                                         <label
-                                            htmlFor={type}
+                                            htmlFor={range.label}
                                             className="text-[#A6A6B1] text-sm xl:text-base ml-2"
                                         >
-                                            {type}
+                                            {range.label}
+                                        </label>
+                                    </li>
+                                ))}
+                                {Sorting.map((sort) => (
+                                    <li
+                                        key={sort.label}
+                                        className="flex items-center mt-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id={sort.label}
+                                            name="product_type"
+                                            className="size-3 xl:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
+                                            value={sort.label}
+                                            checked={selectedSort.includes(
+                                                sort.label
+                                            )}
+                                            onChange={(e) =>
+                                                handleCheckboxChange(
+                                                    e,
+                                                    setSelectedSort
+                                                )
+                                            }
+                                        />
+                                        <label
+                                            htmlFor={sort.label}
+                                            className="text-[#A6A6B1] text-sm xl:text-base ml-2"
+                                        >
+                                            {sort.label}
                                         </label>
                                     </li>
                                 ))}
@@ -153,23 +237,32 @@ const MerchGeneralFilters = () => {
                         </button>
                         {isOpen[2] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
-                                {Sizes.map((type) => (
+                                {merchSizes.map((size) => (
                                     <li
-                                        key={type}
+                                        key={size.id}
                                         className="flex items-center mt-2"
                                     >
                                         <input
                                             type="checkbox"
-                                            id={type}
+                                            id={size.text}
                                             name="product_type"
                                             className="size-3 xl:size-5 bg-gray-100 border-gray-100 focus:ring-transparent accent-[#EE6C45] cursor-pointer"
-                                            value={type}
+                                            value={size.text}
+                                            checked={selectedSizes.includes(
+                                                size.text
+                                            )}
+                                            onChange={(e) =>
+                                                handleCheckboxChange(
+                                                    e,
+                                                    setSelectedSizes
+                                                )
+                                            }
                                         />
                                         <label
-                                            htmlFor={type}
+                                            htmlFor={size.text}
                                             className="text-[#A6A6B1] text-sm xl:text-base ml-2"
                                         >
-                                            {type}
+                                            {size.text}
                                         </label>
                                     </li>
                                 ))}
