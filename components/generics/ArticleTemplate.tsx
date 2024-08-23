@@ -10,12 +10,12 @@ interface PropsInterface {
 
 const ArticleTemplate = (props: PropsInterface) => {
     const { article } = props
-    const { title, date, body, author } = article
+    const { title, date, body, author, image } = article
 
     return (
         <>
             <section className="h-[calc(100vh-3rem)]">
-                <ArticleImage title={title} date={date} />
+                <ArticleImage title={title} date={date} image={image} />
             </section>
             <section>
                 <ArticleBody content={body} author={author} />

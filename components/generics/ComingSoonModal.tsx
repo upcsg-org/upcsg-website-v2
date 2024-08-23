@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react'
+import TheButton from './TheButton'
 
 interface PropsInterface {
     toggleModal: Dispatch<SetStateAction<boolean>>
@@ -18,12 +19,9 @@ const ComingSoonModal = (props: PropsInterface) => {
                 <h1 className="text-2xl sm:text-5xl md:text-6xl font-economica italic text-csg-green-100 font-bold">
                     Coming Soon
                 </h1>
-                <button
-                    className="rounded-lg bg-csg-green-300 px-10 py-4 text-xs sm:text-base"
-                    onClick={handleCloseModal}
-                >
+                <TheButton onClick={handleCloseModal} style="text-white">
                     Go Back
-                </button>
+                </TheButton>
             </div>
         </>
     )

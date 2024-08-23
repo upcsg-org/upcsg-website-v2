@@ -3,18 +3,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import CarouselBackground from './CarouselBackground'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-
-interface CarouselInterface {
-    image: string
-    news: {
-        title: string
-        description: string
-        link: string
-    }
-}
+import { CarouselItem } from '@/interface/carousel'
 
 interface PropsInterface {
-    carouselContentList: CarouselInterface[]
+    carouselContentList: CarouselItem[]
 }
 
 export const Carousel = (props: PropsInterface) => {
@@ -85,13 +77,8 @@ export const Carousel = (props: PropsInterface) => {
             onTouchEnd={handleTouchEnd}
         >
             <CarouselBackground
-                currentImageIndex={currentImageIndex}
-                news={carouselContentList.map(
-                    (carouselContent) => carouselContent.news
-                )}
-                images={carouselContentList.map(
-                    (carouselContent) => carouselContent.image
-                )}
+                currentItemIndex={currentImageIndex}
+                carouselData={carouselContentList}
             />
 
             <button

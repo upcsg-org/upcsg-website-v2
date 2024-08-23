@@ -7,10 +7,7 @@ import {
 } from 'react-icons/ai'
 import MyLikesModal from './MyLikesModal'
 import ShoppingCartModal from './modals/ShoppingCartModal'
-
-
-
-
+import ComingSoonModal from '../generics/ComingSoonModal'
 
 const MerchHeaderButtonGroup = () => {
     const [bagCount, setBagCount] = useState(0)
@@ -19,6 +16,8 @@ const MerchHeaderButtonGroup = () => {
 
     const [shoppingCartShow, setShoppingCartShow] = useState(false)
     const [likesModalShow, setLikesModalShow] = useState(false)
+    const [shoppingBagModalShow, setShoppingBagModalShow] = useState(false)
+    const [purchasesModalShow, setPurchasesModalShow] = useState(false)
 
     return (
         <>
@@ -27,7 +26,8 @@ const MerchHeaderButtonGroup = () => {
                 Icon={AiOutlineShopping}
                 text="Shopping Bag"
                 count={bagCount}
-                clickEvent={() => setShoppingCartShow(true)}
+
+                clickEvent={() => setShoppingBagModalShow(true)}
                 className="bg-[#45AE95]"
             />
 
@@ -43,6 +43,7 @@ const MerchHeaderButtonGroup = () => {
                 Icon={AiOutlineProfile}
                 text="Purchases"
                 count={purchaseCount}
+                clickEvent={() => setPurchasesModalShow(true)}
                 className="bg-[#D7584B]"
              />
 
@@ -52,9 +53,12 @@ const MerchHeaderButtonGroup = () => {
                 <MyLikesModal handleClose={() => setLikesModalShow(false)} />
             )}
 
-            {shoppingCartShow && (
-                <ShoppingCartModal handleClose={() => setShoppingCartShow(false)}
-                />
+            {shoppingBagModalShow && (
+                <ShoppingCartModal toggleModal={setShoppingBagModalShow} />
+            )}
+
+            {purchasesModalShow && (
+                <ComingSoonModal toggleModal={setPurchasesModalShow} />
             )}
         </>
     )

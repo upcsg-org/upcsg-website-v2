@@ -75,7 +75,7 @@ const EventSection: React.FC = () => {
                                     }}
                                     className="flex justify-center"
                                 >
-                                    <div className="w-full min-w-[300px]">
+                                    <div className="w-full min-w-[300px] max-md:flex max-md:justify-center">
                                         <EventCard {...event} />
                                     </div>
                                 </motion.div>
@@ -90,7 +90,7 @@ const EventSection: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="flex justify-end gap-6"
+                        className="flex justify-center md:justify-end gap-6"
                     >
                         {events.length > visibleEventCount && (
                             <TheButton onClick={handleToggle}>

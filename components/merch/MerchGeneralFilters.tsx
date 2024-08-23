@@ -66,7 +66,7 @@ const MerchGeneralFilters = () => {
     return (
         <>
             <div
-                className={`sticky top-28 xl:top-20 left-0 w-full p-4 bg-main-dark xl:py-12 lg:pl-10 xl:pl-24 ${!isVisible && 'hidden'}`}
+                className={`sticky top-28 xl:top-20 left-0 w-full  max-lg:gap-4 p-4 bg-main-dark xl:py-12 lg:pl-10 xl:pl-24 ${isVisible ? 'max-lg:flex max-lg:flex-col' : 'hidden '}`}
             >
                 <form
                     className="font-bold text-white text-lg xl:text-3xl flex flex-col gap-4 tracking-wider xl:px-0"
