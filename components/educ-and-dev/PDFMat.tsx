@@ -3,7 +3,13 @@ import { motion } from 'framer-motion'
 import { BiSolidFilePdf } from 'react-icons/bi'
 import { FiDownload } from 'react-icons/fi'
 
-const LearningMat = () => {
+interface PropsInterface {
+    material: string
+    title: string
+}
+
+const PDFMat = (props: PropsInterface) => {
+    const { material, title } = props
     return (
         <motion.div
             className="bg-[#E2574C] overflow-hidden w-64 h-[360px] rounded-3xl text-center text-white flex flex-col"
@@ -11,13 +17,13 @@ const LearningMat = () => {
             transition={{ duration: 0.3 }}
         >
             <h2 className="text-xl font-extralight mt-2 mb-2 font-vietnam">
-                Lecture Notes
+                {material}
             </h2>
             <div className="flex-grow flex flex-col items-center justify-center space-y-1">
                 <BiSolidFilePdf className="text-white text-7xl" />
                 <p className="text-lg font-vietnam font-light">PDF file</p>
                 <p className="text-xl font-bold font-vietnam inline-block overflow-ellipsis w-[248px] overflow-hidden whitespace-nowrap">
-                    yearIV_primer.pdf
+                    {title}
                 </p>
             </div>
             <div className="mb-3">
@@ -35,4 +41,4 @@ const LearningMat = () => {
     )
 }
 
-export default LearningMat
+export default PDFMat

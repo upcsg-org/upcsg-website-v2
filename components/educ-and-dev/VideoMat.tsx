@@ -3,7 +3,13 @@ import { motion } from 'framer-motion'
 import { FaRegCirclePlay } from 'react-icons/fa6'
 import { FiDownload } from 'react-icons/fi'
 
-const DocMat = () => {
+interface PropsInterface {
+    material: string
+    title: string
+}
+
+const DocMat = (props: PropsInterface) => {
+    const { material, title } = props
     return (
         <motion.div
             className="bg-[#45AE95] overflow-hidden w-64 h-[360px] rounded-3xl text-center text-white flex flex-col"
@@ -11,13 +17,13 @@ const DocMat = () => {
             transition={{ duration: 0.3 }}
         >
             <h2 className="text-xl font-extralight mt-2 mb-2 font-vietnam">
-                Practice Problems
+                {material}
             </h2>
             <div className="flex-grow flex flex-col items-center justify-center space-y-1">
                 <FaRegCirclePlay className="text-white text-7xl" />
                 <p className="text-lg font-vietnam font-light">MP4 file</p>
                 <p className="text-xl font-bold font-vietnam inline-block overflow-ellipsis w-[248px] overflow-hidden whitespace-nowrap">
-                    cmsc129_recording.mp4
+                    {title}
                 </p>
             </div>
             <div className="mb-3">
