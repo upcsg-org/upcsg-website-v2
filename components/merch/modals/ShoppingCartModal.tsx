@@ -1,47 +1,24 @@
-﻿import React, { useState } from 'react'
+﻿import React, { useState, Dispatch, SetStateAction } from 'react'
 import ShoppingCartItem from './ShoppingCartItem'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
 import TheButton from '../../generics/TheButton'
 import { shoppingCartItems } from '@/constants/merch/shoppingCart'
-import { Dispatch, SetStateAction } from 'react'
 
 interface PropsInterface {
     toggleModal: Dispatch<SetStateAction<boolean>>
-    allChecked: boolean
 }
 
 const ShoppingCartModal = (props: PropsInterface) => {
-    const { toggleModal, allChecked } = props
+    const { toggleModal } = props
+    const [cartItems, setCartItems] = useState(shoppingCartItems)
+    const [totalPrice, setTotalPrice] = useState(0)
 
     const handleCloseModal = () => {
         toggleModal(false)
     }
 
-    const [cartItems, setCartItems] = useState(shoppingCartItems)
-
     const handleCheckout = () => {
-        console.log('checked out')
-    }
-
-    const [totalPrice, setTotalPrice] = useState(0)
-
-    const handleCheckoutChange = (index: number, isCheckedOut: boolean) => {
-        console.log(index, isCheckedOut, 'here')
-        setCartItems((prevItems) => {
-            const updatedItems = prevItems.map((item, i) => {
-                if (i === index) {
-                    const priceChange = item.merch.price * item.quantity
-                    setTotalPrice((prevTotal) =>
-                        isCheckedOut
-                            ? prevTotal + priceChange
-                            : prevTotal - priceChange
-                    )
-                    return { ...item, isCheckedOut }
-                }
-                return item
-            })
-            return updatedItems
-        })
+        // create function to handle checkout
     }
 
     return (
@@ -68,27 +45,13 @@ const ShoppingCartModal = (props: PropsInterface) => {
                     <div className="w-12" />
                 </div>
                 <div className="h-96 overflow-y-auto hidden-scrollbar mb-3">
-                    {cartItems.map((merch, index) => (
-                        <ShoppingCartItem
-                            key={index}
-                            id={index}
-                            merch={merch.merch}
-                            quantity={merch.quantity}
-                            color={merch.color}
-                            size={merch.size}
-                            maxQuantity={merch.maxQuantity}
-                            isCheckedOut={merch.isCheckedOut}
-                            onCheckoutChange={(itemIndex, newCheckedState) =>
-                                handleCheckoutChange(itemIndex, newCheckedState)
-                            }
-                        />
+                    {cartItems.map((item, index) => (
+                        <ShoppingCartItem key={item.id} item={item} />
                     ))}
                 </div>
                 <div className="absolute flex flex-row h-fit w-full bg-black bottom-0 left-0 right-0 p-0 m-0 text-center justify-center align-center z-30 text-xs md:text-sm">
                     <div
-                        className={`w-[16px] ps:w-[24px] md:w-[35px] aspect-square rounded-full border-2 md:border-4 border-[#171745] flex shrink-0 cursor-pointer items-center justify-center ${
-                            allChecked ? 'bg-[#2929b7]' : 'bg-[#2929b7]/0'
-                        }`}
+                        className={`w-[16px] ps:w-[24px] md:w-[35px] aspect-square rounded-full border-2 md:border-4 border-[#171745] flex shrink-0 cursor-pointer items-center justify-center bg-[#2929b7]`}
                     />
                     <p className="basis-1/4 self-center">ALL</p>
                     <div className="basis-1/4 self-center">

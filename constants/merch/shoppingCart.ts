@@ -1,10 +1,9 @@
 import { merchItems } from '@/constants/merch/merch'
 
-export const shoppingCartItems = merchItems.map(merch => ({
+export const shoppingCartItems = merchItems.map((merch, index) => ({
+    id: index,
     merch: merch,
-    color: merch.colors[0],
-    size: merch.sizes[0],
+    colorChoice: merch.colors[0],
+    sizeChoice: merch.sizes[0],
     quantity: 1,
-    maxQuantity: 5,
-    isChecked: false
 }))
