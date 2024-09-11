@@ -5,20 +5,22 @@ import TheButton from '../../generics/TheButton'
 import { shoppingCartItems } from '@/constants/merch/shoppingCart'
 
 interface PropsInterface {
-    toggleModal: Dispatch<SetStateAction<boolean>>
+    toggleCheckoutModal: () => void
+    toggleShoppingCart: () => void
 }
 
 const ShoppingCartModal = (props: PropsInterface) => {
-    const { toggleModal } = props
+    const { toggleCheckoutModal, toggleShoppingCart } = props
     const [cartItems, setCartItems] = useState(shoppingCartItems)
     const [totalPrice, setTotalPrice] = useState(0)
 
     const handleCloseModal = () => {
-        toggleModal(false)
+        toggleShoppingCart()
     }
 
     const handleCheckout = () => {
-        // create function to handle checkout
+        toggleShoppingCart()
+        toggleCheckoutModal()
     }
 
     return (
