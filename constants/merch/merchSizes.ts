@@ -1,18 +1,18 @@
 export const SMALL = {
     id: 0,
-    text: 'Small'
+    text: 'SMALL'
 }
 export const MEDIUM = {
     id: 1,
-    text: 'Medium'
+    text: 'MEDIUM'
 }
 export const LARGE = {
     id: 2,
-    text: 'Large'
+    text: 'LARGE'
 }
 export const XL = {
     id: 3,
     text: 'XL'
 }
 
-export const merchSizes = new Set([SMALL, MEDIUM, LARGE, XL])
+export const merchSizes = [SMALL, MEDIUM, LARGE, XL]
