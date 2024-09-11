@@ -15,13 +15,17 @@ const MerchHeaderButtonGroup = () => {
     const [likeCount, setLikeCount] = useState(0)
     const [purchaseCount, setPurchaseCount] = useState(0)
 
-    const [shoppingCartShow, setShoppingCartShow] = useState(false)
     const [likesModalShow, setLikesModalShow] = useState(false)
     const [shoppingBagModalShow, setShoppingBagModalShow] = useState(false)
     const [purchasesModalShow, setPurchasesModalShow] = useState(false)
+    const [showCheckoutModal, setShowCheckoutModal] = useState(false)
 
-    const handleCheckoutPop = () => {
+    const toggleShoppingCart = () => {
         setShoppingBagModalShow(!shoppingBagModalShow)
+    }
+
+    const toggleCheckoutModal = () => {
+        setShowCheckoutModal(!showCheckoutModal)
     }
 
     return (
@@ -34,10 +38,6 @@ const MerchHeaderButtonGroup = () => {
                     clickEvent={() => setShoppingBagModalShow(true)}
                     className="bg-[#45AE95]"
                 />
-
-                {shoppingBagModalShow && (
-                    <CheckoutPop handleCheckoutPop={handleCheckoutPop} />
-                )}
 
                 <MerchHeaderButton
                     Icon={AiOutlineHeart}
@@ -61,11 +61,18 @@ const MerchHeaderButtonGroup = () => {
             )}
 
             {shoppingBagModalShow && (
-                <ShoppingCartModal toggleModal={setShoppingBagModalShow} />
+                <ShoppingCartModal
+                    toggleShoppingCart={toggleShoppingCart}
+                    toggleCheckoutModal={toggleCheckoutModal}
+                />
             )}
 
             {purchasesModalShow && (
                 <ComingSoonModal toggleModal={setPurchasesModalShow} />
+            )}
+
+            {showCheckoutModal && (
+                <CheckoutPop toggleCheckoutModal={toggleCheckoutModal} />
             )}
         </>
     )
