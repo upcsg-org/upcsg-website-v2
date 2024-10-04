@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import useFormHandler from '@/hooks/FormHooks'
-import getFormConfig from './formconfig'
+import getFormConfig from '../../../configs/formConfig'
 import LoginFormComponent from './LoginForm'
 
 const LoginPageComponent = () => {
