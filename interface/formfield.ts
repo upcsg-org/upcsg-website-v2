@@ -1,7 +1,7 @@
 export interface InputFieldProps {
-    type: 'text' | 'email' | 'tel' | 'file' | 'select',
+    type: 'text' | 'email' | 'tel' | 'file' | 'select' | 'password',
     name: string,
-    label: string,
+    label?: string,
     value?: string,
     placeholder?: string,
     options?: string[],

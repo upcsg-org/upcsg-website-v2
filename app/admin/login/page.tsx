@@ -1,7 +1,14 @@
-import React from 'react'
+'use client'
 
-const AdminLogin = () => {
-    return <div>AdminLogin</div>
+import LoginPageComponent from '@/components/admin/login/LoginPageComponent'
+import '../../../public/images/login-bg.png'
+
+const AdminLoginPage = () => {
+    return (
+        <section className="h-screen">
+            <LoginPageComponent />
+        </section>
+    )
 }
 
-export default AdminLogin
+export default AdminLoginPage

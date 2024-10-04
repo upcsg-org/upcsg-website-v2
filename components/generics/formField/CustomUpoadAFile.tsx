@@ -2,7 +2,7 @@ import { FaCloudArrowUp } from "react-icons/fa6";
 
 interface customUploadAFileProps {
     name: string,
-    label: string,
+    label?: string,
     type: string,
     accept?: string,
     className?: string,
@@ -28,10 +28,10 @@ const CustomUploadAfile = ({name, label, type, accept, className, onChange, form
                 className="flex grow justify-center items-center bg-white p-2 rounded-2xl text-[#47376B] font-semibold cursor-pointer text-center"
             >
                 {formimage ? formimage.name : (
-                <>
+                <span className="overflow-hidden whitespace-nowrap text-ellipsis flex flex-row">  
                     <FaCloudArrowUp className="mr-2 w-7 h-7" />
                     UPLOAD A FILE
-                </>
+                </span>
                 )}
             </label>
             </div>
