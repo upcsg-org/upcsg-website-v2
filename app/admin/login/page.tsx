@@ -5,9 +5,9 @@ import '../../../public/images/login-bg.png'
 
 const LoginPage = () => {
     return (
-        <div className="">
+        <section>
             <LoginPageComponent />
-        </div>
+        </section>
     )
 }
 

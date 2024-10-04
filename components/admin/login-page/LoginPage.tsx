@@ -16,14 +16,8 @@ const LoginPageComponent = () => {
     const config = getFormConfig(formData, handleChange, handleImageChange);
     
     return (
-        <div className="w-full h-full p-8 md:p-12 lg:p-16"> 
-            <Image
-                src="/images/login-bg.png"
-                alt=""
-                fill
-                className="object-cover"
-            />
-            <div className="flex flex-col md:flex-row">
+        <div className="w-full h-full p-8 md:p-12 lg:p-16 bg-[url('/images/login-bg.png')] bg-cover bg-center"> 
+            <div className="flex flex-col md:flex-row h-full">
                 <div className="grow z-30">
                     <Link href="/" className="flex items-center space-x-2 text-xs font-bold">
                         <figure className="relative aspect-square w-8 md:w-14 hover:-translate-y-1 duration-200">
