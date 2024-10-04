@@ -1,11 +1,11 @@
 'use client'
 
-import LoginPageComponent from '@/components/admin/login/LoginPage'
+import LoginPageComponent from '@/components/admin/login/LoginPageComponent'
 import '../../../public/images/login-bg.png'
 
 const AdminLoginPage = () => {
     return (
-        <section>
+        <section className="h-screen">
             <LoginPageComponent />
         </section>
     )

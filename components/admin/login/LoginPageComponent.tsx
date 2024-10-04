@@ -19,7 +19,7 @@ const LoginPageComponent = () => {
     return (
         <div className="w-full h-full p-8 md:p-12 lg:p-16 bg-[url('/images/login-bg.png')] bg-cover bg-center">
             <div className="flex flex-col md:flex-row h-full">
-                <div className="grow z-30">
+                <div className="grow z-30 pt-7">
                     <Link
                         href="/"
                         className="flex items-center space-x-2 text-xs font-bold"
@@ -37,7 +37,7 @@ const LoginPageComponent = () => {
                         </p>
                     </Link>
                     <h1
-                        className="font-vietnam font-bold text-5xl my-5 mr-5 lg:text-7xl xl:text-8xl md:max-w-[10ch] text-[#C6E0FF] h-full tracking-widest"
+                        className="font-vietnam font-bold text-5xl my-5 mr-5 lg:text-7xl xl:text-8xl md:max-w-[10ch] text-[#C6E0FF] tracking-widest"
                         style={{
                             textShadow: '5px 7px 32px rgba(0,106,231,0.9)',
                         }}
