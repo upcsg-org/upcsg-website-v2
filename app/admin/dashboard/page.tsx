@@ -1,9 +1,7 @@
-'use client'
+import React from 'react'
 
-const Dashboard = () => {
-    return (
-        <div>Admin Dashboard</div>
-    )
+const AdminDashboard = () => {
+    return <div>AdminDashboard</div>
 }
 
-export default Dashboard
+export default AdminDashboard

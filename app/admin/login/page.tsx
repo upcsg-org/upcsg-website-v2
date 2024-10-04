@@ -1,9 +1,9 @@
 'use client'
 
-import LoginPageComponent from '@/components/admin/login-page/LoginPage'
+import LoginPageComponent from '@/components/admin/login/LoginPage'
 import '../../../public/images/login-bg.png'
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
     return (
         <section>
             <LoginPageComponent />
@@ -11,4 +11,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default AdminLoginPage
