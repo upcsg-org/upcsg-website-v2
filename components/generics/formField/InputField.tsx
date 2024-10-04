@@ -1,12 +1,21 @@
 
+import { useState } from "react";
 import { FormFieldProps } from "@/interface/formfield";
 import CustomUploadAfile from "./CustomUpoadAFile";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const InputField = ({field, layout, onChange}: FormFieldProps) => { 
     const {type, name, label, value, placeholder, options, className, accept, readonly, custom, formimage} = field
 
     const containerClass = layout === 'horizontal' ? 'flex flex-row items-center' : 'flex flex-col';
-    const labelClass = layout === 'horizontal' ? 'w-1/2' : 'mb-1 font-semibold';
+    const labelClass = layout === 'horizontal' ? 'w-1/2' : 'mb-1 font-semibold tracking-wide';
+
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+      setIsPasswordVisible(!isPasswordVisible);
+
+    };
 
     if (custom) {
       switch (type) {
@@ -67,6 +76,33 @@ const InputField = ({field, layout, onChange}: FormFieldProps) => {
               </div>
             </div>
           );
+
+        case 'password':
+            return (
+                <div className={containerClass}>
+                <label className={labelClass}>{label}</label>
+                <div className={labelClass}>
+                  <div className="relative">
+                    <input
+                      type={isPasswordVisible ? 'text' : 'password'}
+                      name={name}
+                      value={value}
+                      onChange={onChange}
+                      placeholder={placeholder}
+                      className={`p-2 border rounded-xl ${className}`}
+                      readOnly={readonly}
+                    />
+                    <button
+                      type="button"
+                      onClick={togglePasswordVisibility}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 p-3"
+                    >
+                      {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
         default:
           return null;
       }
