@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation';
 import FormFieldBuilder from "@/components/generics/formField/FormFieldBuilder";
 import { FcGoogle } from "react-icons/fc";
 
@@ -9,9 +10,17 @@ interface LoginFormProps {
 }
 
 const LoginFormComponent = ({handleSubmit, config}: LoginFormProps) => {
-    
+    const router = useRouter();
+
     const handleLogin = async () => {
-        // Create async login handle
+        // Create async login handle then reroute to dashboard
+        router.push('/admin/dashboard')
+    }
+
+    const handleLoginGoogle = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();        
+        // Handle google auth
+        router.push('/admin/dashboard')
     }
     return (
         <div className="background-blur backdrop-blur-xl rounded-3xl  px-6 md:px-8 lg:px-12 py-12 md:py-20 min-w-[250px] md:min-w-[300px] lg:min-w-[350px] border-[1px] border-black grow"> 
@@ -30,17 +39,17 @@ const LoginFormComponent = ({handleSubmit, config}: LoginFormProps) => {
                         </div>
                         <button
                             type="submit"
-                            className="font-bold tracking-widest bg-[#4A8E35] py-2 rounded-lg border-[1px] border-white"
-                            >
+                            className="font-bold tracking-widest bg-[#4A8E35] py-2 rounded-lg border-[1px] border-white">
                             Login
-                            </button>
+                        </button>
                         <button
-                            type="submit"
-                            className="font-bold tracking-widest bg-[#9298AD4F] whitespace-nowrap truncate py-2 rounded-lg border-[1px] border-white"
-                            >
-                            
-                            <span className="flex items-center justify-center"> <FcGoogle  size={24}/> Login with Google</span>
-                            </button>
+                            type="button"
+                            onClick={handleLoginGoogle}
+                            className="font-bold tracking-widest bg-[#9298AD4F] whitespace-nowrap truncate py-2 rounded-lg border-[1px] border-white">
+                            <span className="flex items-center justify-center"> 
+                                <FcGoogle  size={24}/> Login with Google
+                            </span>
+                        </button>
                     </div>
                 </form>
             </div>
