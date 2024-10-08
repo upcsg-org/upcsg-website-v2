@@ -58,5 +58,5 @@ jobs:
                   echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose down && \
                   echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker system prune && \
                   echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker pull milaymaxell/upcsg && \
-                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose up && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose up -d && \
                   echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker image prune -f'"
