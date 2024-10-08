@@ -50,14 +50,12 @@ jobs:
                       ${{ secrets.CSG_STEPHOST_PRIVATE_KEY }}  # Key to connect to the step host
                       ${{ secrets.CSG_SERVER_PRIVATE_KEY }}  # (Optional) Key for connecting to the final server if different
 
-            - name: SSH into Deployment Server with sudo
+            - name: SSH into Step Host and Deploy to Final Server
               run: |
-                  ssh -o StrictHostKeyChecking=no -A ${{ secrets.STEPHOST_USER }}@${{ secrets.STEPHOST_PRIVATE_IP }} << EOF
-                    ssh -A ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_PRIVATE_IP }} << INNER_EOF
-                      cd upcsg-website-v2
-                      echo "${{ secrets.SERVER_SUDO_PASSWORD }}" | sudo -S docker pull milaymaxell/upcsg:latest
-                      echo "${{ secrets.SERVER_SUDO_PASSWORD }}" | sudo -S docker-compose down
-                      echo "${{ secrets.SERVER_SUDO_PASSWORD }}" | sudo -S docker-compose up -d
-                      echo "${{ secrets.SERVER_SUDO_PASSWORD }}" | sudo -S docker image prune -f
-                    INNER_EOF
-                  EOF
+                  ssh -o StrictHostKeyChecking=no -A ${{ secrets.STEPHOST_USER }}@${{ secrets.STEPHOST_PRIVATE_IP }} \
+                  "ssh -A ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_PRIVATE_IP }} \
+                  'cd upcsg-website-v2 && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker pull milaymaxell/upcsg:latest && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose down && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose up -d && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker image prune -f'"
