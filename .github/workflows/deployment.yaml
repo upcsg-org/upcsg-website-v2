@@ -53,10 +53,10 @@ jobs:
             - name: SSH into Step Host and Deploy to Final Server
               run: |
                   ssh -o StrictHostKeyChecking=no -A ${{ secrets.STEPHOST_USER }}@${{ secrets.STEPHOST_PRIVATE_IP }} \
-                  "ssh -A ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_PRIVATE_IP }} \
+                  "ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_PRIVATE_IP }} \
                   'cd upcsg-website-v2 && \
-                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose down && \
-                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker system prune -af && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker kill $(docker ps --filter ancestor=milaymaxell/upcsg:latest -q) && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker system prune && \
                   echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker pull milaymaxell/upcsg:latest && \
-                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose up -d && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker run -d -p 3000:3000 milaymaxell/upcsg:latest && \
                   echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker image prune -f'"
