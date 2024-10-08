@@ -26,10 +26,10 @@ const ContentListItem = (props: Article) => {
                 />
             </figure>
             <div className="p-4 flex-grow">
-                <h2 className="text-3xl font-bold">{title}</h2>
+                <h2 className="text-3xl font-bold line-clamp-1">{title}</h2>
                 <p>{dateString}</p>
                 <br></br>
-                <p>{body}</p>
+                <p className="line-clamp-3">{body}</p>
             </div>
             <div className="h-auto px-12 flex flex-col justify-around text-4xl">
                 <button>
