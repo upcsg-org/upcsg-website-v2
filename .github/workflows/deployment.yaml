@@ -47,8 +47,8 @@ jobs:
               uses: webfactory/ssh-agent@v0.9.0
               with:
                   ssh-private-key: |
-                      ${{ secrets.CSG_STEPHOST_PRIVATE_KEY }}  # Key to connect to the step host
-                      ${{ secrets.CSG_SERVER_PRIVATE_KEY }}  # (Optional) Key for connecting to the final server if different
+                      ${{ secrets.CSG_STEPHOST_PRIVATE_KEY }}
+                      ${{ secrets.CSG_SERVER_PRIVATE_KEY }}
 
             - name: SSH into Step Host and Deploy to Final Server
               run: |
