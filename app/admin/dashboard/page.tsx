@@ -14,17 +14,15 @@ import {
 } from 'react-icons/lu'
 
 const AdminDashboard = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    const [isMobile, setIsMobile] = useState(false)
+    const [isOpen, setIsOpen] = useState(false) // Sidebar starts as closed
 
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth
-            setIsMobile(width < 1024)
-            setIsOpen(width >= 1024)
+            // You can check window width and perform actions if necessary,
+            // but do not change `isOpen` directly based on width.
         }
 
-        handleResize()
         window.addEventListener('resize', handleResize)
         return () => window.removeEventListener('resize', handleResize)
     }, [])
