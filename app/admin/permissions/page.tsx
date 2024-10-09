@@ -1,12 +1,4 @@
-<<<<<<< Updated upstream
-import React from 'react'
 
-const AdminPermissions = () => {
-    return <div>AdminPermissions</div>
-}
-
-export default AdminPermissions
-=======
 ﻿'use client';
 
 import React, { useState } from 'react';
@@ -32,4 +24,4 @@ const AdminPermissions = () => {
 };
 
 export default AdminPermissions;
->>>>>>> Stashed changes
+
