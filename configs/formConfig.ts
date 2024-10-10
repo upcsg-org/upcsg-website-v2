@@ -13,7 +13,7 @@ const getFormConfig = (
                 name: 'username',
                 label: 'ADMIN USERNAME',
                 placeholder: 'Enter your username',
-                className: 'w-full bg-[#181B32] border-[1px] border-[#676F99]',
+                className: 'bg-secondary-dark outline-none text-white caret-white w-full',
                 value: formData.username
             },
             onChange: handleChange,
@@ -25,7 +25,7 @@ const getFormConfig = (
                 name: 'password',
                 label: 'PASSWORD',
                 placeholder: 'Enter your password',
-                className: 'w-full bg-[#181B32] border-[1px] border-[#676F99]',
+                className: 'bg-secondary-dark outline-none text-white caret-white w-full',
                 value: formData.password
             },
             onChange: handleChange,
