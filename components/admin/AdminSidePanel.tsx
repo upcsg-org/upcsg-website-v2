@@ -1,7 +1,8 @@
+'use client'
+
 import React, { useState } from 'react'
 import {
-    LuX,
-    LuMenu,
+    LuArrowLeft,
     LuLayoutDashboard,
     LuBell,
     LuCalendar,
@@ -9,6 +10,7 @@ import {
     LuBriefcase,
     LuUsers,
     LuSettings,
+    LuArrowRight,
 } from 'react-icons/lu'
 
 interface MenuItem {
@@ -55,7 +57,7 @@ const menuItems: MenuItem[] = [
     },
 ]
 
-const AdminSideBar: React.FC = () => {
+const AdminSidePanel: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleSidebar = () => setIsOpen(!isOpen)
@@ -65,16 +67,20 @@ const AdminSideBar: React.FC = () => {
             {/* Toggle Button*/}
             <button
                 onClick={toggleSidebar}
-                className={`fixed top-24 left-4 z-40 p-2 rounded-lg text-white transition-all duration-300
-                    ${isOpen ? 'left-[204px]' : 'bg-secondary-dark'}`}
+                className={`fixed top-1/2 -translate-y-1/2 z-40 p-2 rounded-lg text-white transition-all duration-300 bg-secondary-dark
+                    ${isOpen ? 'left-[250px]' : 'left-[-4px]'}`}
                 aria-label="Toggle Menu"
             >
-                {isOpen ? <LuX size={24} /> : <LuMenu size={24} />}
+                {isOpen ? (
+                    <LuArrowLeft size={20} />
+                ) : (
+                    <LuArrowRight size={20} />
+                )}
             </button>
 
             {/* Overlay */}
             {isOpen && (
-                <div
+                <button
                     className="fixed inset-0 bg-black/50 backdrop-blur-sm z-20"
                     onClick={toggleSidebar}
                 />
@@ -90,7 +96,7 @@ const AdminSideBar: React.FC = () => {
                     <nav className="mt-16 flex flex-col space-y-1 px-3">
                         {menuItems.map((item, index) => (
                             <a
-                                key={index}
+                                key={item.title + index}
                                 href={item.path}
                                 className={`group flex items-center rounded-lg px-4 py-3 text-gray-300 
                                     font-vietnam font-medium text-sm transition-all duration-200
@@ -110,4 +116,4 @@ const AdminSideBar: React.FC = () => {
     )
 }
 
-export default AdminSideBar
+export default AdminSidePanel
