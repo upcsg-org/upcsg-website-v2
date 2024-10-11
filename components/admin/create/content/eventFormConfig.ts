@@ -20,8 +20,12 @@ const months = [
     'Dec',
 ]
 
+// obtain the date for today
+const date = new Date()
+
 // general styles for each field
 const buttonClassName = 'bg-secondary-dark'
+
 
 const getContentFormConfig = (
     formData: any,
@@ -47,7 +51,7 @@ const getContentFormConfig = (
                 name: 'startTime',
                 label: 'Start Time',
                 value: formData.startTime,
-                className: `${buttonClassName} w-45 mr-2 px-5`,
+                className: `${buttonClassName} mr-3 px-5`,
             },
             onChange: handleChange,
         },
@@ -57,7 +61,7 @@ const getContentFormConfig = (
                 name: 'endTime',
                 label: 'End Time',
                 value: formData.endTime,
-                className: `${buttonClassName} w-3/2 px-5`,
+                className: `${buttonClassName} px-5`,
             },
             onChange: handleChange,
         },
@@ -78,7 +82,7 @@ const getContentFormConfig = (
                 label: 'Event Day',
                 value: formData.eventDay,
                 options: range(1, 31),
-                className: `${buttonClassName} mr-2 w-45 px-5`,
+                className: `${buttonClassName} mr-3 w-60 px-5`,
             },
             onChange: handleChange,
         },
@@ -89,7 +93,7 @@ const getContentFormConfig = (
                 label: 'Event Month',
                 value: formData.eventMonth,
                 options: months,
-                className: `${buttonClassName} mr-2 w-45 px-5`,
+                className: `${buttonClassName} mr-3 w-60 px-5`,
             },
             onChange: handleChange,
         },
@@ -99,8 +103,8 @@ const getContentFormConfig = (
                 name: 'eventYear',
                 label: 'Event Year',
                 value: formData.eventYear,
-                options: range(2024, 2026),
-                className: `${buttonClassName} w-45 px-5`,
+                options: range(2024, date.getFullYear() + 2), // getFullYear automatically adds a year on the options depending on current year
+                className: `${buttonClassName} w-60 px-5`,
             },
             onChange: handleChange,
         },
