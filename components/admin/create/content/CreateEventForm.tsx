@@ -26,7 +26,7 @@ const CreateEventForm = () => {
     // stores field configs for create event form builder
     const contentFormConfig = getContentFormConfig(formData, handleChange)
 
-    // handle event image upload operation
+    // IMAGE OPERATIONS
     const imageInputRef = useRef<HTMLInputElement>(null)
 
     const handleImageUpload = (): void => {
@@ -40,24 +40,25 @@ const CreateEventForm = () => {
                 formConfig={contentFormConfig.slice(0, 1)}
                 className={'my-2'}
             />
-            <div className="flex justify-between align-center w-full my-2">
+            <div className="w-full my-2 md:flex md:justify-between md:space-x-3 md:align-center">
                 {/* Event Duration */}
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(1, 3)}
-                    className={'flex mr-2'}
+                    className={'sm:flex sm:justify-between sm:space-x-3'}
                 />
                 {/* Event Location */}
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(3, 4)}
-                    className={'w-1/2'}
+                    className={'md:w-1/2'}
                 />
             </div>
-            <div className="my-3 w-1/2">
-                {/* Event Date */}
+            {/* Event Date */}
+            <div className="my-2 md:flex md:space-x-3">
                 <FormFieldBuilder
-                    formConfig={contentFormConfig.slice(4, 7)}
-                    className={'flex'}
+                    formConfig={contentFormConfig.slice(4, 6)}
+                    className={'sm:flex sm:justify-between sm:space-x-3'}
                 />
+                <FormFieldBuilder formConfig={contentFormConfig.slice(6, 7)} />
             </div>
             {/* Event Image */}
             <div className="inline-flex flex-col">
@@ -81,7 +82,9 @@ const CreateEventForm = () => {
                         accept="image/*"
                     />
                     {formData.image && (
-                        <p className="ml-5">{formData.image.name}</p>
+                        <p className="ml-5 sm:self-start">
+                            {formData.image.name}
+                        </p>
                     )}
                 </div>
             </div>
