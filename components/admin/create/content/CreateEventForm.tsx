@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import FormFieldBuilder from '@/components/generics/formField/FormFieldBuilder'
 import TheButton from '@/components/generics/TheButton'
 import useFormHandler from '@/hooks/FormHooks'
-import getContentFormConfig from './eventFormConfig'
+import getContentFormConfig from '../../../../configs/eventFormConfig'
 import { FaImage } from 'react-icons/fa'
 
 const CreateEventForm = () => {
@@ -40,26 +40,30 @@ const CreateEventForm = () => {
                 formConfig={contentFormConfig.slice(0, 1)}
                 className={'my-2'}
             />
-            <div className="w-full my-2 md:flex md:justify-between md:space-x-3 md:align-center">
+            <div className="w-full my-2 lg:flex lg:justify-between lg:space-x-3 lg:align-center">
                 {/* Event Duration */}
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(1, 3)}
-                    className={'sm:flex sm:justify-between sm:space-x-3'}
+                    className={
+                        'w-full sm:flex sm:justify-between sm:space-x-3 lg:w-5/12'
+                    }
                 />
                 {/* Event Location */}
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(3, 4)}
-                    className={'md:w-1/2'}
+                    className={'lg:w-1/2'}
                 />
             </div>
+
             {/* Event Date */}
-            <div className="my-2 md:flex md:space-x-3">
+            <div className="my-2 lg:flex lg:space-x-3 lg:w-8/12">
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(4, 6)}
                     className={'sm:flex sm:justify-between sm:space-x-3'}
                 />
                 <FormFieldBuilder formConfig={contentFormConfig.slice(6, 7)} />
             </div>
+
             {/* Event Image */}
             <div className="inline-flex flex-col">
                 <label className="mb-1 font-semibold">Event Image</label>
