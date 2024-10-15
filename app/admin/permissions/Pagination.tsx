@@ -9,7 +9,6 @@ const Page = ({ currentPage, setCurrentPage }) => {
 
     return (
         <div className="mt-6 space-x-2 flex justify-end">
-            <h1 className="text-center text-2xl font-bold my-5">Pagination Example</h1>
             <Pagination totalPages={10} onPageChange={handlePageClick} />
 
             {/* {[1, 2, 3, 4].map((pageNumber) => (
