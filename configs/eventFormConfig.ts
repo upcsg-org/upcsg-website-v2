@@ -6,25 +6,25 @@ const range = (start: number, end: number) =>
 
 // list of months
 const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
+    'January',
+    'February',
+    'March',
+    'April',
     'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sept',
-    'Oct',
-    'Nov',
-    'Dec',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
 ]
 
 // obtain the date for today
 const date = new Date()
 
 // general styles for each field
-const buttonClassName = 'bg-secondary-dark'
+const buttonClassName = 'bg-secondary-dark w-full'
 
 
 const getContentFormConfig = (
@@ -41,7 +41,7 @@ const getContentFormConfig = (
                 label: 'Event Title',
                 value: formData.eventTitle,
                 placeholder: 'Input your title here.',
-                className: `${buttonClassName} w-full px-10 min-w-[200px]`,
+                className: `${buttonClassName} px-10 min-w-[200px]`,
             },
             onChange: handleChange,
         },
@@ -51,7 +51,7 @@ const getContentFormConfig = (
                 name: 'startTime',
                 label: 'Start Time',
                 value: formData.startTime,
-                className: `${buttonClassName} px-5 w-full min-w-[200px]`,
+                className: `${buttonClassName} px-5 min-w-[200px] text-white`,
             },
             onChange: handleChange,
         },
@@ -61,7 +61,7 @@ const getContentFormConfig = (
                 name: 'endTime',
                 label: 'End Time',
                 value: formData.endTime,
-                className: `${buttonClassName} px-5 w-full min-w-[200px]`,
+                className: `${buttonClassName} px-5 min-w-[200px]`,
             },
             onChange: handleChange,
         },
@@ -71,7 +71,7 @@ const getContentFormConfig = (
                 name: 'eventLocation',
                 label: 'Event Location',
                 value: formData.eventLocation,
-                className: `${buttonClassName} w-full px-5 min-w-[200px]`,
+                className: `${buttonClassName} px-5 min-w-[200px]`,
             },
             onChange: handleChange,
         },
@@ -82,7 +82,7 @@ const getContentFormConfig = (
                 label: 'Event Day',
                 value: formData.eventDay,
                 options: range(1, 31),
-                className: `${buttonClassName} px-5 w-full min-w-[200px]`,
+                className: `${buttonClassName} px-5 min-w-[200px]`,
             },
             onChange: handleChange,
         },
@@ -93,7 +93,7 @@ const getContentFormConfig = (
                 label: 'Event Month',
                 value: formData.eventMonth,
                 options: months,
-                className: `${buttonClassName} px-5 w-full min-w-[200px]`,
+                className: `${buttonClassName} px-5 min-w-[200px]`,
             },
             onChange: handleChange,
         },
@@ -104,7 +104,7 @@ const getContentFormConfig = (
                 label: 'Event Year',
                 value: formData.eventYear,
                 options: range(2024, date.getFullYear() + 2), // getFullYear automatically adds a year on the options depending on current year
-                className: `${buttonClassName} px-5 w-full min-w-[200px]`,
+                className: `${buttonClassName} px-5 min-w-[200px]`,
             },
             onChange: handleChange,
         },

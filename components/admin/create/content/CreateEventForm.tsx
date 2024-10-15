@@ -1,28 +1,56 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 
 import FormFieldBuilder from '@/components/generics/formField/FormFieldBuilder'
 import TheButton from '@/components/generics/TheButton'
-import useFormHandler from '@/hooks/FormHooks'
-import getContentFormConfig from '../../../../configs/eventFormConfig'
+import getContentFormConfig from '@/configs/eventFormConfig'
+import { FormFieldProps } from '@/interface/formfield'
 import { FaImage } from 'react-icons/fa'
 
-const CreateEventForm = () => {
-    // initial values for form data
-    const initialValues = {
-        eventTitle: '',
-        startTime: '',
-        endTime: '',
-        eventLocation: '',
-        eventDay: '',
-        eventMonth: '',
-        eventYear: '',
-        image: null,
+interface TimeInputProps {
+    formConfig: FormFieldProps
+}
+
+// time input component
+const TimeInput = ({ formConfig }: TimeInputProps) => {
+    const { field, onChange } = formConfig
+    const { label, name, value, className } = field
+
+    return (
+        <div className="w-full flex flex-col">
+            <label className="mb-1 font-semibold tracking-wide">{label}</label>
+            <div className="mb-1 font-semibold tracking-wide">
+                <input
+                    type="time"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    className={`p-2 border rounded-xl cursor-pointer ${className}`}
+                />
+            </div>
+        </div>
+    )
+}
+
+interface CreateEventFormProps {
+    formData: {
+        eventTitle: string
+        startTime: string
+        endTime: string
+        eventLocation: string
+        eventDay: string
+        eventMonth: string
+        eventYear: string
+        image: File | null
     }
+    handleChange: (e: any) => void
+    handleImageChange: (e: any) => void
+}
 
-    // create event form hooks
-    const { formData, handleChange, handleImageChange, handleSubmit } =
-        useFormHandler(initialValues)
-
+const CreateEventForm = ({
+    formData,
+    handleChange,
+    handleImageChange,
+}: CreateEventFormProps) => {
     // stores field configs for create event form builder
     const contentFormConfig = getContentFormConfig(formData, handleChange)
 
@@ -38,34 +66,43 @@ const CreateEventForm = () => {
             {/* Event Title */}
             <FormFieldBuilder
                 formConfig={contentFormConfig.slice(0, 1)}
-                className={'my-2'}
+                className={'my-1'}
             />
-            <div className="w-full my-2 lg:flex lg:justify-between lg:space-x-3 lg:align-center">
+            <div className="w-full lg:flex lg:justify-between lg:space-x-3 lg:align-center">
                 {/* Event Duration */}
-                <FormFieldBuilder
-                    formConfig={contentFormConfig.slice(1, 3)}
-                    className={
-                        'w-full sm:flex sm:justify-between sm:space-x-3 lg:w-5/12'
-                    }
-                />
+                <div className="my-1 sm:flex sm:justify-between sm:space-x-3 lg:w-5/12">
+                    <TimeInput formConfig={contentFormConfig[1]} />
+                    <TimeInput formConfig={contentFormConfig[2]} />
+                </div>
                 {/* Event Location */}
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(3, 4)}
-                    className={'lg:w-1/2'}
+                    className={'my-1 lg:w-1/2'}
                 />
             </div>
 
             {/* Event Date */}
-            <div className="my-2 lg:flex lg:space-x-3 lg:w-8/12">
+            <div className="lg:flex lg:space-x-3 lg:w-9/12">
+                <div className="my-1 sm:flex sm:justify-between sm:space-x-3">
+                    <div className="w-full">
+                        <FormFieldBuilder
+                            formConfig={contentFormConfig.slice(4, 5)}
+                        />
+                    </div>
+                    <div className="w-full">
+                        <FormFieldBuilder
+                            formConfig={contentFormConfig.slice(5, 6)}
+                        />
+                    </div>
+                </div>
                 <FormFieldBuilder
-                    formConfig={contentFormConfig.slice(4, 6)}
-                    className={'sm:flex sm:justify-between sm:space-x-3'}
+                    formConfig={contentFormConfig.slice(6, 7)}
+                    className={'my-1'}
                 />
-                <FormFieldBuilder formConfig={contentFormConfig.slice(6, 7)} />
             </div>
 
             {/* Event Image */}
-            <div className="inline-flex flex-col">
+            <div className="my-1 inline-flex flex-col">
                 <label className="mb-1 font-semibold">Event Image</label>
                 <div className="flex items-center">
                     <TheButton
@@ -81,7 +118,7 @@ const CreateEventForm = () => {
                     <input
                         type="file"
                         ref={imageInputRef}
-                        style={{ display: 'none' }}
+                        className="hidden"
                         onChange={handleImageChange}
                         accept="image/*"
                     />
