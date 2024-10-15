@@ -1,7 +1,5 @@
 'use client'
 
-import React from 'react'
-
 import CreateEventForm from '@/components/admin/create/content/CreateEventForm'
 import useFormHandler from '@/hooks/FormHooks'
 
