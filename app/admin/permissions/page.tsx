@@ -2,7 +2,7 @@
 ﻿'use client';
 
 import React, { useState } from 'react';
-import Header from './Header';
+import Header from './header';
 import Table from './TableSection';
 import Page from './Pagination';
 

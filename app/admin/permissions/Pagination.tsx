@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import Pagination from '@/components/admin/permissions/Pagination';
 
 const Page = ({ currentPage, setCurrentPage }) => {
     // Function to handle page clicks
@@ -8,7 +9,10 @@ const Page = ({ currentPage, setCurrentPage }) => {
 
     return (
         <div className="mt-6 space-x-2 flex justify-end">
-            {[1, 2, 3, 4].map((pageNumber) => (
+            <h1 className="text-center text-2xl font-bold my-5">Pagination Example</h1>
+            <Pagination totalPages={10} onPageChange={handlePageClick} />
+
+            {/* {[1, 2, 3, 4].map((pageNumber) => (
                 <span
                     key={pageNumber}
                     onClick={() => handlePageClick(pageNumber)}
@@ -17,7 +21,7 @@ const Page = ({ currentPage, setCurrentPage }) => {
                 >
                     {pageNumber}
                 </span>
-            ))}
+            ))} */}
         </div>
     );
 };
