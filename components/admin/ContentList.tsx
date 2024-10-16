@@ -11,9 +11,8 @@ const ContentList = (props: ArticleList) => {
     const { articles } = props;
     const [filteredArticles, setFilteredArticles] = useState(articles);
     const [showStickyBar, setShowStickyBar] = useState(false);
-    const [searchText, setSearchText] = useState('');  // Global state for search text
+    const [searchText, setSearchText] = useState(''); 
 
-    // Handle search filtering
     const handleSearch = (searchText: string) => {
         const filtered = articles.filter((article) =>
             article.title.toLowerCase().includes(searchText.toLowerCase())
@@ -21,12 +20,10 @@ const ContentList = (props: ArticleList) => {
         setFilteredArticles(filtered);
     };
 
-    // Handle input change for search
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value);
     };
 
-    // Handle scroll event to show/hide sticky header
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 100) {
@@ -45,11 +42,10 @@ const ContentList = (props: ArticleList) => {
 
     return (
         <div className="relative px-4 md:px-20 top-4">
-            {/* Regular header */}
             <div className="flex justify-between items-center mt-8">
                 <div className="flex-grow mt-0">
                     <SearchBar 
-                        searchText={searchText}  // Pass the global search text
+                        searchText={searchText} 
                         onSearch={handleSearch}
                         onInputChange={handleInputChange}
                     />
@@ -64,12 +60,11 @@ const ContentList = (props: ArticleList) => {
                 </div>
             </div>
 
-            {/* Sticky header that shows on scroll */}
             {showStickyBar && (
                 <div className="fixed top-0 left-0 right-0 z-50 backdrop-blur shadow-lg p-4 flex justify-between items-center">
                     <div className="flex-grow">
                         <SearchBar 
-                            searchText={searchText}  // Pass the same global search text
+                            searchText={searchText} 
                             onSearch={handleSearch}
                             onInputChange={handleInputChange}
                         />
