@@ -1,7 +1,7 @@
-﻿import { PencilIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/solid"; 
+import React from "react";
+import { FaPencilAlt, FaTrash, FaUserCircle } from "react-icons/fa";
 
 const Table = ({ currentPage }) => {
-
     // Simulated user data for different pages
     const usersPageData = {
         1: [
@@ -39,7 +39,7 @@ const Table = ({ currentPage }) => {
             <tbody>
                 {users.length === 0 ? (
                     <tr>
-                        <td colSpan="4" className="py-3 px-4 text-center text-gray-400">
+                        <td colSpan="4" className="py-3 px-4 text-gray-400 text-center">
                             No users available for this page.
                         </td>
                     </tr>
@@ -47,23 +47,23 @@ const Table = ({ currentPage }) => {
                     users.map((user, index) => (
                         <tr key={index} className="bg-gray-800">
                             <td className="py-3 px-4 flex items-center">
-                                <UserCircleIcon className="h-5 w-5 text-gray-400 mr-2" />
+                                <FaUserCircle className="h-5 w-5 mr-2" />
                                 {user.name}
                             </td>
                             <td className="py-3 px-4">{user.email}</td>
                             <td className="py-3 px-4">
-                                <span className="inline-block px-3 py-1 text-sm bg-green-500 text-white rounded-lg">
+                                <span className="px-3 py-1 bg-green-500 text-white inline-block rounded-lg text-sm">
                                     {user.role}
                                 </span>
                             </td>
                             <td className="py-3 px-4">
-                                <div className="flex space-x-8">
-                                    <button className="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg flex items-center">
-                                        <PencilIcon className="h-5 w-5 mr-2" />
+                                <div className="space-x-8 flex">
+                                    <button className= "px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg flex items-center">
+                                        <FaPencilAlt className="h-3 w-4 mr-2" />
                                         Modify Roles
                                     </button>
-                                    <button className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg flex items-center">
-                                        <TrashIcon className="h-5 w-5 mr-2" />
+                                    <button className="px-3 py-1 bg-red-500 text-white flex items-center rounded-lg hover:bg-red-600">
+                                        <FaTrash  className="h-3 w-4 mr-2" />
                                         Remove User
                                     </button>
                                 </div>
