@@ -37,20 +37,20 @@ const ContentListItem = (props: Article) => {
                 <br></br>
                 <p className="text-sm sm:text-base line-clamp-3">{body}</p>
             </div>
-            <div className="h-auto px-6 sm:px-12 flex flex-row sm:flex-col justify-around text-3xl sm:text-4xl">
+            <div className="h-auto px-6 sm:px-12 flex flex-row sm:flex-col justify-around text-2xl sm:text-4xl">
                 <button
                     onMouseEnter={() => setIsButtonHovered(true)}
                     onMouseLeave={() => setIsButtonHovered(false)}
-                    className="transition-transform transition-colors duration-150 ease-in-out hover:scale-110 hover:text-green-500"
+                    className="transition-transform transition-colors duration-150 ease-in-out hover:scale-110 hover:text-green-500 pb-6 sm:pb-0"
                 >
-                    <BiEdit />
+                    <BiEdit className="h-8 w-8 sm:h-10 sm:w-10"/>
                 </button>
                 <button
                     onMouseEnter={() => setIsButtonHovered(true)}
                     onMouseLeave={() => setIsButtonHovered(false)}
-                    className="transition-transform transition-colors duration-150 ease-in-out hover:scale-110 hover:text-green-500"
+                    className="transition-transform transition-colors duration-150 ease-in-out hover:scale-110 hover:text-green-500 pb-6 sm:pb-0"
                 >
-                    <BiTrash />
+                    <BiTrash className="h-8 w-8 sm:h-10 sm:w-10"/>
                 </button>
             </div>
         </div>
