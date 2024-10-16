@@ -1,7 +1,7 @@
 import React from 'react'
 
-const AdminDashboard = () => {
-    return <div>AdminDashboard</div>
+const Dashboard: React.FC = () => {
+    return <h1>Dashboard</h1>
 }
 
-export default AdminDashboard
+export default Dashboard
