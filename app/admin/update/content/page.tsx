@@ -1,5 +1,6 @@
 'use client'
 
+import CreateEventMenu from '@/components/admin/cms/EventCMSMenu'
 import UpdateEventForm from '@/components/admin/update/content/UpdateEventForm'
 import useFormHandler from '@/hooks/FormHooks'
 
@@ -22,14 +23,17 @@ const AdminUpdateContent = () => {
         useFormHandler(initialValues)
 
     return (
-        <section className="px-14 md:px-32">
-            {/* Update Event Selector */}
-            <UpdateEventForm
-                formData={formData}
-                handleChange={handleChange}
-                handleImageChange={handleImageChange}
-            />
-        </section>
+        <div>
+            <CreateEventMenu />
+            <section className="py-12 px-12 sm:px-14 lg:px-28">
+                {/* Create Event Selector */}
+                <UpdateEventForm
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleImageChange={handleImageChange}
+                />
+            </section>
+        </div>
     )
 }
 

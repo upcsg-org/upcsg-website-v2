@@ -70,20 +70,20 @@ const CreateEventForm = ({
             />
             <div className="w-full lg:flex lg:justify-between lg:space-x-3 lg:align-center">
                 {/* Event Duration */}
-                <div className="my-1 sm:flex sm:justify-between sm:space-x-3 lg:w-5/12">
+                <div className="my-6 sm:flex sm:justify-between sm:space-x-3 lg:w-5/12">
                     <TimeInput formConfig={contentFormConfig[1]} />
                     <TimeInput formConfig={contentFormConfig[2]} />
                 </div>
                 {/* Event Location */}
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(3, 4)}
-                    className={'my-1 lg:w-1/2'}
+                    className={'my-6 lg:w-1/2'}
                 />
             </div>
 
             {/* Event Date */}
             <div className="lg:flex lg:space-x-3 lg:w-9/12">
-                <div className="my-1 sm:flex sm:justify-between sm:space-x-3">
+                <div className="my-6 sm:flex sm:justify-between sm:space-x-3">
                     <div className="w-full">
                         <FormFieldBuilder
                             formConfig={contentFormConfig.slice(4, 5)}
@@ -97,12 +97,12 @@ const CreateEventForm = ({
                 </div>
                 <FormFieldBuilder
                     formConfig={contentFormConfig.slice(6, 7)}
-                    className={'my-1'}
+                    className={'my-6'}
                 />
             </div>
 
             {/* Event Image */}
-            <div className="my-1 inline-flex flex-col">
+            <div className="my-6 inline-flex flex-col">
                 <label className="mb-1 font-semibold">Event Image</label>
                 <div className="flex items-center">
                     <TheButton
