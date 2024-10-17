@@ -59,26 +59,6 @@ const ContentList = (props: ArticleList) => {
                     </TheButton>
                 </div>
             </div>
-
-            {showStickyBar && (
-                <div className="fixed top-0 left-0 right-0 z-50 backdrop-blur shadow-lg p-4 flex justify-between items-center">
-                    <div className="flex-grow">
-                        <SearchBar 
-                            searchText={searchText} 
-                            onSearch={handleSearch}
-                            onInputChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="ml-4 pr-4">
-                        <TheButton>
-                            <div className="flex items-center h-8">
-                                <PlusIcon className="h-6 w-6 text-white" />
-                            </div>
-                        </TheButton>
-                    </div>
-                </div>
-            )}
-
             <br />
             <div className="mt-4 space-y-5">
                 {filteredArticles.map((article, index) => (
