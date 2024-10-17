@@ -18,7 +18,7 @@ export const dashboardData = [
         cardBodyBackgroundColor: '#5858af',
     },
     {
-        count: 10,
+        count: 1034,
         countDescription: 'open for\nhiring',
         recentTitle: 'Software Dev Intern',
         recentAuthor: 'Milay Labs',

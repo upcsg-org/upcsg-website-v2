@@ -27,35 +27,40 @@ const AdminDashboardCard: React.FC<AdminDashboardCardProps> = ({
         <div className="gap-0">
             <div
                 style={{ backgroundColor: cardTitleBackgroundColor }}
-                className={`font-vietnam rounded-t-2xl underline underline-offset-2 text-center p-2 text-xs md:text-sm lg:text-xl`}
+                className={`rounded-t-2xl text-center pb-[5px] pt-1`}
             >
-                {cardTitle.toUpperCase()}
+                <a
+                    href="/"
+                    className="underline underline-offset-2 text-xs md:text-sm lg:text-xl font-vietnam"
+                >
+                    {cardTitle.toUpperCase()}
+                </a>
             </div>
             <div
                 style={{ backgroundColor: cardBodyBackgroundColor }}
-                className={`flex flex-col grow gap-3 md:gap-5 sm:flex-row text-white p-4 md:p-6 lg:p-8 rounded-b-2xl`}
+                className={`flex flex-col gap-3 md:gap-2 sm:flex-row w-full text-white p-4 md:p-6 md:pt-4 pb-7 rounded-b-2xl`}
             >
-                <div className="flex flex-col basis-1/2 md:flex-row gap-1">
-                    <div className="text-3xl md:text-6xl lg:text-8xl font-bold self-center">
+                <div className="flex flex-col w-full  md:basis-1/3 lg:basis-1/2 lg:flex-row gap-2 md:gap-0.5 lg:gap-2 flex-wrap">
+                    <div className="text-3xl md:text-3xl lg:text-4xl font-bold self-center md:self-start lg:self-center">
                         {count}
                     </div>
-                    <div className="text-xs md:text-base lg:text-xl h-fit text-center md:text-left whitespace-pre-line">
+                    <div className="text-xs md:text-sm self-center md:self-start lg:self-center lg:text-base h-fit text-center md:text-left whitespace-pre-line">
                         {countDescription}
                     </div>
                 </div>
-                <div className="flex-col text-center md:text-left basis-1/2 font-vietnam">
-                    <div className="text-base md:text-xl lg:text-3xl font-vietnam font-semibold text-[#ffcf81] p-0 m-0">
+                <div className="flex-col text-center md:text-left w-full md:basis-1/2 font-vietnam flex-grow">
+                    <div className="text-base md:text-xl lg:text-xl font-vietnam font-semibold text-[#ffcf81] p-0 m-0">
                         most recent:
                     </div>
                     <div className="">
                         <a
                             href="/"
-                            className="underline underline-offset-2 text-xs md:text-sm lg:text-2xl font-vietnam p-0"
+                            className="underline underline-offset-2 text-xs md:text-sm lg:text-lg font-vietnam p-0"
                         >
                             {recentTitle}
                         </a>
                     </div>
-                    <div className="text-xs lg:text-xl">{authorLabel}</div>
+                    <div className="text-xs lg:text-base">{authorLabel}</div>
                 </div>
             </div>
         </div>
