@@ -14,4 +14,7 @@
     "breadcrumbs.enabled": true,
     "emmet.triggerExpansionOnTab": true,
     "html.format.indentInnerHtml": true,
+    "cSpell.words": [
+        "heroicons"
+    ],
 }
