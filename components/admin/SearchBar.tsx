@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent } from 'react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { FaSearch } from 'react-icons/fa';
 
 interface SearchBarProps {
     placeholder?: string;
@@ -35,7 +35,7 @@ const SearchBar = ({ placeholder = 'Search...', searchText, onSearch, onInputCha
                 onClick={handleSearch}
                 className="mr-1 md:ml-2 bg-transparent rounded-xl p-3 hover:-translate-y-1 duration-200 md:hover:scale-110"
             >
-                <MagnifyingGlassIcon className="h-10 w-10 text-white hover:text-green-500" />
+                <FaSearch className="h-10 w-10 text-white hover:text-green-500" /> 
             </button>
         </div>
     );

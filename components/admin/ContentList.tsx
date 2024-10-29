@@ -5,7 +5,7 @@ import ContentListItem from './ContentListItem';
 import TheButton from '../generics/TheButton';
 import SearchBar from './SearchBar';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { PlusIcon } from '@heroicons/react/24/solid';
+import { FaPlus } from 'react-icons/fa';
 
 const ContentList = (props: ArticleList) => {
     const { articles } = props;
@@ -53,8 +53,8 @@ const ContentList = (props: ArticleList) => {
                 <div className="ml-4 pr-4">
                     <TheButton>
                         <div className="flex items-center h-8">
-                            <span className="text-lg text-white hidden md:block">ADD NEW</span>
-                            <PlusIcon className="h-6 w-6 text-white" />
+                            <span className="text-lg text-white hidden md:block mr-2">ADD NEW</span>
+                            <FaPlus className="h-6 w-6 text-white" />
                         </div>
                     </TheButton>
                 </div>

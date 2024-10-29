@@ -13,8 +13,5 @@
     "editor.minimap.enabled": true, 
     "breadcrumbs.enabled": true,
     "emmet.triggerExpansionOnTab": true,
-    "html.format.indentInnerHtml": true,
-    "cSpell.words": [
-        "heroicons"
-    ],
+    "html.format.indentInnerHtml": true
 }
