@@ -5,10 +5,10 @@ import {
     AiOutlineShopping,
     AiOutlineProfile,
 } from 'react-icons/ai'
-import MyLikesModal from './MyLikesModal'
-import ShoppingCartModal from './modals/ShoppingCartModal'
-import ComingSoonModal from '../generics/ComingSoonModal'
-import CheckoutPop from './checkout-popup/CheckoutPop'
+import MyLikesModal from '../MyLikesModal'
+import ShoppingCartModal from '../modals/ShoppingCartModal'
+import ComingSoonModal from '../../generics/ComingSoonModal'
+import CheckoutPop from '../checkout-popup/CheckoutPop'
 
 const MerchHeaderButtonGroup = () => {
     const [bagCount, setBagCount] = useState(0)

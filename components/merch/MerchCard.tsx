@@ -4,7 +4,7 @@ import { AiOutlineHeart, AiFillHeart, AiOutlineShopping } from 'react-icons/ai'
 import { VscSparkle } from 'react-icons/vsc'
 import OrderForm from './OrderForm'
 import { AnimatePresence } from 'framer-motion'
-import LikedPop from './LikedPop'
+import LikedPop from './effects-popup/LikedPop'
 import { TfiFaceSad } from 'react-icons/tfi'
 import { MerchItem } from '@/interface/merch'
 

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import SuggestMerch from '@/components/merch/SuggestMerch'
 import MerchGrid from '@/components/merch/MerchGrid'
-import MerchGeneralFilters from '@/components/merch/MerchGeneralFilters'
+import MerchGeneralFilters from '@/components/merch/filters-and-buttons/MerchGeneralFilters'
 import { Carousel } from '@/components/landing/Carousel'
 import { MerchPageCarouselContent } from '@/constants/carousel'
 import ComingSoonModal from '@/components/generics/ComingSoonModal'

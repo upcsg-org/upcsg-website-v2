@@ -10,7 +10,7 @@ import { RootState } from '@/app/store'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { IoIosArrowDown } from 'react-icons/io'
 import { LuFilter } from 'react-icons/lu'
-import TheButton from '../generics/TheButton'
+import TheButton from '../../generics/TheButton'
 import { merchTypes } from '@/constants/merch/merchTypes'
 import {
     PRICE_RANGE_20_50,
