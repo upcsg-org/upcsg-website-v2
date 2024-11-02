@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { IoClose } from 'react-icons/io5'
 import { VscSparkle } from 'react-icons/vsc'
-import ShopPop from './ShopPop'
+import ShopPop from './effects-popup/ShopPop'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MerchItem } from '@/interface/merch'
 
