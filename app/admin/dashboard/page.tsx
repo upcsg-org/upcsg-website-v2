@@ -1,7 +1,12 @@
 import React from 'react'
+import CMSDashboardSummary from '@/components/admin/dashboard/CMSDashboardSummary'
 
 const Dashboard: React.FC = () => {
-    return <h1>Dashboard</h1>
+    return (
+        <div>
+            <CMSDashboardSummary />
+        </div>
+    )
 }
 
 export default Dashboard
