@@ -61,10 +61,11 @@ const MerchHeaderButtonGroup = () => {
             )}
 
             {shoppingBagModalShow && (
-                <ShoppingCartModal
-                    toggleShoppingCart={toggleShoppingCart}
-                    toggleCheckoutModal={toggleCheckoutModal}
-                />
+                <ComingSoonModal toggleModal={setShoppingBagModalShow} />
+                // <ShoppingCartModal
+                //     toggleShoppingCart={toggleShoppingCart}
+                //     toggleCheckoutModal={toggleCheckoutModal}
+                // />
             )}
 
             {purchasesModalShow && (

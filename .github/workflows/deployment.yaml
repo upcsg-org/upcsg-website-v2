@@ -1,4 +1,4 @@
-name: CI/CD with GCP Compute Engine
+name: CI/CD with UP Servers
 
 on:
     push:
@@ -46,22 +46,17 @@ jobs:
             - name: Setup SSH
               uses: webfactory/ssh-agent@v0.9.0
               with:
-                  ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+                  ssh-private-key: |
+                      ${{ secrets.CSG_STEPHOST_PRIVATE_KEY }}
+                      ${{ secrets.CSG_SERVER_PRIVATE_KEY }}
 
-            - name: Add server to known hosts
+            - name: SSH into Step Host and Deploy to Final Server
               run: |
-                  mkdir -p ~/.ssh
-                  ssh-keyscan -H ${{ secrets.EXTERNAL_IP_ADDRESS }} >> ~/.ssh/known_hosts
-
-            - name: SSH into Deployment Server
-              run: |
-                  ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_SERVER_USER }}@${{ secrets.EXTERNAL_IP_ADDRESS }} << 'EOF'
-                    docker pull milaymaxell/upcsg
-                    CONTAINER_IDS=$(docker ps -aq)
-                    if [ ! -z "$CONTAINER_IDS" ]; then
-                      docker stop $CONTAINER_IDS
-                      docker rm $CONTAINER_IDS
-                    fi
-                    docker run -d -p 3000:3000 milaymaxell/upcsg:latest
-                    docker image prune -f
-                  EOF
+                  ssh -o StrictHostKeyChecking=no -A ${{ secrets.STEPHOST_USER }}@${{ secrets.STEPHOST_PRIVATE_IP }} \
+                  "ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_PRIVATE_IP }} \
+                  'cd upcsg-website-v2 && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose down && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker system prune && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker pull milaymaxell/upcsg:latest && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker-compose up -d && \
+                  echo \"${{ secrets.SERVER_SUDO_PASSWORD }}\" | sudo -S docker image prune -f'"
