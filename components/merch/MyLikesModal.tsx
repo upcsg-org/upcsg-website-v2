@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import MerchHeaderFilterTabs from './MerchHeaderFilterTabs'
+import MerchHeaderFilterTabs from './filters-and-buttons/MerchHeaderFilterTabs'
 
 import MerchCard from './MerchCard'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
-import LikesFilters from './LikesFilters'
+import LikesFilters from './filters-and-buttons/LikesFilters'
 import TheButton from '../generics/TheButton'
 import Empty from '../generics/Empty'
 import { MerchItem } from '@/interface/merch'
