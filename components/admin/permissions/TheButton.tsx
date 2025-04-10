@@ -4,16 +4,19 @@ import Link from 'next/link'
 interface PropsInterface {
     link?: string
     children: ReactNode
-    style?: string
+    className?: string // Renamed from style to className for clarity
     onClick?: () => void
 }
 
 const TheButton = (props: PropsInterface) => {
-    const { link = '', style = '', children, onClick = () => {} } = props
+    const { link = '', className = '', children, onClick = () => {} } = props
 
     const isExternalLink = (link: string) => !link.startsWith('/')
 
-    const className ='hover:-translate-y-1 duration-200 md:hover:scale-110 bg-csg-green-100 rounded-xl uppercase text-xs md:text-sm px-4 py-3 ' +  style
+    // Combine default classes with any external className passed as a prop
+    const combinedClassName = 
+        'hover:-translate-y-1 duration-200 md:hover:scale-100 rounded-3xl uppercase md:text-sm px-4 py-3 ' + 
+        (className ? className + ' ' : ''); 
 
     if (link) {
         if (isExternalLink(link)) {
@@ -22,7 +25,7 @@ const TheButton = (props: PropsInterface) => {
                     href={link}
                     target="_blank"
                     rel="noreferrer"
-                    className={className}
+                    className={combinedClassName}
                     onClick={onClick}
                 >
                     {children}
@@ -30,14 +33,14 @@ const TheButton = (props: PropsInterface) => {
             )
         } else {
             return (
-                <Link href={link} className="gap-4 md:border-lg" onClick={onClick}>
-                    <div className={className}>{children}</div>
+                <Link href={link} onClick={onClick}>
+                    <div className={combinedClassName}>{children}</div>
                 </Link>
             )
         }
     } else {
         return (
-            <button onClick={onClick} className={className} type="submit">
+            <button onClick={onClick} className={combinedClassName} type="submit">
                 {children}
             </button>
         )

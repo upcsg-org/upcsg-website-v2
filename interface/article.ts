@@ -6,6 +6,10 @@ export interface Article {
     author: Author
 }
 
+export interface ArticleList {
+    articles: Article[]
+}
+
 export interface Author {
     name: string
     email?: string
