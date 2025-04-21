@@ -16,7 +16,7 @@ export const merchItems = [
         sizes: [SMALL, MEDIUM, LARGE, XL],
         colors: [RED, GREEN, BLUE],
         isBestSeller: true,
-        isAvailable: false,
+        isAvailable: true,
         isLimitedEdition: false,
         onSale: false
     },

@@ -5,12 +5,43 @@ import { usePathname } from 'next/navigation'
 import { IoChevronBackOutline } from 'react-icons/io5'
 import { IoChevronDownOutline } from 'react-icons/io5'
 
-function CreateEventMenu() {
+interface CreateEventMenuProps {
+    contentType: string
+    onContentTypeChange: (type: string) => void
+    currentStep: number
+    onStepChange: (step: number) => void
+}
+
+function CreateEventMenu({
+    contentType,
+    onContentTypeChange,
+    currentStep,
+    onStepChange,
+}: CreateEventMenuProps) {
     const currentRoute = usePathname()
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen)
+    }
+
+    const goToStep = (step: number) => {
+        onStepChange(step)
+    }
+
+    const getDisplayTitle = () => {
+        switch (contentType) {
+            case 'event':
+                return 'EVENT'
+            case 'announcement':
+                return 'ANNOUNCEMENT'
+            case 'scholarship':
+                return 'SCHOLARSHIP'
+            case 'internship':
+                return 'INTERNSHIP'
+            default:
+                return 'EVENT'
+        }
     }
 
     return (
@@ -27,8 +58,9 @@ function CreateEventMenu() {
             <div className="w-full flex flex-col-reverse lg:flex-row-reverse items-center md:justify-between pt-8 md:pt-12 gap-6 md:gap-12">
                 <div className="w-full lg:w-2/3 xl:w-1/2 flex flex-col md:flex-row gap-2 items-center justify-between">
                     <div
-                        className="w-full md:w-1/2 flex flex-row items-center justify-center gap-4 py-2 md:px-6 rounded-lg hover:bg-[#7179BC]/[.10]
-                    opacity-50"
+                        onClick={() => goToStep(1)}
+                        className={`w-full md:w-1/2 flex flex-row items-center justify-center gap-4 py-2 md:px-6 rounded-lg hover:bg-[#7179BC]/[.10] cursor-pointer
+                        ${currentStep === 1 ? '' : 'opacity-50'}`}
                     >
                         <div className="w-8 h-8 md:w-16 md:h-16 flex flex-row items-center justify-center bg-primary-light rounded-full">
                             1
@@ -39,7 +71,11 @@ function CreateEventMenu() {
                             Add in your content details.
                         </div>
                     </div>
-                    <button className="w-full md:w-1/2 flex flex-row items-center justify-center gap-4 py-2 md:px-6 rounded-lg hover:bg-[#7179BC]/[.10]">
+                    <div
+                        onClick={() => goToStep(2)}
+                        className={`w-full md:w-1/2 flex flex-row items-center justify-center gap-4 py-2 md:px-6 rounded-lg hover:bg-[#7179BC]/[.10] cursor-pointer
+                        ${currentStep === 2 ? '' : 'opacity-50'}`}
+                    >
                         <div className="w-8 h-8 md:w-16 md:h-16 flex flex-row items-center justify-center bg-primary-light rounded-full">
                             2
                         </div>
@@ -48,7 +84,7 @@ function CreateEventMenu() {
                             <br />
                             View your article before finalizing.
                         </div>
-                    </button>
+                    </div>
                 </div>
                 {currentRoute === '/admin/create/content' && (
                     <div
@@ -64,7 +100,7 @@ function CreateEventMenu() {
                             <div className="text-left">
                                 PUBLISH
                                 <br />
-                                EVENT
+                                {getDisplayTitle()}
                             </div>
 
                             <IoChevronDownOutline className="text-2xl" />
@@ -77,20 +113,42 @@ function CreateEventMenu() {
                                 <button
                                     className="w-full bg-transparent hover:bg-[#7179BC]/[.12] text-left
                                                 py-4 px-4 md:px-12"
+                                    onClick={() => {
+                                        onContentTypeChange('announcement')
+                                        setIsOpen(false)
+                                    }}
                                 >
                                     PUBLISH ANNOUNCEMENT
                                 </button>
                                 <button
                                     className="w-full bg-transparent hover:bg-[#7179BC]/[.12] text-left
                                                 py-4 px-4 md:px-12"
+                                    onClick={() => {
+                                        onContentTypeChange('scholarship')
+                                        setIsOpen(false)
+                                    }}
                                 >
                                     PUBLISH SCHOLARSHIP
                                 </button>
                                 <button
                                     className="w-full bg-transparent hover:bg-[#7179BC]/[.12] text-left
                                                 py-4 px-4 md:px-12"
+                                    onClick={() => {
+                                        onContentTypeChange('internship')
+                                        setIsOpen(false)
+                                    }}
                                 >
                                     PUBLISH INTERNSHIP
+                                </button>
+                                <button
+                                    className="w-full bg-transparent hover:bg-[#7179BC]/[.12] text-left
+                                                py-4 px-4 md:px-12"
+                                    onClick={() => {
+                                        onContentTypeChange('event')
+                                        setIsOpen(false)
+                                    }}
+                                >
+                                    PUBLISH EVENT
                                 </button>
                             </div>
                         )}

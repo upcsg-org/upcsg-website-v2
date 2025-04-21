@@ -24,7 +24,7 @@ const TimeInput = ({ formConfig }: TimeInputProps) => {
                     name={name}
                     value={value}
                     onChange={onChange}
-                    className={`p-2 border rounded-xl cursor-pointer ${className}`}
+                    className={`p-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
                 />
             </div>
         </div>
@@ -44,12 +44,14 @@ interface CreateEventFormProps {
     }
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
+    goToNextStep: () => void
 }
 
 const CreateEventForm = ({
     formData,
     handleChange,
     handleImageChange,
+    goToNextStep,
 }: CreateEventFormProps) => {
     // stores field configs for create event form builder
     const contentFormConfig = getContentFormConfig(formData, handleChange)
@@ -105,16 +107,12 @@ const CreateEventForm = ({
             <div className="my-6 inline-flex flex-col">
                 <label className="mb-1 font-semibold">Event Image</label>
                 <div className="flex items-center">
-                    <TheButton
-                        children={
-                            <div className="flex items-center">
-                                <h1 className="mr-6">UPLOAD IMAGE</h1>
-                                <FaImage />
-                            </div>
-                        }
-                        style={'w-auto'}
-                        onClick={handleImageUpload}
-                    />
+                    <TheButton style={'w-auto'} onClick={handleImageUpload}>
+                        <div className="flex items-center">
+                            <h1 className="mr-6">UPLOAD IMAGE</h1>
+                            <FaImage />
+                        </div>
+                    </TheButton>
                     <input
                         type="file"
                         ref={imageInputRef}

@@ -10,7 +10,13 @@ interface ArticleForm {
     articleImage: File | null
 }
 
-export const RedirectArticle: React.FC = () => {
+interface RedirectArticleProps {
+    contentType?: 'event' | 'announcement' | 'scholarship' | 'internship'
+}
+
+export const RedirectArticle: React.FC<RedirectArticleProps> = ({
+    contentType = 'event',
+}) => {
     const [formData, setFormData] = useState<ArticleForm>({
         title: '',
         content: '',
