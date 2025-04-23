@@ -1,7 +1,12 @@
 import React from 'react'
+import CMSDashboardSummary from '@/components/admin/dashboard/CMSDashboardSummary'
 
-const AdminDashboard = () => {
-    return <div>AdminDashboard</div>
+const Dashboard: React.FC = () => {
+    return (
+        <div>
+            <CMSDashboardSummary />
+        </div>
+    )
 }
 
-export default AdminDashboard
+export default Dashboard
