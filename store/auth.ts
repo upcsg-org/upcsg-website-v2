@@ -29,6 +29,7 @@ interface AuthState {
     logout: () => Promise<void>;
     verifyToken: (token?: string) => Promise<boolean>;
     refreshToken: () => Promise<boolean>;
+    loadUserFromCookies: () => Promise<void>;
 }
 
 // Registration data interface
@@ -89,12 +90,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     isLoading: false,
     error: null,
 
-    login: async (email: string, password: string) => {
+    login: async (username: string, password: string) => {
         set({ isLoading: true, error: null });
         try {
             const response = await apiClient.post<{ access: string; refresh: string; user: User }>(
-                '/api/user/login/',
-                { email, password }
+                '/user/login/',
+                { username, password }
             );
 
             saveTokens({
@@ -120,7 +121,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await apiClient.post<{ access: string; refresh: string; user: User }>(
-                '/api/user/registration/',
+                '/user/registration/',
                 data
             );
 
@@ -144,10 +145,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     logout: async () => {
         set({ isLoading: true, error: null });
+        const refreshToken = getRefreshToken();
         try {
             // Try to call the backend logout endpoint if we have an axios instance
             if (axiosInstance) {
-                await axiosInstance.post('/api/user/logout/');
+                await axiosInstance.post('/user/logout/', {
+                    refresh: refreshToken,
+                });
             }
         } catch (error) {
             console.error('Failed to logout on server', error);
@@ -164,7 +168,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         // Redirect to login page
         if (typeof window !== 'undefined') {
-            window.location.href = '/login';
+            window.location.href = '/admin/login';
         }
     },
 
@@ -173,7 +177,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (!tokenToVerify) return false;
 
         try {
-            await apiClient.post('/api/user/token/verify/', { token: tokenToVerify });
+            await apiClient.post('/user/token/verify/', { token: tokenToVerify });
             return true;
         } catch (error) {
             return false;
@@ -186,7 +190,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         try {
             const response = await apiClient.post<AuthTokens>(
-                '/api/user/token/refresh/',
+                '/user/token/refresh/',
                 { refresh: refreshToken }
             );
 
@@ -202,4 +206,40 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             return false;
         }
     },
+
+    loadUserFromCookies: async () => {
+        const accessToken = getAccessToken();
+        if (!accessToken) return;
+
+        set({ isLoading: true });
+        try {
+            // First verify the token is valid
+            const isValid = await get().verifyToken(accessToken);
+
+            if (!isValid) {
+                // Try to refresh the token if not valid
+                const refreshed = await get().refreshToken();
+                if (!refreshed) {
+                    set({ isAuthenticated: false, isLoading: false });
+                    return;
+                }
+            } else {
+                set({ isAuthenticated: true, isLoading: false });
+            }
+        } catch (error) {
+            console.error("AuthStore: Failed to load user from cookies", error);
+            set({
+                isAuthenticated: false,
+                isLoading: false,
+            });
+        }
+    },
 }));
+
+// Don't auto-initialize - export an init function instead
+export const initializeAuth = async (): Promise<void> => {
+    // This should be called after API client is initialized
+    if (typeof window !== 'undefined') {
+        await useAuthStore.getState().loadUserFromCookies();
+    }
+};

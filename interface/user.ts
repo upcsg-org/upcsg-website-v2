@@ -1,5 +1,5 @@
 export interface User {
-    email: string;
+    id: number;
     last_login: string;
     is_superuser: string;
     first_name: string;
@@ -7,6 +7,10 @@ export interface User {
     is_staff: boolean;
     is_active: boolean;
     date_joined: string;
-    avatar_url: string;
-    is_host: boolean;
+    username: string;
+    email: string;
+    image_url: string;
+    bio: string;
+    phone_number: string;
+    date_of_birth: boolean;
 }

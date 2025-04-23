@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import {
     LuArrowLeft,
     LuLayoutDashboard,
@@ -12,7 +13,9 @@ import {
     LuUsers,
     LuSettings,
     LuArrowRight,
+    LuLogOut,
 } from 'react-icons/lu'
+import { useAuthStore } from '@/store/auth'
 
 interface MenuItem {
     title: string
@@ -56,15 +59,35 @@ const menuItems: MenuItem[] = [
         icon: <LuSettings size={20} />,
         path: '/admin/settings',
     },
+    {
+        title: 'LOGOUT',
+        icon: <LuLogOut size={20} />,
+        path: '#',
+    },
 ]
 
 const AdminSidePanel: React.FC = () => {
     const pathname = usePathname()
+    const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
+    const { logout } = useAuthStore()
 
     const isExcludedRoute = pathname.startsWith('/admin/login')
 
     const toggleSidebar = () => setIsOpen(!isOpen)
+
+    const handleMenuItemClick = (item: MenuItem, e: React.MouseEvent) => {
+        if (item.title === 'LOGOUT') {
+            e.preventDefault()
+            logout()
+            return
+        }
+
+        // Close sidebar on mobile after navigation
+        if (window.innerWidth < 768) {
+            setIsOpen(false)
+        }
+    }
 
     return (
         !isExcludedRoute && (
@@ -99,20 +122,42 @@ const AdminSidePanel: React.FC = () => {
                     <div className="flex h-full flex-col">
                         {/* Navigation Items */}
                         <nav className="mt-16 flex flex-col space-y-1 px-3">
-                            {menuItems.map((item, index) => (
-                                <a
-                                    key={item.title + index}
-                                    href={item.path}
-                                    className={`group flex items-center rounded-lg px-4 py-3 text-gray-300 
-                                    font-vietnam font-medium text-sm transition-all duration-200
-                                    hover:bg-[#2b2f4c] hover:text-white`}
-                                >
-                                    <span className="mr-4">{item.icon}</span>
-                                    <span className="whitespace-nowrap">
-                                        {item.title}
-                                    </span>
-                                </a>
-                            ))}
+                            {menuItems.map((item, index) =>
+                                item.title === 'LOGOUT' ? (
+                                    <button
+                                        key={item.title + index}
+                                        onClick={() => logout()}
+                                        className="group flex items-center rounded-lg px-4 py-3 text-gray-300 
+                                        font-vietnam font-medium text-sm transition-all duration-200
+                                        hover:bg-[#2b2f4c] hover:text-white text-left w-full"
+                                    >
+                                        <span className="mr-4">
+                                            {item.icon}
+                                        </span>
+                                        <span className="whitespace-nowrap">
+                                            {item.title}
+                                        </span>
+                                    </button>
+                                ) : (
+                                    <Link
+                                        key={item.title + index}
+                                        href={item.path}
+                                        onClick={(e) =>
+                                            handleMenuItemClick(item, e)
+                                        }
+                                        className={`group flex items-center rounded-lg px-4 py-3 text-gray-300 
+                                        font-vietnam font-medium text-sm transition-all duration-200
+                                        hover:bg-[#2b2f4c] hover:text-white`}
+                                    >
+                                        <span className="mr-4">
+                                            {item.icon}
+                                        </span>
+                                        <span className="whitespace-nowrap">
+                                            {item.title}
+                                        </span>
+                                    </Link>
+                                )
+                            )}
                         </nav>
                     </div>
                 </aside>

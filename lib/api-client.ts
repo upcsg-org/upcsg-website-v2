@@ -6,7 +6,7 @@ import {
     saveTokens,
     clearTokens,
     AuthTokens
-} from '../store/user';
+} from '../store/auth';
 
 // Check if the URL matches a public endpoint that doesn't need authentication
 const isPublicEndpoint = (url?: string): boolean => {
@@ -61,7 +61,7 @@ const handleLogout = async (): Promise<void> => {
 
     // Redirect to login page
     if (typeof window !== 'undefined') {
-        window.location.href = '/login';
+        window.location.href = '/admin/login';
     }
 };
 
