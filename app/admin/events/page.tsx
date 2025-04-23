@@ -1,9 +1,19 @@
+'use client'
+
 import ContentList from '@/components/admin/ContentList'
-import { articles } from '@/constants/admin/articles'
-import React from 'react'
+import { useEventStore } from '@/store/event'
+import React, { useEffect } from 'react'
 
 const AdminEvents = () => {
-    return <ContentList articles={articles} />
+    const { items, loading, error, fetchAll } = useEventStore()
+
+    useEffect(() => {
+        if (fetchAll) {
+            fetchAll()
+        }
+    }, [fetchAll])
+
+    return <ContentList items={items} />
 }
 
 export default AdminEvents

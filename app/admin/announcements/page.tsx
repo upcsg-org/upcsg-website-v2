@@ -1,9 +1,19 @@
+'use client'
+
 import ContentList from '@/components/admin/ContentList'
-import { articles } from '@/constants/admin/articles'
-import React from 'react'
+import { useAnnouncementStore } from '@/store/announcement'
+import React, { useEffect } from 'react'
 
 const AdminAnnouncements = () => {
-    return <ContentList articles={articles} />
+    const { items, loading, error, fetchAll } = useAnnouncementStore()
+
+    useEffect(() => {
+        if (fetchAll) {
+            fetchAll()
+        }
+    }, [fetchAll])
+
+    return <ContentList items={items} />
 }
 
 export default AdminAnnouncements

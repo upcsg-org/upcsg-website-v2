@@ -1,9 +1,19 @@
+'use client'
+
 import ContentList from '@/components/admin/ContentList'
-import { articles } from '@/constants/admin/articles'
-import React from 'react'
+import { useInternshipStore } from '@/store/internship'
+import React, { useEffect } from 'react'
 
 const AdminInternships = () => {
-    return <ContentList articles={articles} />
+    const { items, loading, error, fetchAll } = useInternshipStore()
+
+    useEffect(() => {
+        if (fetchAll) {
+            fetchAll()
+        }
+    }, [fetchAll])
+
+    return <ContentList items={items} />
 }
 
 export default AdminInternships

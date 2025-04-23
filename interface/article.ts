@@ -1,17 +1,12 @@
 export interface Article {
+    id: number
     title: string
-    image: string
-    date: Date
+    date_created: Date
+    date_updated: Date
     body: string
-    author: Author
+    author?: string
 }
 
 export interface ArticleList {
     articles: Article[]
-}
-
-export interface Author {
-    name: string
-    email?: string
-    jobTitle?: string
 }

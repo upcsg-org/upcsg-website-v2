@@ -2,13 +2,13 @@ import { Article } from "./article";
 
 export interface Event {
     id: number;
-    image: string;
+    image_url?: string;
     title: string;
-    schedule: {
-        start: Date;
-        end: Date;
-    }
-    backgroundStyle: string;
+    start_date?: Date;
+    end_date?: Date;
     article?: Article
-    link?: string
+    external_url?: string
+    date_created: Date;
+    date_updated: Date;
+    body: string;
 }
