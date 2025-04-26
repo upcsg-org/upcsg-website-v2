@@ -8,3 +8,10 @@ export const useInternshipStore = createGenericStore<Internship>(
         actions: ['fetchAll'],
     }
 )
+
+export const useCreateUpdateDeleteInternshipStore = createGenericStore<Internship>(
+    '/cms/internships/manage',
+    {
+        actions: ['create', 'update', 'remove'],
+    }
+)

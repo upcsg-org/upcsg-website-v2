@@ -8,3 +8,10 @@ export const useAnnouncementStore = createGenericStore<Announcement>(
         actions: ['fetchAll'],
     }
 )
+
+export const useCreateUpdateDeleteAnnouncementStore = createGenericStore<Announcement>(
+    '/cms/announcements/manage',
+    {
+        actions: ['create', 'update', 'remove'],
+    }
+)

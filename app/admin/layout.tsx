@@ -2,7 +2,7 @@
 
 import React, { ReactNode, useEffect, useState } from 'react'
 import AdminSidePanel from '@/components/admin/AdminSidePanel'
-import { useAuthStore, getAccessToken, initializeAuth } from '@/store/auth'
+import { useAuthStore, initializeAuth } from '@/store/auth'
 import { useRouter } from 'next/navigation'
 
 interface PropsInterface {
@@ -29,7 +29,7 @@ const AdminLayout = (props: PropsInterface) => {
     useEffect(() => {
         if (authChecked && !isLoading && !isAuthenticated) {
             // TODO: Comment this out when testing UI without auth
-            // router.push('/admin/login')
+            router.push('/admin/login')
         }
     }, [authChecked, isAuthenticated, isLoading, router])
 

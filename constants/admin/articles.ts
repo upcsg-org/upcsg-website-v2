@@ -1,7 +1,7 @@
 export const articles = [
     {
         title: "string",
-        image: "/images/placeholder.png",
+        image: "/images/placeholder-standard.svg",
         date: new Date("2024-01-07"),
         body: "Very short body",
         author: {

@@ -1,17 +1,23 @@
 'use client'
 
-import { ArticleList } from '@/interface/article'
 import ContentListItem from './ContentListItem'
 import TheButton from '../generics/TheButton'
 import SearchBar from './SearchBar'
 import { useState, useEffect, ChangeEvent, Key } from 'react'
 import { FaPlus } from 'react-icons/fa'
+import { usePathname, useRouter } from 'next/navigation'
 
 const ContentList = (props: { items: any }) => {
     const { items } = props
     const [filteredItems, setFilteredItems] = useState(items)
     const [showStickyBar, setShowStickyBar] = useState(false)
     const [searchText, setSearchText] = useState('')
+    const router = useRouter()
+
+    const pathname = usePathname()
+
+    // Extract the last segment of the path
+    const pathSegment = pathname ? pathname.split('/').pop() : ''
 
     useEffect(() => {
         setFilteredItems(items)
@@ -55,7 +61,13 @@ const ContentList = (props: { items: any }) => {
                     />
                 </div>
                 <div className="ml-4 pr-4">
-                    <TheButton>
+                    <TheButton
+                        onClick={() =>
+                            router.push(
+                                `/admin/create/content?type=${pathSegment}`
+                            )
+                        }
+                    >
                         <div className="flex items-center h-8">
                             <span className="text-lg text-white hidden md:block mr-2">
                                 ADD NEW

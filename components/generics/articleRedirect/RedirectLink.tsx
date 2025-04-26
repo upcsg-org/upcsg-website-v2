@@ -1,12 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 interface LinkForm {
-    url: string
+    external_url: string
 }
 
-export const RedirectLink: React.FC = () => {
+interface RedirectLinkProps {
+    onExternalUrlChange?: (url: string) => void
+    initialUrl?: string
+}
+
+export const RedirectLink: React.FC<RedirectLinkProps> = ({
+    onExternalUrlChange,
+    initialUrl = '',
+}) => {
+    // Use ref to prevent update on first render
+    const isFirstRender = useRef(true)
+
     const [formData, setFormData] = useState<LinkForm>({
-        url: '',
+        external_url: initialUrl,
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,31 +26,36 @@ export const RedirectLink: React.FC = () => {
             ...formData,
             [name]: value,
         })
+
+        // Call parent handler directly instead of in useEffect
+        if (onExternalUrlChange) {
+            onExternalUrlChange(value)
+        }
     }
 
     // Handle form submission
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log('Form Submitted:', formData)
+        console.log('External URL Submitted:', formData)
     }
 
     return (
-        <form onSubmit={handleSubmit} className=" tracking-wider">
+        <form onSubmit={handleSubmit} className="tracking-wider">
             <div className="space-y-1">
                 <label
-                    htmlFor="url"
-                    className="font-semibold text-base md:text-lg lg:text-xl "
+                    htmlFor="external_url"
+                    className="font-semibold text-base md:text-lg lg:text-xl"
                 >
-                    Link URL
+                    External URL
                 </label>
                 <input
                     type="url"
-                    id="url"
-                    name="url"
-                    value={formData.url}
+                    id="external_url"
+                    name="external_url"
+                    value={formData.external_url}
                     onChange={handleChange}
-                    className="bg-secondary-dark w-full px-6 py-2 border rounded-lg placeholder:text-xs "
-                    placeholder="Input your URL here."
+                    className="bg-secondary-dark w-full px-6 py-2 border rounded-lg placeholder:text-xs"
+                    placeholder="https://example.com"
                 />
             </div>
         </form>

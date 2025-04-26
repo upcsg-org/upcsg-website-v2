@@ -33,14 +33,12 @@ const TimeInput = ({ formConfig }: TimeInputProps) => {
 
 interface CreateEventFormProps {
     formData: {
-        eventTitle: string
-        startTime: string
-        endTime: string
-        eventLocation: string
-        eventDay: string
-        eventMonth: string
-        eventYear: string
-        image: File | null
+        title: string
+        start_date: string
+        end_date: string
+        external_url: string
+        body: string
+        image_url: File | null
     }
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
@@ -73,8 +71,14 @@ const CreateEventForm = ({
             <div className="w-full lg:flex lg:justify-between lg:space-x-3 lg:align-center">
                 {/* Event Duration */}
                 <div className="my-6 sm:flex sm:justify-between sm:space-x-3 lg:w-5/12">
-                    <TimeInput formConfig={contentFormConfig[1]} />
-                    <TimeInput formConfig={contentFormConfig[2]} />
+                    <FormFieldBuilder
+                        formConfig={contentFormConfig.slice(1, 2)}
+                        className={'w-full'}
+                    />
+                    <FormFieldBuilder
+                        formConfig={contentFormConfig.slice(2, 3)}
+                        className={'w-full'}
+                    />
                 </div>
                 {/* Event Location */}
                 <FormFieldBuilder
@@ -83,25 +87,11 @@ const CreateEventForm = ({
                 />
             </div>
 
-            {/* Event Date */}
-            <div className="lg:flex lg:space-x-3 lg:w-9/12">
-                <div className="my-6 sm:flex sm:justify-between sm:space-x-3">
-                    <div className="w-full">
-                        <FormFieldBuilder
-                            formConfig={contentFormConfig.slice(4, 5)}
-                        />
-                    </div>
-                    <div className="w-full">
-                        <FormFieldBuilder
-                            formConfig={contentFormConfig.slice(5, 6)}
-                        />
-                    </div>
-                </div>
-                <FormFieldBuilder
-                    formConfig={contentFormConfig.slice(6, 7)}
-                    className={'my-6'}
-                />
-            </div>
+            {/* Event Body */}
+            <FormFieldBuilder
+                formConfig={contentFormConfig.slice(4, 5)}
+                className={'my-6'}
+            />
 
             {/* Event Image */}
             <div className="my-6 inline-flex flex-col">
@@ -120,9 +110,9 @@ const CreateEventForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image && (
+                    {formData.image_url && (
                         <p className="ml-5 sm:self-start">
-                            {formData.image.name}
+                            {formData.image_url.name}
                         </p>
                     )}
                 </div>

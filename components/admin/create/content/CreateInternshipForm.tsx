@@ -4,13 +4,13 @@ import TheButton from '@/components/generics/TheButton'
 
 interface CreateInternshipFormProps {
     formData: {
-        internshipTitle: string
-        applicationOpeningDate: string
-        applicationDeadlineDate: string
-        requirementsSummary: string
-        benefitsSummary: string
+        title: string
+        opening_date: string
+        deadline: string
+        requirements: string
+        benefits: string
         organization: string
-        image: File | null
+        image_url: File | null
     }
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
@@ -39,8 +39,8 @@ export const CreateInternshipForm = ({
                 </label>
                 <input
                     type="text"
-                    name="internshipTitle"
-                    value={formData.internshipTitle}
+                    name="title"
+                    value={formData.title}
                     onChange={handleChange}
                     placeholder="Input your title here."
                     className="w-full p-2 border rounded-xl bg-secondary-dark"
@@ -55,8 +55,8 @@ export const CreateInternshipForm = ({
                     </label>
                     <input
                         type="date"
-                        name="applicationOpeningDate"
-                        value={formData.applicationOpeningDate}
+                        name="opening_date"
+                        value={formData.opening_date}
                         onChange={handleChange}
                         className="w-full p-2 border rounded-xl bg-secondary-dark"
                     />
@@ -67,8 +67,8 @@ export const CreateInternshipForm = ({
                     </label>
                     <input
                         type="date"
-                        name="applicationDeadlineDate"
-                        value={formData.applicationDeadlineDate}
+                        name="deadline"
+                        value={formData.deadline}
                         onChange={handleChange}
                         className="w-full p-2 border rounded-xl bg-secondary-dark"
                     />
@@ -81,8 +81,8 @@ export const CreateInternshipForm = ({
                     Requirements Summary
                 </label>
                 <textarea
-                    name="requirementsSummary"
-                    value={formData.requirementsSummary}
+                    name="requirements"
+                    value={formData.requirements}
                     onChange={handleChange}
                     placeholder="Input requirements here."
                     className="w-full p-2 border rounded-xl resize-none bg-secondary-dark"
@@ -96,8 +96,8 @@ export const CreateInternshipForm = ({
                     Benefits Summary
                 </label>
                 <textarea
-                    name="benefitsSummary"
-                    value={formData.benefitsSummary}
+                    name="benefits"
+                    value={formData.benefits}
                     onChange={handleChange}
                     placeholder="Input benefits here."
                     className="w-full p-2 border rounded-xl resize-none bg-secondary-dark"
@@ -137,9 +137,9 @@ export const CreateInternshipForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image && (
+                    {formData.image_url && (
                         <p className="ml-5 sm:self-start">
-                            {formData.image.name}
+                            {formData.image_url.name}
                         </p>
                     )}
                 </div>

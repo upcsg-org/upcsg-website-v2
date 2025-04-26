@@ -8,3 +8,10 @@ export const useScholarshipStore = createGenericStore<Scholarship>(
         actions: ['fetchAll'],
     }
 )
+
+export const useCreateUpdateDeleteScholarshipStore = createGenericStore<Scholarship>(
+    '/cms/scholarships/manage',
+    {
+        actions: ['create', 'update', 'remove'],
+    }
+)

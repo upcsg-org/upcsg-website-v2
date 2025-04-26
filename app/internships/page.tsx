@@ -5,27 +5,27 @@ const testValues = [
     {
         title: 'API Generation with Postman workshop this Wednesday',
         dateOfPosting: new Date('2023-09-19'),
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'API Generation with Postman workshop this Wednesday',
         dateOfPosting: new Date('2023-09-19'),
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'API Generation with Postman workshop this Wednesday',
         dateOfPosting: new Date('2023-09-19'),
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'API Generation with Postman workshop this Wednesday, Another Title that is A Bit Longer for Test.',
         dateOfPosting: new Date('2023-09-19'),
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'API Generation with Postman workshop this Wednesday',
         dateOfPosting: new Date('2023-09-19'),
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
 ]
 

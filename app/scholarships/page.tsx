@@ -6,37 +6,37 @@ const testValues = [
         title: 'DOST Scholarship Program | Now Accepting Applicants 2024',
         benefits: '₱40,000 and other benefits',
         GWAreq: 'GWA of 83% or its equivalent',
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'DOST Scholarship Program | Now Accepting Applicants 2024',
         benefits: '₱40,000 and other benefits',
         GWAreq: 'GWA of 83% or its equivalent',
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'DOST Scholarship Program | Now Accepting Applicants 2024',
         benefits: '₱40,000 and other benefits',
         GWAreq: 'GWA of 83% or its equivalent',
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'DOST Scholarship Program | Now Accepting Applicants 2024',
         benefits: '₱40,000 and other benefits',
         GWAreq: 'GWA of 83% or its equivalent',
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'DOST Scholarship Program | Now Accepting Applicants 2024',
         benefits: '₱40,000 and other benefits',
         GWAreq: 'GWA of 83% or its equivalent',
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
     {
         title: 'DOST Scholarship Program | Now Accepting Applicants 2024',
         benefits: '₱40,000 and other benefits',
         GWAreq: 'GWA of 83% or its equivalent',
-        imageURL: '/images/placeholder.png',
+        imageURL: '/images/placeholder-standard.svg',
     },
 ]
 
