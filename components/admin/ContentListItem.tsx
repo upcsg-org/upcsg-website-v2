@@ -3,6 +3,19 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { BiEdit, BiTrash } from 'react-icons/bi'
+import { useCreateUpdateDeleteEventStore, useEventStore } from '@/store/event'
+import {
+    useCreateUpdateDeleteAnnouncementStore,
+    useAnnouncementStore,
+} from '@/store/announcement'
+import {
+    useCreateUpdateDeleteInternshipStore,
+    useInternshipStore,
+} from '@/store/internship'
+import {
+    useCreateUpdateDeleteScholarshipStore,
+    useScholarshipStore,
+} from '@/store/scholarship'
 
 interface ContentListItemProps {
     id: number
@@ -11,10 +24,13 @@ interface ContentListItemProps {
     date_created: Date | string
     body: string
     author?: string
+    contentType: string
+    onDelete?: () => void
 }
 
 const ContentListItem = (props: ContentListItemProps) => {
-    const { title, image_url, date_created, body } = props
+    const { id, title, image_url, date_created, body, contentType, onDelete } =
+        props
     const formattedDate =
         date_created instanceof Date
             ? date_created.toLocaleDateString()
@@ -24,6 +40,39 @@ const ContentListItem = (props: ContentListItemProps) => {
 
     const [isButtonHovered, setIsButtonHovered] = useState(false)
     const defaultImage = '/images/placeholder-standard.svg'
+
+    const { remove: removeEvent } = useCreateUpdateDeleteEventStore()
+    const { remove: removeAnnouncement } =
+        useCreateUpdateDeleteAnnouncementStore()
+    const { remove: removeInternship } = useCreateUpdateDeleteInternshipStore()
+    const { remove: removeScholarship } =
+        useCreateUpdateDeleteScholarshipStore()
+
+    const { fetchAll: fetchAllEvents } = useEventStore()
+    const { fetchAll: fetchAllAnnouncements } = useAnnouncementStore()
+    const { fetchAll: fetchAllInternships } = useInternshipStore()
+    const { fetchAll: fetchAllScholarships } = useScholarshipStore()
+
+    const handleDelete = async () => {
+        console.log('DELETING', id)
+        try {
+            if (removeEvent && contentType === 'event') {
+                await removeEvent(id)
+                if (onDelete) onDelete()
+            } else if (removeAnnouncement && contentType === 'announcement') {
+                await removeAnnouncement(id)
+                if (onDelete) onDelete()
+            } else if (removeInternship && contentType === 'internship') {
+                await removeInternship(id)
+                if (onDelete) onDelete()
+            } else if (removeScholarship && contentType === 'scholarship') {
+                await removeScholarship(id)
+                if (onDelete) onDelete()
+            }
+        } catch (error) {
+            console.error('Error deleting content:', error)
+        }
+    }
 
     return (
         <div
@@ -53,7 +102,10 @@ const ContentListItem = (props: ContentListItemProps) => {
                 <button className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
                     <BiEdit size={20} />
                 </button>
-                <button className="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+                <button
+                    onClick={handleDelete}
+                    className="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                >
                     <BiTrash size={20} />
                 </button>
             </div>

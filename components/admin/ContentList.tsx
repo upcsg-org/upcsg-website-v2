@@ -6,6 +6,10 @@ import SearchBar from './SearchBar'
 import { useState, useEffect, ChangeEvent, Key } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { usePathname, useRouter } from 'next/navigation'
+import { useEventStore } from '@/store/event'
+import { useAnnouncementStore } from '@/store/announcement'
+import { useInternshipStore } from '@/store/internship'
+import { useScholarshipStore } from '@/store/scholarship'
 
 const ContentList = (props: { items: any }) => {
     const { items } = props
@@ -18,6 +22,12 @@ const ContentList = (props: { items: any }) => {
 
     // Extract the last segment of the path
     const pathSegment = pathname ? pathname.split('/').pop() : ''
+
+    // Get the fetch functions from the appropriate stores
+    const { fetchAll: fetchEvents } = useEventStore()
+    const { fetchAll: fetchAnnouncements } = useAnnouncementStore()
+    const { fetchAll: fetchInternships } = useInternshipStore()
+    const { fetchAll: fetchScholarships } = useScholarshipStore()
 
     useEffect(() => {
         setFilteredItems(items)
@@ -32,6 +42,19 @@ const ContentList = (props: { items: any }) => {
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
+    }
+
+    const handleItemDelete = () => {
+        // Refresh content based on content type
+        if (pathSegment === 'event' && fetchEvents) {
+            fetchEvents()
+        } else if (pathSegment === 'announcement' && fetchAnnouncements) {
+            fetchAnnouncements()
+        } else if (pathSegment === 'internship' && fetchInternships) {
+            fetchInternships()
+        } else if (pathSegment === 'scholarship' && fetchScholarships) {
+            fetchScholarships()
+        }
     }
 
     useEffect(() => {
@@ -88,6 +111,8 @@ const ContentList = (props: { items: any }) => {
                         body={item.body}
                         image_url={item.image_url}
                         author={item.author}
+                        contentType={pathSegment || ''}
+                        onDelete={handleItemDelete}
                     />
                 ))}
             </div>
