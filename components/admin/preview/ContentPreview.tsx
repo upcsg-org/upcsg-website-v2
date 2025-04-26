@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import { FaArrowLeft, FaEdit } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
@@ -8,6 +8,7 @@ import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
 import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
 import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
 import { useRouter } from 'next/navigation'
+
 interface ContentPreviewProps {
     contentType: string
     formData: any
@@ -20,6 +21,7 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
     goToPreviousStep,
 }) => {
     const router = useRouter()
+    const [isUploading, setIsUploading] = useState(false)
 
     const { create: createEvent } = useCreateUpdateDeleteEventStore()
     const { create: createAnnouncement } =
@@ -89,18 +91,49 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
         return '/images/placeholder-standard.svg'
     }
 
-    const publishContent = () => {
-        // Prepare data based on content type
-        const prepareData = () => {
+    const uploadImageToCloudinary = async (file: File): Promise<string> => {
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+            formData.append(
+                'upload_preset',
+                process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
+                    'upcsg_preset'
+            )
+
+            const response = await fetch(
+                `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                {
+                    method: 'POST',
+                    body: formData,
+                }
+            )
+
+            if (!response.ok) {
+                throw new Error('Failed to upload image')
+            }
+
+            const data = await response.json()
+            return data.secure_url
+        } catch (error) {
+            console.error('Error uploading image:', error)
+            throw error
+        }
+    }
+
+    const publishContent = async () => {
+        setIsUploading(true)
+
+        try {
+            // Prepare data based on content type
             let data = { ...formData }
 
             // Handle image upload if it's a File object
             if (formData.image_url && typeof formData.image_url === 'object') {
-                // In a real implementation, you would upload the image here
-                // and set the URL from the response
-                console.log('Image needs to be uploaded to get a URL')
-                // For now, we'll just note that this would happen
-                data.image_url = 'URL would be set after upload'
+                const imageUrl = await uploadImageToCloudinary(
+                    formData.image_url
+                )
+                data.image_url = imageUrl
             }
 
             // Handle article data formatting for backend
@@ -112,34 +145,29 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                     author: formData.article.author,
                 }
 
-                console.log('Article data to be created:', articleData)
-
-                // In a real implementation, you would:
-                // 1. Create the article first with a POST request
-                // 2. Get the article ID from the response
-                // 3. Set the article field to the returned ID
-
-                // For demonstration, we'll just keep the reference for now
                 data.article = articleData
             }
 
-            return data
+            console.log(`Publishing ${contentType}:`, data)
+
+            // Create the content with the appropriate store function
+            if (contentType === 'event' && createEvent) {
+                await createEvent(data)
+            } else if (contentType === 'announcement' && createAnnouncement) {
+                await createAnnouncement(data)
+            } else if (contentType === 'scholarship' && createScholarship) {
+                await createScholarship(data)
+            } else if (contentType === 'internship' && createInternship) {
+                await createInternship(data)
+            }
+
+            router.push(`/admin/${contentType}`)
+        } catch (error) {
+            console.error('Error publishing content:', error)
+            alert('Failed to publish content. Please try again.')
+        } finally {
+            setIsUploading(false)
         }
-
-        const data = prepareData()
-        console.log(`Publishing ${contentType}:`, data)
-
-        if (contentType === 'event' && createEvent) {
-            createEvent(data)
-        } else if (contentType === 'announcement' && createAnnouncement) {
-            createAnnouncement(data)
-        } else if (contentType === 'scholarship' && createScholarship) {
-            createScholarship(data)
-        } else if (contentType === 'internship' && createInternship) {
-            createInternship(data)
-        }
-
-        router.push(`/admin/${contentType}`)
     }
 
     return (
@@ -267,11 +295,11 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 </TheButton>
 
                 <TheButton
-                    style={'w-auto bg-green-600 hover:bg-green-700'}
-                    onClick={publishContent}
+                    style={`w-auto bg-green-600 hover:bg-green-700 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={isUploading ? () => {} : publishContent}
                 >
                     <div className="flex items-center">
-                        <h1>PUBLISH</h1>
+                        <h1>{isUploading ? 'UPLOADING...' : 'PUBLISH'}</h1>
                     </div>
                 </TheButton>
             </div>

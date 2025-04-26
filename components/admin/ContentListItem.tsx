@@ -3,19 +3,10 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { BiEdit, BiTrash } from 'react-icons/bi'
-import { useCreateUpdateDeleteEventStore, useEventStore } from '@/store/event'
-import {
-    useCreateUpdateDeleteAnnouncementStore,
-    useAnnouncementStore,
-} from '@/store/announcement'
-import {
-    useCreateUpdateDeleteInternshipStore,
-    useInternshipStore,
-} from '@/store/internship'
-import {
-    useCreateUpdateDeleteScholarshipStore,
-    useScholarshipStore,
-} from '@/store/scholarship'
+import { useCreateUpdateDeleteEventStore } from '@/store/event'
+import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
+import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
+import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
 
 interface ContentListItemProps {
     id: number
@@ -47,11 +38,6 @@ const ContentListItem = (props: ContentListItemProps) => {
     const { remove: removeInternship } = useCreateUpdateDeleteInternshipStore()
     const { remove: removeScholarship } =
         useCreateUpdateDeleteScholarshipStore()
-
-    const { fetchAll: fetchAllEvents } = useEventStore()
-    const { fetchAll: fetchAllAnnouncements } = useAnnouncementStore()
-    const { fetchAll: fetchAllInternships } = useInternshipStore()
-    const { fetchAll: fetchAllScholarships } = useScholarshipStore()
 
     const handleDelete = async () => {
         console.log('DELETING', id)
