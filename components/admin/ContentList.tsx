@@ -1,59 +1,75 @@
-"use client";
+'use client'
 
-import { ArticleList } from '@/interface/article';
-import ContentListItem from './ContentListItem';
-import TheButton from '../generics/TheButton';
-import SearchBar from './SearchBar';
-import { useState, useEffect, ChangeEvent } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { ArticleList } from '@/interface/article'
+import ContentListItem from './ContentListItem'
+import TheButton from '../generics/TheButton'
+import SearchBar from './SearchBar'
+import { useState, useEffect, ChangeEvent } from 'react'
+import { FaPlus } from 'react-icons/fa'
+import { usePathname } from 'next/navigation'
 
 const ContentList = (props: ArticleList) => {
-    const { articles } = props;
-    const [filteredArticles, setFilteredArticles] = useState(articles);
-    const [showStickyBar, setShowStickyBar] = useState(false);
-    const [searchText, setSearchText] = useState(''); 
+    const { articles } = props
+    const [filteredArticles, setFilteredArticles] = useState(articles)
+    const [showStickyBar, setShowStickyBar] = useState(false)
+    const [searchText, setSearchText] = useState('')
+
+    const pathname = usePathname() // Get the current route
+
+    // Determine the content type based on the current route
+    const getContentType = () => {
+        if (pathname.includes('announcements')) return 'announcement'
+        if (pathname.includes('events')) return 'event'
+        if (pathname.includes('scholarships')) return 'scholarship'
+        if (pathname.includes('internships')) return 'internship'
+        return 'announcement' // Default type
+    }
 
     const handleSearch = (searchText: string) => {
         const filtered = articles.filter((article) =>
             article.title.toLowerCase().includes(searchText.toLowerCase())
-        );
-        setFilteredArticles(filtered);
-    };
+        )
+        setFilteredArticles(filtered)
+    }
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchText(e.target.value);
-    };
+        setSearchText(e.target.value)
+    }
 
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 100) {
-                setShowStickyBar(true);
+                setShowStickyBar(true)
             } else {
-                setShowStickyBar(false);
+                setShowStickyBar(false)
             }
-        };
+        }
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll)
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
 
     return (
         <div className="relative px-4 md:px-20 top-4">
             <div className="flex justify-between items-center mt-8">
                 <div className="flex-grow mt-0">
-                    <SearchBar 
-                        searchText={searchText} 
+                    <SearchBar
+                        searchText={searchText}
                         onSearch={handleSearch}
                         onInputChange={handleInputChange}
                     />
                 </div>
                 <div className="ml-4 pr-4">
-                    <TheButton>
+                    <TheButton
+                        link={`/admin/create/content?type=${getContentType()}`}
+                    >
                         <div className="flex items-center h-8">
-                            <span className="text-lg text-white hidden md:block mr-2">ADD NEW</span>
+                            <span className="text-lg text-white hidden md:block mr-2">
+                                ADD NEW
+                            </span>
                             <FaPlus className="h-6 w-6 text-white" />
                         </div>
                     </TheButton>
@@ -73,7 +89,7 @@ const ContentList = (props: ArticleList) => {
                 ))}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ContentList;
+export default ContentList

@@ -29,10 +29,7 @@ export const CreateArticleLink = ({
     }
 
     return (
-        <div className="px-12 md:px-16 lg:px-24 py-8 bg-csg-blue-400 space-y-10 rounded-lg">
-            <h2 className="font-semibold text-xl">
-                {getRedirectTitle()} Redirect Setting
-            </h2>
+        <div className="px-8 py-8 bg-csg-blue-400 space-y-10 rounded-lg">
             <ChooseRedirect
                 redirectState={redirectState}
                 setRedirectState={setRedirectState}

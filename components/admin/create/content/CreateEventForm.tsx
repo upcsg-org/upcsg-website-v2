@@ -24,7 +24,7 @@ const TimeInput = ({ formConfig }: TimeInputProps) => {
                     name={name}
                     value={value}
                     onChange={onChange}
-                    className={`p-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
+                    className={`p-3 mt-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
                 />
             </div>
         </div>

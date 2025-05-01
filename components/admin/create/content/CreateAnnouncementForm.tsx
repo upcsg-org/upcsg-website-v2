@@ -55,7 +55,7 @@ export const CreateAnnouncementForm = ({
                     value={formData.announcementTitle}
                     onChange={handleChange}
                     placeholder="Input your title here."
-                    className="w-full p-2 border rounded-xl bg-secondary-dark"
+                    className="w-full p-2 border rounded-xl bg-secondary-dark p-3 mt-2"
                 />
             </div>
 
@@ -69,7 +69,7 @@ export const CreateAnnouncementForm = ({
                     value={formData.announcementSummary}
                     onChange={handleChange}
                     placeholder="Input your summary here."
-                    className="w-full p-2 border rounded-xl resize-none bg-secondary-dark"
+                    className="w-full border rounded-xl resize-none bg-secondary-dark p-3 mt-2"
                     rows={8}
                 />
             </div>
