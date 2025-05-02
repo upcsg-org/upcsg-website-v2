@@ -3,7 +3,7 @@ import { Event } from '@/interface/event';
 
 // Create event store with all CRUD operations
 export const useEventStore = createGenericStore<Event>('/cms/events', {
-    actions: ['fetchAll'],
+    actions: ['fetchAll', 'fetchOne'],
 });
 
 export const useCreateUpdateDeleteEventStore = createGenericStore<Event>('/cms/events/manage', {

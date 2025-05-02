@@ -1,12 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { FaImage } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import Image from 'next/image'
 
 interface CreateAnnouncementFormProps {
     formData: {
         title: string
         summary: string
-        image_url: File | null
+        image_url: File | string | null
     }
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
@@ -19,12 +20,33 @@ export const CreateAnnouncementForm = ({
     handleImageChange,
     goToNextStep,
 }: CreateAnnouncementFormProps) => {
+    console.log('INSIDE FORM', formData)
     // IMAGE OPERATIONS
     const imageInputRef = useRef<HTMLInputElement>(null)
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
 
     const handleImageUpload = (): void => {
         imageInputRef.current?.click()
     }
+
+    // Set image preview when image changes
+    useEffect(() => {
+        if (formData.image_url) {
+            if (typeof formData.image_url === 'string') {
+                // If image_url is a string, it's an existing URL
+                setImagePreview(formData.image_url)
+            } else if (formData.image_url instanceof File) {
+                // If image_url is a File, create a preview URL
+                const objectUrl = URL.createObjectURL(formData.image_url)
+                setImagePreview(objectUrl)
+
+                // Clean up the URL when component unmounts or image changes
+                return () => URL.revokeObjectURL(objectUrl)
+            }
+        } else {
+            setImagePreview(null)
+        }
+    }, [formData.image_url])
 
     // Form field configurations
     const formConfig = [
@@ -74,9 +96,11 @@ export const CreateAnnouncementForm = ({
             </div>
 
             {/* Announcement Image */}
-            <div className="my-6 inline-flex flex-col">
-                <label className="mb-1 font-semibold">Announcement Image</label>
-                <div className="flex items-center">
+            <div className="my-6">
+                <label className="mb-1 font-semibold block">
+                    Announcement Image
+                </label>
+                <div className="flex items-center mb-4">
                     <TheButton style={'w-auto'} onClick={handleImageUpload}>
                         <div className="flex items-center">
                             <h1 className="mr-6">UPLOAD IMAGE</h1>
@@ -90,12 +114,32 @@ export const CreateAnnouncementForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image_url && (
+                    {formData.image_url instanceof File && (
                         <p className="ml-5 sm:self-start">
                             {formData.image_url.name}
                         </p>
                     )}
                 </div>
+
+                {/* Image Preview */}
+                {imagePreview && (
+                    <div className="mt-4">
+                        <p className="text-sm mb-2">Image Preview:</p>
+                        <div
+                            className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
+                            style={{ height: '250px' }}
+                        >
+                            <Image
+                                src={imagePreview}
+                                alt="Preview"
+                                fill
+                                sizes="(max-width: 768px) 100vw, 400px"
+                                style={{ objectFit: 'contain' }}
+                                priority
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )

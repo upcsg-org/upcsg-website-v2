@@ -7,7 +7,7 @@ import { useCreateUpdateDeleteEventStore } from '@/store/event'
 import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
 import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
 import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
-
+import { useRouter } from 'next/navigation'
 interface ContentListItemProps {
     id: number
     title: string
@@ -20,6 +20,7 @@ interface ContentListItemProps {
 }
 
 const ContentListItem = (props: ContentListItemProps) => {
+    const router = useRouter()
     const { id, title, image_url, date_created, body, contentType, onDelete } =
         props
     const formattedDate =
@@ -60,6 +61,10 @@ const ContentListItem = (props: ContentListItemProps) => {
         }
     }
 
+    const handleUpdate = () => {
+        router.push(`/admin/update/content?type=${contentType}&id=${id}`)
+    }
+
     return (
         <div
             className={`bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col md:flex-row items-center relative`}
@@ -85,7 +90,10 @@ const ContentListItem = (props: ContentListItemProps) => {
             <div
                 className={`absolute top-2 right-2 flex space-x-2 ${isButtonHovered ? 'opacity-100' : 'opacity-0'} transition-opacity`}
             >
-                <button className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                <button
+                    onClick={handleUpdate}
+                    className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                >
                     <BiEdit size={20} />
                 </button>
                 <button

@@ -5,7 +5,7 @@ import { createGenericStore } from '../lib/zustand';
 export const useScholarshipStore = createGenericStore<Scholarship>(
     '/cms/scholarships',
     {
-        actions: ['fetchAll'],
+        actions: ['fetchAll', 'fetchOne'],
     }
 )
 

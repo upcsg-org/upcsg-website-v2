@@ -10,12 +10,16 @@ import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
 import { useRouter } from 'next/navigation'
 
 interface ContentPreviewProps {
+    contentId?: string
+    formType: string
     contentType: string
     formData: any
     goToPreviousStep: () => void
 }
 
 const ContentPreview: React.FC<ContentPreviewProps> = ({
+    contentId,
+    formType,
     contentType,
     formData,
     goToPreviousStep,
@@ -23,12 +27,14 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
     const router = useRouter()
     const [isUploading, setIsUploading] = useState(false)
 
-    const { create: createEvent } = useCreateUpdateDeleteEventStore()
-    const { create: createAnnouncement } =
+    const { create: createEvent, update: updateEvent } =
+        useCreateUpdateDeleteEventStore()
+    const { create: createAnnouncement, update: updateAnnouncement } =
         useCreateUpdateDeleteAnnouncementStore()
-    const { create: createScholarship } =
+    const { create: createScholarship, update: updateScholarship } =
         useCreateUpdateDeleteScholarshipStore()
-    const { create: createInternship } = useCreateUpdateDeleteInternshipStore()
+    const { create: createInternship, update: updateInternship } =
+        useCreateUpdateDeleteInternshipStore()
 
     const getTitle = () => {
         switch (contentType) {
@@ -151,14 +157,32 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
             console.log(`Publishing ${contentType}:`, data)
 
             // Create the content with the appropriate store function
-            if (contentType === 'event' && createEvent) {
-                await createEvent(data)
-            } else if (contentType === 'announcement' && createAnnouncement) {
-                await createAnnouncement(data)
-            } else if (contentType === 'scholarship' && createScholarship) {
-                await createScholarship(data)
-            } else if (contentType === 'internship' && createInternship) {
-                await createInternship(data)
+            if (formType === 'create') {
+                if (contentType === 'event' && createEvent) {
+                    await createEvent(data)
+                } else if (
+                    contentType === 'announcement' &&
+                    createAnnouncement
+                ) {
+                    await createAnnouncement(data)
+                } else if (contentType === 'scholarship' && createScholarship) {
+                    await createScholarship(data)
+                } else if (contentType === 'internship' && createInternship) {
+                    await createInternship(data)
+                }
+            } else if (formType === 'update' && contentId) {
+                if (contentType === 'event' && updateEvent) {
+                    await updateEvent(contentId, data)
+                } else if (
+                    contentType === 'announcement' &&
+                    updateAnnouncement
+                ) {
+                    await updateAnnouncement(contentId, data)
+                } else if (contentType === 'scholarship' && updateScholarship) {
+                    await updateScholarship(contentId, data)
+                } else if (contentType === 'internship' && updateInternship) {
+                    await updateInternship(contentId, data)
+                }
             }
 
             router.push(`/admin/${contentType}`)
@@ -293,13 +317,18 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                         <h1>PREVIOUS</h1>
                     </div>
                 </TheButton>
-
                 <TheButton
                     style={`w-auto bg-green-600 hover:bg-green-700 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={isUploading ? () => {} : publishContent}
                 >
                     <div className="flex items-center">
-                        <h1>{isUploading ? 'UPLOADING...' : 'PUBLISH'}</h1>
+                        <h1>
+                            {isUploading
+                                ? 'UPLOADING...'
+                                : formType === 'update'
+                                  ? 'UPDATE'
+                                  : 'PUBLISH'}
+                        </h1>
                     </div>
                 </TheButton>
             </div>
