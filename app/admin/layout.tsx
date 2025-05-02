@@ -29,7 +29,7 @@ const AdminLayout = (props: PropsInterface) => {
     useEffect(() => {
         if (authChecked && !isLoading && !isAuthenticated) {
             // TODO: Comment this out when testing UI without auth
-            router.push('/admin/login')
+            // router.push('/admin/login')
         }
     }, [authChecked, isAuthenticated, isLoading, router])
 
