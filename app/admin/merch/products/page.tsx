@@ -22,28 +22,30 @@ export default function ProductsPage() {
 
         <div className="flex">
           {/* Sidebar */}
-          <div className="w-[250px] bg-[#131336] rounded-md overflow-hidden mr-6">
-            <a href="/admin/merch/products" className="block py-3 px-6 bg-green-600 text-white font-medium">
+          <div className="w-[250px] bg-[#171A33] rounded-md overflow-hidden mr-6">
+            <a className="block py-10 px-6">
+            </a>
+            <a href="/admin/merch/products" className="block py-3 px-6 [background-color:#41A01E] text-white font-medium text-lg" >
               Products
             </a>
-            <a href="/admin/merch/orders" className="block py-3 px-6 text-white">
+            <a href="/admin/merch/orders" className="block py-3 px-6 text-white text-lg">
               Orders
             </a>
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 bg-[#131336] rounded-md p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="flex-1 bg-[#171A33] rounded-md p-6">
+            <div className="flex items-center justify-between pb-3 mb-6 border-b border-black">
               <a
                 href="/admin/merch/products/create"
-                className="bg-[#30b8c4] hover:bg-[#2aa0aa] text-white px-4 py-2 rounded"
+                className="bg-[#30b8c4] hover:bg-[#2aa0aa] text-white px-10 py-2 rounded"
               >
                 Add Product
               </a>
 
               <div className="flex gap-2">
                 <div className="relative w-[180px]">
-                  <select className="w-full appearance-none bg-[#1a1a2e] text-white border border-gray-700 rounded px-3 py-2 pr-8">
+                  <select className="w-full appearance-none bg-[#31334C] text-white border border-black focus:border-white rounded px-3 py-2 pr-8">
                     <option value="product">Product</option>
                     <option value="category">Category</option>
                     <option value="price">Price</option>
@@ -56,7 +58,7 @@ export default function ProductsPage() {
                 </div>
 
                 <div className="relative w-[180px]">
-                  <select className="w-full appearance-none bg-[#1a1a2e] text-white border border-gray-700 rounded px-3 py-2 pr-8">
+                  <select className="w-full appearance-none bg-[#31334C] text-white border border-black focus:border-white rounded px-3 py-2 pr-8">
                     <option value="tag">Tag</option>
                     <option value="tote">Tote Bags</option>
                     <option value="shirt">Shirts</option>
@@ -72,7 +74,7 @@ export default function ProductsPage() {
                   <input
                     type="search"
                     placeholder="Search"
-                    className="w-full bg-[#1a1a2e] text-white border border-gray-700 rounded px-3 py-2 pr-10"
+                    className="w-full bg-[#31334C] text-white border border-black focus:border-white rounded px-3 py-2 pr-10"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -93,7 +95,7 @@ export default function ProductsPage() {
             {/* Products List */}
             <div className="space-y-3">
               {products.map((product) => (
-                <div key={product.id} className="flex items-center p-4 bg-[#131336] border border-[#1a1a2e] rounded-lg">
+                <div key={product.id} className="flex items-center p-4 bg-[#171A33] border-4 border-[#242460] rounded-lg">
                   <div className="h-16 w-16 bg-gray-200 rounded-md flex items-center justify-center mr-4">
                     <img
                       src="/placeholder.svg?height=64&width=64"
@@ -104,7 +106,7 @@ export default function ProductsPage() {
                   <div className="flex-1">
                     <h3 className="text-white font-medium">{product.name}</h3>
                     <p className="text-gray-400 text-xs">{product.category}</p>
-                    <p className="text-[#30b8c4]">{product.price}</p>
+                    <p className="text-[#6479CB]">{product.price}</p>
                   </div>
                   <div className="flex space-x-4">
                     <button className="text-white">
