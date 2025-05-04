@@ -17,30 +17,7 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-[#0e0e1a]">
       {/* Header */}
-      <header className="flex justify-between items-center p-4 bg-[#0e0e1a] border-b border-blue-900">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-            <span className="text-[#0e0e1a] font-bold text-xs">UP</span>
-          </div>
-          <div className="text-white font-bold text-xs leading-tight">
-            <div>UP COMPUTER</div>
-            <div>SCIENCE GUILD</div>
-          </div>
-        </div>
-        <div className="flex items-center gap-6">
-          <a href="#" className="text-white text-sm">
-            NEWS
-          </a>
-          <a href="#" className="text-white text-sm">
-            BADGES
-          </a>
-          <a href="#" className="text-white text-sm">
-            LOGIN
-          </a>
-        </div>
-      </header>
-
-      <div className="px-8 py-6">
+      <div className="px-10 py-6">
         <h1 className="text-3xl font-bold text-white mb-8">MERCH</h1>
 
         <div className="flex">
