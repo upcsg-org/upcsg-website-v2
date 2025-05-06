@@ -43,7 +43,7 @@ const AdminLayout = (props: PropsInterface) => {
     }
 
     return (
-        <div className="min-h-screen w-full bg-main-dark">
+        <div className="h-[calc(100vh-5rem)] w-full bg-main-dark">
             <AdminSidePanel />
             {children}
         </div>
