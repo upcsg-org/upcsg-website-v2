@@ -30,6 +30,7 @@ interface AuthState {
     verifyToken: (token?: string) => Promise<boolean>;
     refreshToken: () => Promise<boolean>;
     loadUserFromCookies: () => Promise<void>;
+    getProfile: () => void;
 }
 
 // Registration data interface
@@ -204,6 +205,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             return true;
         } catch (error) {
             return false;
+        }
+    },
+
+    getProfile: async () => {
+        try {
+            const response = await apiClient.get<User>('/user/user/');
+            set({ user: response });
+        } catch (error) {
+            console.error("AuthStore: Failed to get profile", error);
         }
     },
 

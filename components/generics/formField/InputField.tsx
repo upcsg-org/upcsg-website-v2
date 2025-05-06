@@ -50,6 +50,7 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
         case 'text':
         case 'email':
         case 'tel':
+        case 'date':
             return (
                 <div className={containerClass}>
                     <label className={labelClass}>{label}</label>
@@ -61,6 +62,23 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
                             onChange={onChange}
                             placeholder={placeholder}
                             className={`p-3 mt-2 border rounded-xl bg-secondary-dark ${className}`}
+                            readOnly={readonly}
+                        />
+                    </div>
+                </div>
+            )
+
+        case 'textarea':
+            return (
+                <div className={containerClass}>
+                    <label className={labelClass}>{label}</label>
+                    <div className={labelClass}>
+                        <textarea
+                            name={name}
+                            value={value}
+                            onChange={onChange}
+                            placeholder={placeholder}
+                            className={`p-2 border rounded-xl bg-secondary-dark ${className}`}
                             readOnly={readonly}
                         />
                     </div>

@@ -1,39 +1,60 @@
 'use client'
 
-import { ArticleList } from '@/interface/article'
 import ContentListItem from './ContentListItem'
 import TheButton from '../generics/TheButton'
 import SearchBar from './SearchBar'
-import { useState, useEffect, ChangeEvent } from 'react'
+import { useState, useEffect, ChangeEvent, Key } from 'react'
 import { FaPlus } from 'react-icons/fa'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEventStore } from '@/store/event'
+import { useAnnouncementStore } from '@/store/announcement'
+import { useInternshipStore } from '@/store/internship'
+import { useScholarshipStore } from '@/store/scholarship'
 
-const ContentList = (props: ArticleList) => {
-    const { articles } = props
-    const [filteredArticles, setFilteredArticles] = useState(articles)
+const ContentList = (props: { items: any }) => {
+    const { items } = props
+    const [filteredItems, setFilteredItems] = useState(items)
     const [showStickyBar, setShowStickyBar] = useState(false)
     const [searchText, setSearchText] = useState('')
+    const router = useRouter()
 
-    const pathname = usePathname() // Get the current route
+    const pathname = usePathname()
 
-    // Determine the content type based on the current route
-    const getContentType = () => {
-        if (pathname.includes('announcements')) return 'announcement'
-        if (pathname.includes('events')) return 'event'
-        if (pathname.includes('scholarships')) return 'scholarship'
-        if (pathname.includes('internships')) return 'internship'
-        return 'announcement' // Default type
-    }
+    // Extract the last segment of the path
+    const pathSegment = pathname ? pathname.split('/').pop() : ''
+
+    // Get the fetch functions from the appropriate stores
+    const { fetchAll: fetchEvents } = useEventStore()
+    const { fetchAll: fetchAnnouncements } = useAnnouncementStore()
+    const { fetchAll: fetchInternships } = useInternshipStore()
+    const { fetchAll: fetchScholarships } = useScholarshipStore()
+
+    useEffect(() => {
+        setFilteredItems(items)
+    }, [items])
 
     const handleSearch = (searchText: string) => {
-        const filtered = articles.filter((article) =>
-            article.title.toLowerCase().includes(searchText.toLowerCase())
+        const filtered = items.filter((item: { title: string }) =>
+            item.title.toLowerCase().includes(searchText.toLowerCase())
         )
-        setFilteredArticles(filtered)
+        setFilteredItems(filtered)
     }
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
+    }
+
+    const handleItemDelete = () => {
+        // Refresh content based on content type
+        if (pathSegment === 'event' && fetchEvents) {
+            fetchEvents()
+        } else if (pathSegment === 'announcement' && fetchAnnouncements) {
+            fetchAnnouncements()
+        } else if (pathSegment === 'internship' && fetchInternships) {
+            fetchInternships()
+        } else if (pathSegment === 'scholarship' && fetchScholarships) {
+            fetchScholarships()
+        }
     }
 
     useEffect(() => {
@@ -64,7 +85,11 @@ const ContentList = (props: ArticleList) => {
                 </div>
                 <div className="ml-4 pr-4">
                     <TheButton
-                        link={`/admin/create/content?type=${getContentType()}`}
+                        onClick={() =>
+                            router.push(
+                                `/admin/create/content?type=${pathSegment}`
+                            )
+                        }
                     >
                         <div className="flex items-center h-8">
                             <span className="text-lg text-white hidden md:block mr-2">
@@ -77,14 +102,17 @@ const ContentList = (props: ArticleList) => {
             </div>
             <br />
             <div className="mt-4 space-y-5">
-                {filteredArticles.map((article, index) => (
+                {filteredItems.map((item: any) => (
                     <ContentListItem
-                        key={index}
-                        title={article.title}
-                        date={article.date}
-                        body={article.body}
-                        image={article.image}
-                        author={article.author}
+                        key={item.id}
+                        id={item.id}
+                        title={item.title}
+                        date_created={item.date_created}
+                        body={item.body}
+                        image_url={item.image_url}
+                        author={item.author}
+                        contentType={pathSegment || ''}
+                        onDelete={handleItemDelete}
                     />
                 ))}
             </div>

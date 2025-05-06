@@ -1,4 +1,4 @@
-import { HAT, BAG, SHIRT, STICKER, PIN } from "./merchTypes"
+import { HAT, BAG, SHIRT } from "./merchTypes"
 import { SMALL, MEDIUM, LARGE, XL } from "./merchSizes"
 import { RED, GREEN, BLUE, WHITE, VULCAN, VIDA_LOCA } from "../generic/color"
 

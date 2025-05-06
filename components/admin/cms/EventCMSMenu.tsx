@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { IoChevronBackOutline } from 'react-icons/io5'
 import { IoChevronDownOutline } from 'react-icons/io5'
+import { useRouter } from 'next/navigation'
 
 interface CreateEventMenuProps {
     contentType: string
@@ -23,6 +24,7 @@ function CreateEventMenu({
     const currentRoute = usePathname()
     const searchParams = useSearchParams()
     const typeParam = searchParams.get('type')
+    const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleDropdown = () => {
@@ -51,14 +53,14 @@ function CreateEventMenu({
     return (
         <div className="w-full flex flex-col px-12 sm:px-14 lg:px-28">
             <div className="w-full flex flex-row justify-center lg:justify-end pt-12">
-                <Link
-                    href="/admin/dashboard"
+                <button
+                    onClick={() => router.push('/admin/dashboard')}
                     className="flex flex-row items-center justify-center h-12 w-full sm:w-2/3 md:w-auto py-4 px-4 md:px-8 bg-primary-light rounded-lg gap-4 font-bold tracking-wide
                                 hover:bg-[#2F8690] text-[12px] md:text-sm"
                 >
                     <IoChevronBackOutline />
                     BACK TO DASHBOARD
-                </Link>
+                </button>
             </div>
             <div className="w-full flex flex-col-reverse lg:flex-row-reverse items-center md:justify-between pt-8 md:pt-12 gap-6 md:gap-12">
                 <div className="w-full lg:w-2/3 xl:w-1/2 flex flex-col md:flex-row gap-2 items-center justify-between">

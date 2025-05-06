@@ -44,8 +44,8 @@ type CreateGenericStoreReturn<T, TExtension extends Record<string, any>> = UseBo
 
 // Update function signature to accept TExtension generic
 export const createGenericStore = <
-    T extends { id: string | number },
-    TExtension extends Record<string, any> = Record<string, never> // Default to empty object if no extension
+  T extends { id?: string | number },
+  TExtension extends Record<string, any> = Record<string, never> // Default to empty object if no extension
 >(
   endpoint: string,
   options?: {
@@ -54,131 +54,131 @@ export const createGenericStore = <
   }
 ): CreateGenericStoreReturn<T, TExtension> => { // Use the updated return type
 
-    // Default function if extendStore is not provided
-    // Cast the empty object to TExtension to satisfy the type
-    const defaultExtend = (() => ({} as TExtension)) as ExtendStore<T, TExtension>;
-    
-    // Default actions include all available actions if none specified
-    const availableActions: ActionType[] = options?.actions || ['fetchAll', 'fetchOne', 'create', 'update', 'remove'];
+  // Default function if extendStore is not provided
+  // Cast the empty object to TExtension to satisfy the type
+  const defaultExtend = (() => ({} as TExtension)) as ExtendStore<T, TExtension>;
 
-    // Define the full state type for casting partial updates
-    type FullStoreState = GenericState<T> & GenericActions<T> & TExtension;
+  // Default actions include all available actions if none specified
+  const availableActions: ActionType[] = options?.actions || ['fetchAll', 'fetchOne', 'create', 'update', 'remove'];
 
-    return create<FullStoreState>((set, get) => {
-      // Initialize with base state
-      const store: GenericState<T> & Partial<GenericActions<T>> = {
-        // === Generic state ===
-        items: [],
-        item: null,
-        loading: false,
-        error: null,
-        meta: {
-          currentPage: 1,
-          totalPages: 1,
-          totalCount: 0,
+  // Define the full state type for casting partial updates
+  type FullStoreState = GenericState<T> & GenericActions<T> & TExtension;
+
+  return create<FullStoreState>((set, get) => {
+    // Initialize with base state
+    const store: GenericState<T> & Partial<GenericActions<T>> = {
+      // === Generic state ===
+      items: [],
+      item: null,
+      loading: false,
+      error: null,
+      meta: {
+        currentPage: 1,
+        totalPages: 1,
+        totalCount: 0,
+      }
+    };
+
+    // Conditionally add actions based on configuration
+    if (availableActions.includes('fetchAll')) {
+      store.fetchAll = async (params: Record<string, any> = {}) => {
+        set({ loading: true, error: null } as Partial<FullStoreState>);
+        try {
+          interface ApiResponse {
+            objects?: T[];
+            current_page?: number;
+            num_pages?: number;
+            total_count?: number;
+          }
+          const data: ApiResponse = await apiClient.get<ApiResponse>(`${endpoint}/`, params);
+          set({
+            items: data.objects || [],
+            meta: {
+              currentPage: data.current_page || 1,
+              totalPages: data.num_pages || 1,
+              totalCount: data.total_count || (data.objects ? data.objects.length : 0),
+            },
+            loading: false,
+          } as Partial<FullStoreState>);
+        } catch (error: any) {
+          set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
         }
       };
+    }
 
-      // Conditionally add actions based on configuration
-      if (availableActions.includes('fetchAll')) {
-        store.fetchAll = async (params: Record<string, any> = {}) => {
-          set({ loading: true, error: null } as Partial<FullStoreState>);
-          try {
-            interface ApiResponse {
-                objects?: T[];
-                current_page?: number;
-                num_pages?: number;
-                total_count?: number;
-            }
-            const data: ApiResponse = await apiClient.get<ApiResponse>(`${endpoint}/`, params);
-            set({
-              items: data.objects || [],
-              meta: {
-                currentPage: data.current_page || 1,
-                totalPages: data.num_pages || 1,
-                totalCount: data.total_count || (data.objects ? data.objects.length : 0),
-              },
-              loading: false,
-            } as Partial<FullStoreState>);
-          } catch (error: any) {
-            set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
-          }
-        };
-      }
-
-      if (availableActions.includes('fetchOne')) {
-        store.fetchOne = async (id: string | number) => {
-          set({ loading: true, error: null } as Partial<FullStoreState>);
-          try {
-            const data = await apiClient.get<T>(`${endpoint}/${id}/`);
-            set({ item: data, loading: false } as Partial<FullStoreState>);
-          } catch (error: any) {
-            set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
-          }
-        };
-      }
-
-      if (availableActions.includes('create')) {
-        store.create = async (payload: Partial<T>) => {
-          set({ loading: true, error: null } as Partial<FullStoreState>);
-          let createdData: T | undefined = undefined;
-          try {
-            createdData = await apiClient.post<T>(`${endpoint}/`, payload);
-            set({ loading: false } as Partial<FullStoreState>);
-            // Refetch list if fetchAll is available
-            const state = get();
-            if ('fetchAll' in state && typeof state.fetchAll === 'function') {
-              await state.fetchAll();
-            }
-            return createdData;
-          } catch (error: any) {
-            set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
-            return undefined;
-          }
-        };
-      }
-
-      if (availableActions.includes('update')) {
-        store.update = async (id: string | number, payload: Partial<T>) => {
-          set({ loading: true, error: null } as Partial<FullStoreState>);
-          let updatedData: T | undefined = undefined;
-          try {
-            updatedData = await apiClient.put<T>(`${endpoint}/${id}/`, payload);
-            set({ loading: false } as Partial<FullStoreState>);
-            // Refetch list if fetchAll is available
-            const state = get();
-            if ('fetchAll' in state && typeof state.fetchAll === 'function') {
-              await state.fetchAll();
-            }
-            return updatedData;
-          } catch (error: any) {
-            set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
-            return undefined;
-          }
-        };
-      }
-
-      if (availableActions.includes('remove')) {
-        store.remove = async (id: string | number) => {
-          set({ loading: true, error: null } as Partial<FullStoreState>);
-          try {
-            await apiClient.delete(`${endpoint}/${id}/`);
-            set({ loading: false } as Partial<FullStoreState>);
-            // Refetch list if fetchAll is available
-            const state = get();
-            if ('fetchAll' in state && typeof state.fetchAll === 'function') {
-              await state.fetchAll();
-            }
-          } catch (error: any) {
-            set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
-          }
-        };
-      }
-
-      return {
-        ...store as unknown as FullStoreState,
-        // === Add custom state/actions here ===
-        ...(options?.extendStore ? options.extendStore(set, get) : defaultExtend(set, get)),
+    if (availableActions.includes('fetchOne')) {
+      store.fetchOne = async (id: string | number) => {
+        set({ loading: true, error: null } as Partial<FullStoreState>);
+        try {
+          const data = await apiClient.get<T>(`${endpoint}/${id}/`);
+          set({ item: data, loading: false } as Partial<FullStoreState>);
+        } catch (error: any) {
+          set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
+        }
       };
-    });
+    }
+
+    if (availableActions.includes('create')) {
+      store.create = async (payload: Partial<T>) => {
+        set({ loading: true, error: null } as Partial<FullStoreState>);
+        let createdData: T | undefined = undefined;
+        try {
+          createdData = await apiClient.post<T>(`${endpoint}/`, payload);
+          set({ loading: false } as Partial<FullStoreState>);
+          // Refetch list if fetchAll is available
+          const state = get();
+          if ('fetchAll' in state && typeof state.fetchAll === 'function') {
+            await state.fetchAll();
+          }
+          return createdData;
+        } catch (error: any) {
+          set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
+          return undefined;
+        }
+      };
+    }
+
+    if (availableActions.includes('update')) {
+      store.update = async (id: string | number, payload: Partial<T>) => {
+        set({ loading: true, error: null } as Partial<FullStoreState>);
+        let updatedData: T | undefined = undefined;
+        try {
+          updatedData = await apiClient.put<T>(`${endpoint}/${id}/`, payload);
+          set({ loading: false } as Partial<FullStoreState>);
+          // Refetch list if fetchAll is available
+          const state = get();
+          if ('fetchAll' in state && typeof state.fetchAll === 'function') {
+            await state.fetchAll();
+          }
+          return updatedData;
+        } catch (error: any) {
+          set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
+          return undefined;
+        }
+      };
+    }
+
+    if (availableActions.includes('remove')) {
+      store.remove = async (id: string | number) => {
+        set({ loading: true, error: null } as Partial<FullStoreState>);
+        try {
+          await apiClient.delete(`${endpoint}/${id}/`);
+          set({ loading: false } as Partial<FullStoreState>);
+          // Refetch list if fetchAll is available
+          const state = get();
+          if ('fetchAll' in state && typeof state.fetchAll === 'function') {
+            await state.fetchAll();
+          }
+        } catch (error: any) {
+          set({ error: error instanceof Error ? error : new Error(String(error)), loading: false } as Partial<FullStoreState>);
+        }
+      };
+    }
+
+    return {
+      ...store as unknown as FullStoreState,
+      // === Add custom state/actions here ===
+      ...(options?.extendStore ? options.extendStore(set, get) : defaultExtend(set, get)),
+    };
+  });
 };

@@ -1,13 +1,12 @@
 import React, { useRef } from 'react'
 import { FaImage } from 'react-icons/fa'
-import FormFieldBuilder from '@/components/generics/formField/FormFieldBuilder'
 import TheButton from '@/components/generics/TheButton'
 
 interface CreateAnnouncementFormProps {
     formData: {
-        announcementTitle: string
-        announcementSummary: string
-        image: File | null
+        title: string
+        summary: string
+        image_url: File | null
     }
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
@@ -32,10 +31,10 @@ export const CreateAnnouncementForm = ({
         {
             field: {
                 label: 'Announcement Title',
-                name: 'announcementTitle',
+                name: 'title',
                 type: 'text',
                 placeholder: 'Input your title here.',
-                value: formData.announcementTitle,
+                value: formData.title,
                 className: 'w-full rounded-xl p-2',
             },
             onChange: handleChange,
@@ -51,11 +50,11 @@ export const CreateAnnouncementForm = ({
                 </label>
                 <input
                     type="text"
-                    name="announcementTitle"
-                    value={formData.announcementTitle}
+                    name="title"
+                    value={formData.title}
                     onChange={handleChange}
                     placeholder="Input your title here."
-                    className="w-full p-2 border rounded-xl bg-secondary-dark p-3 mt-2"
+                    className="w-full border rounded-xl bg-secondary-dark p-3 mt-2"
                 />
             </div>
 
@@ -65,8 +64,8 @@ export const CreateAnnouncementForm = ({
                     Announcement Summary
                 </label>
                 <textarea
-                    name="announcementSummary"
-                    value={formData.announcementSummary}
+                    name="summary"
+                    value={formData.summary}
                     onChange={handleChange}
                     placeholder="Input your summary here."
                     className="w-full border rounded-xl resize-none bg-secondary-dark p-3 mt-2"
@@ -91,9 +90,9 @@ export const CreateAnnouncementForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image && (
+                    {formData.image_url && (
                         <p className="ml-5 sm:self-start">
-                            {formData.image.name}
+                            {formData.image_url.name}
                         </p>
                     )}
                 </div>

@@ -38,7 +38,7 @@ const PurchaseDisplay = (props: PropsInterface) => {
     return (
         <div className="transform transition-all max-h-fit my-4 border-[#242460] border-4 rounded-lg grid grid-cols-5 md:grid-cols-10 items-center gap-2 p-2 text-xs min-[950px]:text-sm text-center uppercase tracking-wider">
             <Image
-                src="/images/placeholder.png"
+                src="/images/placeholder-standard.svg"
                 alt="Merch Sample"
                 width={100}
                 height={100}

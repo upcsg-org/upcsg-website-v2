@@ -47,46 +47,52 @@ const AdminCreateContent = () => {
 
     // Event form data
     const eventInitialValues = {
-        eventTitle: '',
-        startTime: '',
-        endTime: '',
-        eventLocation: '',
-        eventDay: '',
-        eventMonth: '',
-        eventYear: '',
-        image: null,
+        title: '',
+        start_date: '',
+        end_date: '',
+        external_url: '',
+        image_url: null,
+        body: '',
+        location: '',
+        article: null,
     }
     const eventForm = useFormHandler(eventInitialValues)
 
     // Announcement form data
     const announcementInitialValues = {
-        announcementTitle: '',
-        announcementSummary: '',
-        image: null,
+        title: '',
+        summary: '',
+        image_url: null,
+        external_url: '',
+        article: null,
     }
     const announcementForm = useFormHandler(announcementInitialValues)
 
     // Scholarship form data
     const scholarshipInitialValues = {
-        scholarshipTitle: '',
-        applicationOpeningDate: '',
-        applicationDeadlineDate: '',
-        requirementsSummary: '',
-        benefitsSummary: '',
-        scholarshipOrganization: '',
-        image: null,
+        title: '',
+        opening_date: '',
+        deadline: '',
+        requirements: '',
+        benefits: '',
+        organization: '',
+        image_url: null,
+        external_url: '',
+        article: null,
     }
     const scholarshipForm = useFormHandler(scholarshipInitialValues)
 
     // Internship form data
     const internshipInitialValues = {
-        internshipTitle: '',
-        applicationOpeningDate: '',
-        applicationDeadlineDate: '',
-        requirementsSummary: '',
-        benefitsSummary: '',
+        title: '',
+        opening_date: '',
+        deadline: '',
+        requirements: '',
+        benefits: '',
         organization: '',
-        image: null,
+        image_url: null,
+        external_url: '',
+        article: null,
     }
     const internshipForm = useFormHandler(internshipInitialValues)
 
@@ -179,6 +185,97 @@ const AdminCreateContent = () => {
                                         | 'scholarship'
                                         | 'internship'
                                 }
+                                initialExternalUrl={
+                                    getCurrentFormData().external_url || ''
+                                }
+                                onExternalUrlChange={(url) => {
+                                    // Update the form data with external URL
+                                    let formHandler
+                                    switch (contentType) {
+                                        case 'event':
+                                            formHandler = eventForm
+                                            break
+                                        case 'announcement':
+                                            formHandler = announcementForm
+                                            break
+                                        case 'scholarship':
+                                            formHandler = scholarshipForm
+                                            break
+                                        case 'internship':
+                                            formHandler = internshipForm
+                                            break
+                                        default:
+                                            formHandler = eventForm
+                                    }
+
+                                    // Update the external_url field
+                                    formHandler.setFormData({
+                                        ...formHandler.formData,
+                                        external_url: url,
+                                    })
+                                }}
+                                onArticleChange={(articleData) => {
+                                    // Only update if we have valid article data
+                                    if (!articleData) {
+                                        // If articleData is null, clear the article field
+                                        let formHandler
+                                        switch (contentType) {
+                                            case 'event':
+                                                formHandler = eventForm
+                                                break
+                                            case 'announcement':
+                                                formHandler = announcementForm
+                                                break
+                                            case 'scholarship':
+                                                formHandler = scholarshipForm
+                                                break
+                                            case 'internship':
+                                                formHandler = internshipForm
+                                                break
+                                            default:
+                                                formHandler = eventForm
+                                        }
+
+                                        // Set article to null
+                                        formHandler.setFormData({
+                                            ...formHandler.formData,
+                                            article: null,
+                                        })
+                                        return
+                                    }
+
+                                    // Extract only the fields needed for the backend Article model
+                                    const articleDataForBackend = {
+                                        title: articleData.title,
+                                        body: articleData.body,
+                                        author: articleData.author,
+                                    }
+
+                                    // Update the form data with article information
+                                    let formHandler
+                                    switch (contentType) {
+                                        case 'event':
+                                            formHandler = eventForm
+                                            break
+                                        case 'announcement':
+                                            formHandler = announcementForm
+                                            break
+                                        case 'scholarship':
+                                            formHandler = scholarshipForm
+                                            break
+                                        case 'internship':
+                                            formHandler = internshipForm
+                                            break
+                                        default:
+                                            formHandler = eventForm
+                                    }
+
+                                    // Manually update the article field
+                                    formHandler.setFormData({
+                                        ...formHandler.formData,
+                                        article: articleDataForBackend,
+                                    })
+                                }}
                             />
                         </div>
 

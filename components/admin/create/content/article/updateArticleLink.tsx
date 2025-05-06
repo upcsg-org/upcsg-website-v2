@@ -4,36 +4,63 @@ import { ChooseRedirect } from '../../../../generics/articleRedirect/ChooseRedir
 import { RedirectLink } from '../../../../generics/articleRedirect/RedirectLink'
 import { RedirectArticle } from '../../../../generics/articleRedirect/RedirectArticle'
 
-interface CreateArticleLinkProps {
+interface UpdateArticleLinkProps {
     contentType?: 'event' | 'announcement' | 'scholarship' | 'internship'
     onArticleChange?: (articleData: any | null) => void
     onExternalUrlChange?: (url: string | null) => void
     initialExternalUrl?: string
+    initialArticle?: {
+        title: string
+        body: string
+        author: string
+    } | null
 }
 
-export const CreateArticleLink = ({
+export const UpdateArticleLink = ({
     contentType = 'event',
     onArticleChange,
     onExternalUrlChange,
-    initialExternalUrl = '',
-}: CreateArticleLinkProps) => {
+    initialExternalUrl,
+    initialArticle,
+}: UpdateArticleLinkProps) => {
     const [redirectState, setRedirectState] = useState('none')
-    const [articleData, setArticleData] = useState(null)
-    const [externalUrl, setExternalUrl] = useState(initialExternalUrl)
+    const [articleData, setArticleData] = useState(initialArticle ?? null)
+    const [externalUrl, setExternalUrl] = useState(initialExternalUrl ?? null)
 
     // Use ref to track initial render
     const initialRender = useRef(true)
 
     // Only update on redirectState changes, not every time externalUrl changes
     useEffect(() => {
+        if (initialExternalUrl) {
+            setExternalUrl(initialExternalUrl)
+        }
+
+        console.log('external url: ', initialExternalUrl)
+    }, [initialExternalUrl])
+
+    useEffect(() => {
+        if (initialArticle) {
+            setArticleData(initialArticle)
+        }
+    }, [initialArticle])
+
+    useEffect(() => {
         if (initialRender.current) {
             initialRender.current = false
             return
         }
 
-        if (onExternalUrlChange) {
-            onExternalUrlChange(redirectState === 'link' ? externalUrl : null)
+        if (redirectState === 'link' && onExternalUrlChange) {
+            onExternalUrlChange(externalUrl)
+        } else if (redirectState === 'article' && onArticleChange) {
+            onArticleChange(articleData)
+        } else if (redirectState === 'none') {
+            if (onArticleChange) onArticleChange(null)
+            if (onExternalUrlChange) onExternalUrlChange(null)
         }
+
+        console.log('Redirect state changed to:', redirectState)
     }, [redirectState])
 
     const getRedirectTitle = () => {
@@ -112,6 +139,7 @@ export const CreateArticleLink = ({
                             <RedirectArticle
                                 contentType={contentType}
                                 onArticleDataChange={handleArticleChange}
+                                initialArticleData={articleData}
                             />
                         </div>
                     )}

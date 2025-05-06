@@ -32,27 +32,27 @@ const menuItems: MenuItem[] = [
     {
         title: 'ANNOUNCEMENTS',
         icon: <LuBell size={20} />,
-        path: '/admin/announcements',
+        path: '/admin/announcement',
     },
     {
         title: 'EVENTS',
         icon: <LuCalendar size={20} />,
-        path: '/admin/events',
+        path: '/admin/event',
     },
     {
         title: 'SCHOLARSHIPS',
         icon: <LuGraduationCap size={20} />,
-        path: '/admin/scholarships',
+        path: '/admin/scholarship',
     },
     {
         title: 'INTERNSHIPS',
         icon: <LuBriefcase size={20} />,
-        path: '/admin/internships',
+        path: '/admin/internship',
     },
     {
         title: 'OFFICERS',
         icon: <LuUsers size={20} />,
-        path: '/admin/officers',
+        path: '/admin/officer',
     },
     {
         title: 'SETTINGS',
@@ -83,10 +83,8 @@ const AdminSidePanel: React.FC = () => {
             return
         }
 
-        // Close sidebar on mobile after navigation
-        if (window.innerWidth < 768) {
-            setIsOpen(false)
-        }
+        // Close sidebar after navigation
+        setIsOpen(false)
     }
 
     return (

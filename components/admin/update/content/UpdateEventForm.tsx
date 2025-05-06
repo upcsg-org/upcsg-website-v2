@@ -1,120 +1,159 @@
-import React, { useRef, useEffect } from 'react'
-
-import FormFieldBuilder from '@/components/generics/formField/FormFieldBuilder'
-import TheButton from '@/components/generics/TheButton'
-import getContentFormConfig from '@/configs/eventFormConfig'
-import { FormFieldProps } from '@/interface/formfield'
+import React, { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { FaImage } from 'react-icons/fa'
+import TheButton from '@/components/generics/TheButton'
+import { apiClient } from '@/lib/api'
 
-interface TimeInputProps {
-    formConfig: FormFieldProps
-}
-
-// time input component
-const TimeInput = ({ formConfig }: TimeInputProps) => {
-    const { field, onChange } = formConfig
-    const { label, name, value, className } = field
-
-    return (
-        <div className="w-full flex flex-col">
-            <label className="mb-1 font-semibold tracking-wide">{label}</label>
-            <div className="mb-1 font-semibold tracking-wide">
-                <input
-                    type="time"
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    className={`p-2 border rounded-xl cursor-pointer ${className}`}
-                />
-            </div>
-        </div>
-    )
+interface Article {
+    title: string
+    date_created: string
+    date_updated: string
+    body: string
+    author?: string | null
 }
 
 interface UpdateEventFormProps {
     formData: {
-        eventTitle: string
-        startTime: string
-        endTime: string
-        eventLocation: string
-        eventDay: string
-        eventMonth: string
-        eventYear: string
-        image: File | null
+        title: string
+        start_date: string
+        end_date: string
+        external_url: string
+        body: string
+        image_url: File | null
+        location: string
+        article: Article
     }
+
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
+    goToNextStep: () => void
+    setFormData: React.Dispatch<React.SetStateAction<any>>
 }
 
 const UpdateEventForm = ({
     formData,
     handleChange,
     handleImageChange,
+    goToNextStep,
+    setFormData,
 }: UpdateEventFormProps) => {
-    // stores field configs for update event form builder
-    const contentFormConfig = getContentFormConfig(formData, handleChange)
-
-    // IMAGE OPERATIONS
+    const searchParams = useSearchParams()
     const imageInputRef = useRef<HTMLInputElement>(null)
+    const [loading, setLoading] = useState(true)
 
     const handleImageUpload = (): void => {
         imageInputRef.current?.click()
     }
 
+    useEffect(() => {
+        const id = searchParams.get('id')
+        const fetchEvent = async () => {
+            try {
+                const event = await apiClient.get(`/cms/events/${id}/`)
+                console.log('Fetched event:', event)
+
+                // Populate event form with fetched data
+                setFormData({
+                    title: event.title || '',
+                    start_date: event.start_date || '',
+                    end_date: event.end_date || '',
+                    external_url: event.external_url || null,
+                    image_url: event.image_url || null, // leave as string for preview
+                    body: event.body || '',
+                    location: event.location || '',
+                    article: event.article || null,
+                })
+
+                setLoading(false)
+
+                console.log('Form data now:', formData)
+            } catch (error) {
+                console.error('Failed to fetch event:', error)
+            }
+        }
+        fetchEvent()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams])
+
+    if (loading) {
+        return <p>Loading...</p>
+    }
+
     return (
         <>
             {/* Event Title */}
-            <FormFieldBuilder
-                formConfig={contentFormConfig.slice(0, 1)}
-                className={'my-1'}
-            />
-            <div className="w-full lg:flex lg:justify-between lg:space-x-3 lg:align-center">
-                {/* Event Duration */}
-                <div className="my-6 sm:flex sm:justify-between sm:space-x-3 lg:w-5/12">
-                    <TimeInput formConfig={contentFormConfig[1]} />
-                    <TimeInput formConfig={contentFormConfig[2]} />
-                </div>
-                {/* Event Location */}
-                <FormFieldBuilder
-                    formConfig={contentFormConfig.slice(3, 4)}
-                    className={'my-6 lg:w-1/2'}
+            <div className="mb-6">
+                <label className="mb-1 font-semibold">Event Title</label>
+                <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    placeholder="Enter event title"
+                    className="w-full p-3 border rounded-xl bg-secondary-dark mt-2"
                 />
             </div>
 
-            {/* Event Date */}
-            <div className="lg:flex lg:space-x-3 lg:w-9/12">
-                <div className="my-6 sm:flex sm:justify-between sm:space-x-3">
-                    <div className="w-full">
-                        <FormFieldBuilder
-                            formConfig={contentFormConfig.slice(4, 5)}
-                        />
-                    </div>
-                    <div className="w-full">
-                        <FormFieldBuilder
-                            formConfig={contentFormConfig.slice(5, 6)}
-                        />
-                    </div>
+            {/* Event Duration */}
+            <div className="mb-6 flex flex-col lg:flex-row lg:space-x-3">
+                <div className="flex-1 mb-4 lg:mb-0">
+                    <label className="mb-1 font-semibold">Start Date</label>
+                    <input
+                        type="date"
+                        name="start_date"
+                        value={formData.start_date}
+                        onChange={handleChange}
+                        className="w-full p-3 border rounded-xl bg-secondary-dark mt-2"
+                    />
                 </div>
-                <FormFieldBuilder
-                    formConfig={contentFormConfig.slice(6, 7)}
-                    className={'my-6'}
+                <div className="flex-1">
+                    <label className="mb-1 font-semibold">End Date</label>
+                    <input
+                        type="date"
+                        name="end_date"
+                        value={formData.end_date}
+                        onChange={handleChange}
+                        className="w-full p-3 border rounded-xl bg-secondary-dark mt-2"
+                    />
+                </div>
+            </div>
+
+            {/* Event Location */}
+            <div className="mb-6">
+                <label className="mb-1 font-semibold">Location</label>
+                <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    placeholder="Enter event location"
+                    className="w-full p-3 border rounded-xl bg-secondary-dark mt-2"
+                />
+            </div>
+
+            {/* Event Body */}
+            <div className="mb-6">
+                <label className="mb-1 font-semibold">Description</label>
+                <textarea
+                    name="body"
+                    value={formData.body}
+                    onChange={handleChange}
+                    placeholder="Enter event description"
+                    className="w-full p-3 border rounded-xl resize-none bg-secondary-dark mt-2"
+                    rows={6}
                 />
             </div>
 
             {/* Event Image */}
-            <div className="my-6 inline-flex flex-col">
+            <div className="w-full my-6 inline-flex flex-col">
                 <label className="mb-1 font-semibold">Event Image</label>
-                <div className="flex items-center">
-                    <TheButton
-                        children={
-                            <div className="flex items-center">
-                                <h1 className="mr-6">UPLOAD IMAGE</h1>
-                                <FaImage />
-                            </div>
-                        }
-                        style={'w-auto'}
-                        onClick={handleImageUpload}
-                    />
+                <div className="w-full flex-col md:flex-row items-center break-words mt-2">
+                    <TheButton style={'w-auto'} onClick={handleImageUpload}>
+                        <div className="flex items-center">
+                            <h1 className="mr-6">UPLOAD IMAGE</h1>
+                            <FaImage />
+                        </div>
+                    </TheButton>
                     <input
                         type="file"
                         ref={imageInputRef}
@@ -122,9 +161,9 @@ const UpdateEventForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image && (
-                        <p className="ml-5 sm:self-start">
-                            {formData.image.name}
+                    {formData.image_url && (
+                        <p className="w-full mt-5 sm:self-start text-sm md:text-base">
+                            {formData.image_url?.name}
                         </p>
                     )}
                 </div>

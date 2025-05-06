@@ -1,60 +1,112 @@
-"use client";
+'use client'
 
-import { Article } from '@/interface/article'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { BiEdit, BiTrash } from 'react-icons/bi'
+import { useRouter } from 'next/navigation'
+import { useCreateUpdateDeleteEventStore } from '@/store/event'
+import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
+import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
+import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
 
-const ContentListItem = (props: Article) => {
-    const { title, image, date, body } = props
+interface ContentListItemProps {
+    id: number
+    title: string
+    image_url?: string
+    date_created: Date | string
+    body: string
+    author?: string
+    contentType: string
+    onDelete?: () => void
+}
 
-    const dateString = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    }).format(date)
+const ContentListItem = (props: ContentListItemProps) => {
+    const { id, title, image_url, date_created, body, contentType, onDelete } =
+        props
+    const router = useRouter() // Use router for navigation
+    const formattedDate =
+        date_created instanceof Date
+            ? date_created.toLocaleDateString()
+            : typeof date_created === 'string'
+              ? new Date(date_created).toLocaleDateString()
+              : 'No date'
 
-    const [isButtonHovered, setIsButtonHovered] = useState(false);
+    const [isButtonHovered, setIsButtonHovered] = useState(false)
+    const defaultImage = '/images/placeholder-standard.svg'
+
+    const { remove: removeEvent } = useCreateUpdateDeleteEventStore()
+    const { remove: removeAnnouncement } =
+        useCreateUpdateDeleteAnnouncementStore()
+    const { remove: removeInternship } = useCreateUpdateDeleteInternshipStore()
+    const { remove: removeScholarship } =
+        useCreateUpdateDeleteScholarshipStore()
+
+    const handleDelete = async () => {
+        console.log('DELETING', id)
+        try {
+            if (removeEvent && contentType === 'event') {
+                await removeEvent(id)
+                if (onDelete) onDelete()
+            } else if (removeAnnouncement && contentType === 'announcement') {
+                await removeAnnouncement(id)
+                if (onDelete) onDelete()
+            } else if (removeInternship && contentType === 'internship') {
+                await removeInternship(id)
+                if (onDelete) onDelete()
+            } else if (removeScholarship && contentType === 'scholarship') {
+                await removeScholarship(id)
+                if (onDelete) onDelete()
+            }
+        } catch (error) {
+            console.error('Error deleting content:', error)
+        }
+    }
+
+    const handleEdit = () => {
+        // Redirect to the update page with contentType and id as query parameters
+        router.push(`/admin/update/content?type=${contentType}&id=${id}`)
+    }
 
     return (
         <div
-            className={`h-auto sm:h-64 bg-[#171A33] m-4 flex flex-col sm:flex-row gap-4 transition-colors duration-300 ${!isButtonHovered ? 'hover:bg-white/10' : ''}`}
+            className={`bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col md:flex-row items-center relative`}
+            onMouseEnter={() => setIsButtonHovered(true)}
+            onMouseLeave={() => setIsButtonHovered(false)}
         >
-            <figure
-                style={{ backgroundImage: `url(${image})` }}
-                className="min-h-64 sm:min-w-80 max-h-full relative object-contain m-auto w-full sm:w-auto"
-            >
+            <div className="relative w-full md:w-48 h-36 rounded overflow-hidden flex-shrink-0 mb-4 md:mb-0">
                 <Image
+                    src={image_url || defaultImage}
+                    alt={title}
                     fill
-                    className="object-contain backdrop-blur-md max-h-full"
-                    alt=""
-                    src={image}
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 192px"
                 />
-            </figure>
-            <div className="p-4 flex-grow">
-                <h2 className="text-xl sm:text-3xl font-bold line-clamp-1">{title}</h2>
-                <p className="text-sm sm:text-base">{dateString}</p>
-                <br></br>
-                <p className="text-sm sm:text-base line-clamp-3">{body}</p>
             </div>
-            <div className="h-auto px-6 sm:px-12 flex flex-row sm:flex-col justify-around text-2xl sm:text-4xl">
+            <div className="md:ml-4 flex-1">
+                <h3 className="text-lg font-bold">{title}</h3>
+                <p className="text-sm text-gray-400">{formattedDate}</p>
+                <p className="text-sm text-gray-300 mt-2 line-clamp-2">
+                    {body}
+                </p>
+            </div>
+            <div
+                className={`absolute top-2 right-2 flex space-x-2 ${isButtonHovered ? 'opacity-100' : 'opacity-0'} transition-opacity`}
+            >
                 <button
-                    onMouseEnter={() => setIsButtonHovered(true)}
-                    onMouseLeave={() => setIsButtonHovered(false)}
-                    className="transition-transform transition-colors duration-150 ease-in-out hover:scale-110 hover:text-green-500 pb-6 sm:pb-0"
+                    onClick={handleEdit}
+                    className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                 >
-                    <BiEdit className="h-8 w-8 sm:h-10 sm:w-10"/>
+                    <BiEdit size={20} />
                 </button>
                 <button
-                    onMouseEnter={() => setIsButtonHovered(true)}
-                    onMouseLeave={() => setIsButtonHovered(false)}
-                    className="transition-transform transition-colors duration-150 ease-in-out hover:scale-110 hover:text-green-500 pb-6 sm:pb-0"
+                    onClick={handleDelete}
+                    className="p-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
                 >
-                    <BiTrash className="h-8 w-8 sm:h-10 sm:w-10"/>
+                    <BiTrash size={20} />
                 </button>
             </div>
         </div>
     )
 }
 
-export default ContentListItem;
+export default ContentListItem

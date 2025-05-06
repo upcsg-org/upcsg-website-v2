@@ -30,16 +30,16 @@ const buttonClassName = 'bg-secondary-dark w-full'
 const getContentFormConfig = (
     formData: any,
     handleChange: (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) => void
 ) => {
     const contentForm: FormFieldProps[] = [
         {
             field: {
                 type: 'text',
-                name: 'eventTitle',
+                name: 'title',
                 label: 'Event Title',
-                value: formData.eventTitle,
+                value: formData.title,
                 placeholder: 'Input your title here.',
                 className: `${buttonClassName} px-10 min-w-[200px]`,
             },
@@ -47,20 +47,20 @@ const getContentFormConfig = (
         },
         {
             field: {
-                type: 'text',
-                name: 'startTime',
-                label: 'Start Time',
-                value: formData.startTime,
+                type: 'date',
+                name: 'start_date',
+                label: 'Start Date',
+                value: formData.start_date,
                 className: `${buttonClassName} px-5 min-w-[200px] text-white`,
             },
             onChange: handleChange,
         },
         {
             field: {
-                type: 'text',
-                name: 'endTime',
-                label: 'End Time',
-                value: formData.endTime,
+                type: 'date',
+                name: 'end_date',
+                label: 'End Date',
+                value: formData.end_date,
                 className: `${buttonClassName} px-5 min-w-[200px]`,
             },
             onChange: handleChange,
@@ -68,46 +68,24 @@ const getContentFormConfig = (
         {
             field: {
                 type: 'text',
-                name: 'eventLocation',
+                name: 'location',
                 label: 'Event Location',
-                value: formData.eventLocation,
+                value: formData.location,
                 className: `${buttonClassName} px-5 min-w-[200px]`,
             },
             onChange: handleChange,
         },
         {
             field: {
-                type: 'select',
-                name: 'eventDay',
-                label: 'Event Day',
-                value: formData.eventDay,
-                options: range(1, 31),
-                className: `${buttonClassName} px-5 min-w-[200px]`,
+                type: 'textarea',
+                name: 'body',
+                label: 'Event Description',
+                value: formData.body,
+                placeholder: 'Provide details about the event...',
+                className: `${buttonClassName} px-5 min-w-[200px] h-32`,
             },
             onChange: handleChange,
-        },
-        {
-            field: {
-                type: 'select',
-                name: 'eventMonth',
-                label: 'Event Month',
-                value: formData.eventMonth,
-                options: months,
-                className: `${buttonClassName} px-5 min-w-[200px]`,
-            },
-            onChange: handleChange,
-        },
-        {
-            field: {
-                type: 'select',
-                name: 'eventYear',
-                label: 'Event Year',
-                value: formData.eventYear,
-                options: range(2024, date.getFullYear() + 2), // getFullYear automatically adds a year on the options depending on current year
-                className: `${buttonClassName} px-5 min-w-[200px]`,
-            },
-            onChange: handleChange,
-        },
+        }
     ]
 
     return contentForm

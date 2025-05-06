@@ -1,7 +1,14 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import { FaArrowLeft, FaEdit } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import { useCreateUpdateDeleteEventStore } from '@/store/event'
+import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
+import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
+import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
+import { useRouter, usePathname } from 'next/navigation'
 
 interface ContentPreviewProps {
     contentType: string
@@ -14,16 +21,29 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
     formData,
     goToPreviousStep,
 }) => {
+    const router = useRouter()
+    const pathname = usePathname()
+    const isUpdateMode = pathname.includes('/admin/update')
+    const searchParams = useSearchParams()
+    const id = searchParams.get('id')
+
+    const [isUploading, setIsUploading] = useState(false)
+
+    const { create: createEvent, update: updateEvent } =
+        useCreateUpdateDeleteEventStore()
+    const { create: createAnnouncement } =
+        useCreateUpdateDeleteAnnouncementStore()
+    const { create: createScholarship } =
+        useCreateUpdateDeleteScholarshipStore()
+    const { create: createInternship } = useCreateUpdateDeleteInternshipStore()
+
     const getTitle = () => {
         switch (contentType) {
             case 'event':
-                return formData.eventTitle || 'Event Title'
             case 'announcement':
-                return formData.announcementTitle || 'Announcement Title'
             case 'scholarship':
-                return formData.scholarshipTitle || 'Scholarship Title'
             case 'internship':
-                return formData.internshipTitle || 'Internship Title'
+                return formData.title || 'Title'
             default:
                 return 'Content Title'
         }
@@ -31,10 +51,7 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
 
     const getDate = () => {
         if (contentType === 'event') {
-            const day = formData.eventDay || 'Day'
-            const month = formData.eventMonth || 'Month'
-            const year = formData.eventYear || 'Year'
-            return `${month} ${day}, ${year}`
+            return formData.start_date || 'Start Date'
         } else if (contentType === 'announcement') {
             return new Date().toLocaleDateString('en-US', {
                 month: 'long',
@@ -43,15 +60,12 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
             })
         } else {
             // For scholarship and internship
-            const openingDate = formData.applicationOpeningDate
-                ? new Date(formData.applicationOpeningDate).toLocaleDateString(
-                      'en-US',
-                      {
-                          month: 'long',
-                          day: 'numeric',
-                          year: 'numeric',
-                      }
-                  )
+            const openingDate = formData.opening_date
+                ? new Date(formData.opening_date).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                  })
                 : 'Opening Date'
             return openingDate
         }
@@ -64,41 +78,126 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
     const getDescription = () => {
         switch (contentType) {
             case 'announcement':
-                return (
-                    formData.announcementSummary ||
-                    'Announcement summary goes here...'
-                )
+                return formData.summary || 'Announcement summary goes here...'
             case 'scholarship':
             case 'internship':
-                return (
-                    formData.requirementsSummary ||
-                    'Requirements summary goes here...'
-                )
+                return formData.requirements || 'Requirements go here...'
             case 'event':
-                return `${formData.eventLocation || 'Event Location'} at ${
-                    formData.startTime || 'Start Time'
-                } - ${formData.endTime || 'End Time'}`
+                return formData.body || 'Event details go here...'
             default:
                 return 'Content description goes here...'
         }
     }
 
     const getImageSrc = () => {
-        if (formData.image) {
-            return URL.createObjectURL(formData.image)
+        if (formData.image_url) {
+            return typeof formData.image_url === 'object'
+                ? URL.createObjectURL(formData.image_url)
+                : formData.image_url
         }
-        return '/placeholder-image.jpg' // Fallback image
+        return '/images/placeholder-standard.svg'
+    }
+
+    const uploadImageToCloudinary = async (file: File): Promise<string> => {
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+            formData.append(
+                'upload_preset',
+                process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ||
+                    'upcsg_preset'
+            )
+
+            const response = await fetch(
+                `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                {
+                    method: 'POST',
+                    body: formData,
+                }
+            )
+
+            if (!response.ok) {
+                throw new Error('Failed to upload image')
+            }
+
+            const data = await response.json()
+            return data.secure_url
+        } catch (error) {
+            console.error('Error uploading image:', error)
+            throw error
+        }
+    }
+
+    const publishContent = async () => {
+        setIsUploading(true)
+
+        try {
+            // Prepare data based on content type
+            let data = { ...formData }
+
+            // Handle image upload if it's a File object
+            if (formData.image_url && typeof formData.image_url === 'object') {
+                const imageUrl = await uploadImageToCloudinary(
+                    formData.image_url
+                )
+                data.image_url = imageUrl
+            }
+
+            // Handle article data formatting for backend
+            if (formData.article) {
+                // Extract only the fields needed for the backend Article model
+                const articleData = {
+                    title: formData.article.title,
+                    body: formData.article.body,
+                    author: formData.article.author,
+                }
+
+                data.article = articleData
+            }
+
+            console.log(`Publishing ${contentType}:`, data)
+
+            if (contentType === 'event' && createEvent && updateEvent) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    await updateEvent(id, data)
+                } else {
+                    await createEvent(data)
+                }
+            } else if (contentType === 'announcement' && createAnnouncement) {
+                await createAnnouncement(data)
+            } else if (contentType === 'scholarship' && createScholarship) {
+                await createScholarship(data)
+            } else if (contentType === 'internship' && createInternship) {
+                await createInternship(data)
+            }
+
+            router.push(`/admin/${contentType}`)
+        } catch (error) {
+            console.error('Error publishing content:', error)
+            alert('Failed to publish content. Please try again.')
+        } finally {
+            setIsUploading(false)
+        }
     }
 
     return (
         <>
             <h1 className="text-2xl font-bold mb-6">Article Card</h1>
-            <div className="w-full max-w-sm bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-12">
-                <img
-                    className="w-full h-40 object-cover"
-                    src={getImageSrc()}
-                    alt={getTitle()}
-                />
+            <div className="w-full max-w-sm bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-12 mx-auto">
+                <div className="relative w-full h-60">
+                    <Image
+                        className="object-cover"
+                        src={getImageSrc()}
+                        alt={getTitle()}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 384px"
+                    />
+                </div>
                 <div className="p-4">
                     <span className="text-sm text-blue-400 font-bold">
                         {getContentType()}
@@ -111,69 +210,88 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 </div>
             </div>
 
-            <h1 className="text-2xl font-bold mb-6">Article Page</h1>
-            <div className="w-full bg-gray-900 rounded-lg overflow-hidden shadow-lg mb-12">
-                <div className="w-full h-64 bg-gray-800 relative">
-                    <img
-                        className="w-full h-full object-cover"
-                        src={getImageSrc()}
-                        alt={getTitle()}
-                    />
-                </div>
+            {formData.article && (
+                <>
+                    <h1 className="text-2xl font-bold mb-6">Article Page</h1>
+                    <div className="w-full bg-gray-900 rounded-lg overflow-hidden shadow-lg mb-12">
+                        <div className="w-full h-96 bg-gray-800 relative">
+                            <Image
+                                className="object-cover"
+                                src={getImageSrc()}
+                                alt={getTitle()}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 1024px"
+                            />
+                        </div>
 
-                <div className="p-8">
-                    <h1 className="text-4xl font-bold mb-6">{getTitle()}</h1>
-                    <p className="text-lg text-gray-300 mb-6">
-                        by{' '}
-                        <span className="font-bold">
-                            &#60;WRITER&apos;S NAME&#62;
-                        </span>{' '}
-                        upmail@up.edu.ph
-                    </p>
-                    <p className="text-sm text-gray-400 mb-8">BSCS YRLVL - A</p>
+                        <div className="p-8">
+                            <h1 className="text-4xl font-bold mb-6">
+                                {formData.article.title}
+                            </h1>
+                            <p className="text-lg text-gray-300 mb-6">
+                                {new Date().toLocaleDateString()}
+                            </p>
+                            <p className="text-lg text-gray-300 mb-6">
+                                by{' '}
+                                <span className="font-bold">
+                                    {formData.article.author}
+                                </span>{' '}
+                            </p>
 
-                    <div className="prose text-gray-300 max-w-none mb-12">
-                        <p>
-                            Nulla eleifend lacus ac elit accumsan molestia. Orci
-                            varius natoque penatibus et magnis dis parturient
-                            montes, nascetur ridiculus mus. Vivamus volutpat id
-                            ipsum eget commodo. In porta in nunc quis sagittis.
-                            Morbi nec tellus labortis, vehicula tellus eu,
-                            faucibus est. Sed ac ipirm. Integer semper vulputate
-                            turpis eget tincidunt. Nam maximus eget ligula
-                            feugiat.
-                        </p>
-                        <p className="mt-4">
-                            In laoreet magna vel odio pulvinar viverra. Morbi
-                            elementum quam vel leo mattis, a consectetur quam
-                            rhoncus. Etiam ultricies porttitor dolor, ac
-                            tincidunt erat fringilla at. Pellentesque erat
-                            lectus, sollicitudin et neque eget, pulvinar porta
-                            tellus. Donec faucibus quis tellus sit amet
-                            placerat.
-                        </p>
+                            <div className="prose text-gray-300 max-w-none mb-12">
+                                {formData.article.body}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            )}
 
             <h1 className="text-2xl font-bold mb-6">
                 Article Admin Dashboard Preview
             </h1>
             <div className="w-full bg-gray-900 rounded-lg overflow-hidden shadow-lg p-4 mb-12 flex items-center">
-                <img
-                    className="w-32 h-24 object-cover rounded"
-                    src={getImageSrc()}
-                    alt={getTitle()}
-                />
+                <div className="relative w-48 h-36 rounded overflow-hidden flex-shrink-0">
+                    <Image
+                        className="object-cover"
+                        src={getImageSrc()}
+                        alt={getTitle()}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 192px"
+                    />
+                </div>
                 <div className="ml-4 flex-1">
-                    <h3 className="text-lg font-bold">{getTitle()}</h3>
+                    <h3 className="text-lg font-bold"> {formData.title} </h3>
                     <p className="text-sm text-gray-400">
-                        {new Date().toLocaleDateString()}
+                        {contentType === 'announcement' ? (
+                            <p>{new Date().toLocaleDateString()}</p>
+                        ) : contentType === 'event' ? (
+                            <p>
+                                {formData.start_date} to {formData.end_date}
+                            </p>
+                        ) : contentType === 'scholarship' ||
+                          contentType === 'internship' ? (
+                            <p>
+                                {formData.opening_date} to {formData.deadline}
+                            </p>
+                        ) : (
+                            ''
+                        )}
                     </p>
                     <p className="text-sm text-gray-300 mt-1 truncate">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam...
+                        {contentType === 'announcement' ? (
+                            formData.summary
+                        ) : contentType === 'event' ? (
+                            formData.body
+                        ) : contentType === 'scholarship' ||
+                          contentType === 'internship' ? (
+                            <p>
+                                {formData.requirements}
+                                <br></br>
+                                {formData.benefits}
+                            </p>
+                        ) : (
+                            formData.body
+                        )}
                     </p>
                 </div>
                 <div className="flex-shrink-0 ml-4">
@@ -192,11 +310,17 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 </TheButton>
 
                 <TheButton
-                    style={'w-auto bg-green-600 hover:bg-green-700'}
-                    onClick={() => console.log('Published')}
+                    style={`w-auto bg-green-600 hover:bg-green-700 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={isUploading ? () => {} : publishContent}
                 >
                     <div className="flex items-center">
-                        <h1>PUBLISH</h1>
+                        <h1>
+                            {isUploading
+                                ? 'UPLOADING...'
+                                : isUpdateMode
+                                  ? 'UPDATE'
+                                  : 'PUBLISH'}
+                        </h1>
                     </div>
                 </TheButton>
             </div>
