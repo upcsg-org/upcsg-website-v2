@@ -14,6 +14,8 @@ interface UpdateArticleLinkProps {
         body: string
         author: string
     } | null
+    redirectState: string
+    setRedirectState: React.Dispatch<React.SetStateAction<any>>
 }
 
 export const UpdateArticleLink = ({
@@ -22,8 +24,9 @@ export const UpdateArticleLink = ({
     onExternalUrlChange,
     initialExternalUrl,
     initialArticle,
+    redirectState,
+    setRedirectState,
 }: UpdateArticleLinkProps) => {
-    const [redirectState, setRedirectState] = useState('none')
     const [articleData, setArticleData] = useState(initialArticle ?? null)
     const [externalUrl, setExternalUrl] = useState(initialExternalUrl ?? null)
 

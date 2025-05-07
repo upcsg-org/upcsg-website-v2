@@ -122,6 +122,8 @@ const AdminUpdateContent = () => {
         }
     }, [searchParams])
 
+    const [redirectSetting, setRedirectSetting] = useState('none')
+
     return (
         <div className="ml-[-25px] md:ml-0">
             <CreateEventMenu
@@ -288,6 +290,8 @@ const AdminUpdateContent = () => {
                                         article: articleDataForBackend,
                                     })
                                 }}
+                                redirectState={redirectSetting}
+                                setRedirectState={setRedirectSetting}
                             />
                         </div>
 
@@ -313,6 +317,7 @@ const AdminUpdateContent = () => {
                         contentType={contentType}
                         formData={getCurrentFormData()}
                         goToPreviousStep={goToPreviousStep}
+                        redirectSetting={redirectSetting}
                     />
                 )}
             </section>

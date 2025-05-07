@@ -14,12 +14,14 @@ interface ContentPreviewProps {
     contentType: string
     formData: any
     goToPreviousStep: () => void
+    redirectSetting: string
 }
 
 const ContentPreview: React.FC<ContentPreviewProps> = ({
     contentType,
     formData,
     goToPreviousStep,
+    redirectSetting,
 }) => {
     const router = useRouter()
     const pathname = usePathname()
@@ -144,16 +146,27 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 data.image_url = imageUrl
             }
 
-            // Handle article data formatting for backend
-            if (formData.article) {
-                // Extract only the fields needed for the backend Article model
-                const articleData = {
-                    title: formData.article.title,
-                    body: formData.article.body,
-                    author: formData.article.author,
-                }
-
-                data.article = articleData
+            // Set external_url and article based on redirectSetting
+            switch (redirectSetting) {
+                case 'none':
+                    data.external_url = null
+                    data.article = null
+                    break
+                case 'link':
+                    data.article = null
+                    break
+                case 'article':
+                    data.external_url = null
+                    data.article = {
+                        title: formData.article?.title || '',
+                        body: formData.article?.body || '',
+                        author: formData.article?.author || '',
+                    }
+                    break
+                default:
+                    // Fallback in case of unexpected value
+                    data.external_url = null
+                    data.article = null
             }
 
             console.log(`Publishing ${contentType}:`, data)
