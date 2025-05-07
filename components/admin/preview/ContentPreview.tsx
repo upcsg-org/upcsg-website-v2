@@ -31,11 +31,12 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
 
     const { create: createEvent, update: updateEvent } =
         useCreateUpdateDeleteEventStore()
-    const { create: createAnnouncement } =
+    const { create: createAnnouncement, update: updateAnnouncement } =
         useCreateUpdateDeleteAnnouncementStore()
-    const { create: createScholarship } =
+    const { create: createScholarship, update: updateScholarship } =
         useCreateUpdateDeleteScholarshipStore()
-    const { create: createInternship } = useCreateUpdateDeleteInternshipStore()
+    const { create: createInternship, update: updateInternship } =
+        useCreateUpdateDeleteInternshipStore()
 
     const getTitle = () => {
         switch (contentType) {
@@ -168,12 +169,61 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 } else {
                     await createEvent(data)
                 }
-            } else if (contentType === 'announcement' && createAnnouncement) {
-                await createAnnouncement(data)
-            } else if (contentType === 'scholarship' && createScholarship) {
-                await createScholarship(data)
-            } else if (contentType === 'internship' && createInternship) {
-                await createInternship(data)
+            } else if (
+                contentType === 'announcement' &&
+                createAnnouncement &&
+                updateEvent
+            ) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    if (!updateAnnouncement) {
+                        console.error('updateAnnouncement is undefined.')
+                        alert('Update function is not available.')
+                        return
+                    }
+                    await updateAnnouncement(id, data)
+                } else {
+                    if (!createAnnouncement) {
+                        console.error('createAnnouncement is undefined.')
+                        alert('Create function is not available.')
+                        return
+                    }
+                    await createAnnouncement(data)
+                }
+            } else if (
+                contentType === 'scholarship' &&
+                createScholarship &&
+                updateScholarship
+            ) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    await updateScholarship(id, data)
+                } else {
+                    await createScholarship(data)
+                }
+            } else if (
+                contentType === 'internship' &&
+                createInternship &&
+                updateInternship
+            ) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    await updateInternship(id, data)
+                } else {
+                    await createInternship(data)
+                }
             }
 
             router.push(`/admin/${contentType}`)

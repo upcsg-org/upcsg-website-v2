@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import CreateEventMenu from '@/components/admin/cms/EventCMSMenu'
 import UpdateEventForm from '@/components/admin/update/content/UpdateEventForm'
-import { CreateAnnouncementForm } from '@/components/admin/create/content/CreateAnnouncementForm'
-import { CreateScholarshipForm } from '@/components/admin/create/content/CreateScholarshipForm'
-import { CreateInternshipForm } from '@/components/admin/create/content/CreateInternshipForm'
+import { UpdateAnnouncementForm } from '@/components/admin/update/content/UpdateAnnouncementForm'
+import { UpdateScholarshipForm } from '@/components/admin/update/content/UpdateScholarshipForm'
+import { UpdateInternshipForm } from '@/components/admin/update/content/UpdateInternshipForm'
 import { UpdateArticleLink } from '@/components/admin/create/content/article/updateArticleLink'
 import useFormHandler from '@/hooks/FormHooks'
 import ContentPreview from '@/components/admin/preview/ContentPreview'
@@ -120,12 +120,6 @@ const AdminUpdateContent = () => {
         ) {
             setContentType(typeParam)
         }
-
-        console.log(
-            'HERE IAM:',
-            getCurrentFormData(),
-            getCurrentFormData().external_url
-        )
     }, [searchParams])
 
     return (
@@ -150,35 +144,38 @@ const AdminUpdateContent = () => {
                         )}
 
                         {contentType === 'announcement' && (
-                            <CreateAnnouncementForm
+                            <UpdateAnnouncementForm
                                 formData={announcementForm.formData}
                                 handleChange={announcementForm.handleChange}
                                 handleImageChange={
                                     announcementForm.handleImageChange
                                 }
                                 goToNextStep={goToNextStep}
+                                setFormData={announcementForm.setFormData}
                             />
                         )}
 
                         {contentType === 'scholarship' && (
-                            <CreateScholarshipForm
+                            <UpdateScholarshipForm
                                 formData={scholarshipForm.formData}
                                 handleChange={scholarshipForm.handleChange}
                                 handleImageChange={
                                     scholarshipForm.handleImageChange
                                 }
                                 goToNextStep={goToNextStep}
+                                setFormData={scholarshipForm.setFormData}
                             />
                         )}
 
                         {contentType === 'internship' && (
-                            <CreateInternshipForm
+                            <UpdateInternshipForm
                                 formData={internshipForm.formData}
                                 handleChange={internshipForm.handleChange}
                                 handleImageChange={
                                     internshipForm.handleImageChange
                                 }
                                 goToNextStep={goToNextStep}
+                                setFormData={internshipForm.setFormData}
                             />
                         )}
 

@@ -74,8 +74,12 @@ const ContentList = (props: { items: any }) => {
     }, [])
 
     return (
-        <div className="relative px-4 md:px-20 top-4">
-            <div className="flex justify-between items-center mt-8">
+        <div className="relative px-4 md:px-20 pb-10">
+            <h1 className="text-3xl font-bold mt-10 uppercase">
+                {pathSegment || 'Content'}s
+            </h1>
+
+            <div className="flex justify-between items-center mt-4">
                 <div className="flex-grow mt-0">
                     <SearchBar
                         searchText={searchText}
