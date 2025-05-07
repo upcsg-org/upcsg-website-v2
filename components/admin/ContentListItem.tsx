@@ -21,9 +21,10 @@ interface ContentListItemProps {
 }
 
 const ContentListItem = (props: ContentListItemProps) => {
+    const router = useRouter()
     const { id, title, image_url, date_created, body, contentType, onDelete } =
         props
-    const router = useRouter() // Use router for navigation
+
     const formattedDate =
         date_created instanceof Date
             ? date_created.toLocaleDateString()

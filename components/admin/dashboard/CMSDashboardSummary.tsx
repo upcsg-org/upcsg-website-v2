@@ -18,14 +18,14 @@ const CMSDashboardSummary: React.FC = () => {
     // Display a loading state if dashboardData is null
     if (!dashboardData) {
         return (
-            <div className="p-4 h-fit m-7 bg-[#0e0e1a] flex justify-center items-center">
+            <div className="p-4 h-fit m-7 bg-main-dark flex justify-center items-center">
                 Loading dashboard data...
             </div>
         )
     }
 
     return (
-        <div className="flex flex-col md:flex-row py-6 md:px-16 xl:px-48 h-fit m-7 bg-[#0e0e1a]">
+        <div className="flex flex-col md:flex-row py-6 md:px-16 xl:px-48 h-fit m-7 bg-main-dark">
             <div className="flex flex-col-reverse md:flex-row gap-4 md:gap-8">
                 <div className="flex flex-col gap-6 md:gap-8 md:w-1/3 grow justify-between">
                     {/* Announcements Card */}

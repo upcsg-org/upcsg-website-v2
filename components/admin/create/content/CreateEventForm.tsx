@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react'
-
+import React, { useRef, useEffect, useState } from 'react'
+import Image from 'next/image'
 import FormFieldBuilder from '@/components/generics/formField/FormFieldBuilder'
 import TheButton from '@/components/generics/TheButton'
 import getContentFormConfig from '@/configs/eventFormConfig'
@@ -63,6 +63,7 @@ const CreateEventForm = ({
 }: CreateEventFormProps) => {
     // stores field configs for create event form builder
     const contentFormConfig = getContentFormConfig(formData, handleChange)
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
 
     // IMAGE OPERATIONS
     const imageInputRef = useRef<HTMLInputElement>(null)
@@ -70,6 +71,25 @@ const CreateEventForm = ({
     const handleImageUpload = (): void => {
         imageInputRef.current?.click()
     }
+
+    // Set image preview when image changes
+    useEffect(() => {
+        if (formData.image_url) {
+            if (typeof formData.image_url === 'string') {
+                // If image_url is a string, it's an existing URL
+                setImagePreview(formData.image_url)
+            } else if (formData.image_url instanceof File) {
+                // If image_url is a File, create a preview URL
+                const objectUrl = URL.createObjectURL(formData.image_url)
+                setImagePreview(objectUrl)
+
+                // Clean up the URL when component unmounts or image changes
+                return () => URL.revokeObjectURL(objectUrl)
+            }
+        } else {
+            setImagePreview(null)
+        }
+    }, [formData.image_url])
 
     return (
         <>
@@ -104,9 +124,9 @@ const CreateEventForm = ({
             />
 
             {/* Event Image */}
-            <div className="my-6 inline-flex flex-col">
-                <label className="mb-1 font-semibold">Event Image</label>
-                <div className="flex items-center">
+            <div className="my-6">
+                <label className="mb-1 font-semibold block">Event Image</label>
+                <div className="flex items-center mb-4">
                     <TheButton style={'w-auto'} onClick={handleImageUpload}>
                         <div className="flex items-center">
                             <h1 className="mr-6">UPLOAD IMAGE</h1>
@@ -120,12 +140,32 @@ const CreateEventForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image_url && (
+                    {formData.image_url instanceof File && (
                         <p className="ml-5 sm:self-start">
                             {formData.image_url.name}
                         </p>
                     )}
                 </div>
+
+                {/* Image Preview */}
+                {imagePreview && (
+                    <div className="mt-4">
+                        <p className="text-sm mb-2">Image Preview:</p>
+                        <div
+                            className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
+                            style={{ height: '250px' }}
+                        >
+                            <Image
+                                src={imagePreview}
+                                alt="Preview"
+                                fill
+                                sizes="(max-width: 768px) 100vw, 400px"
+                                style={{ objectFit: 'contain' }}
+                                priority
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )

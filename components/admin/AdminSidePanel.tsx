@@ -55,6 +55,11 @@ const menuItems: MenuItem[] = [
         path: '/admin/officer',
     },
     {
+        title: 'CONCERNS',
+        icon: <LuUsers size={20} />,
+        path: '/admin/concern',
+    },
+    {
         title: 'SETTINGS',
         icon: <LuSettings size={20} />,
         path: '/admin/settings',

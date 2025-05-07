@@ -5,7 +5,7 @@ import { Announcement } from '@/interface/announcement';
 export const useAnnouncementStore = createGenericStore<Announcement>(
     '/cms/announcements',
     {
-        actions: ['fetchAll'],
+        actions: ['fetchAll', 'fetchOne'],
     }
 )
 

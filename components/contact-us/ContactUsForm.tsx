@@ -5,16 +5,21 @@ import { FaUser } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
 import TheButton from '../generics/TheButton'
 
+import { useConcernStore } from '@/store/help'
+import { useAuthStore } from '@/store/auth'
+import { Concern } from '@/interface/help'
 interface PropsInterface {
     setIsContactUsModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const ContactUsForm = (props: PropsInterface) => {
-    const { setIsContactUsModalOpen } = props
-    const [formData, setFormData] = useState({
+    const { isAuthenticated, user } = useAuthStore()
+    const { create: createConcern } = useConcernStore()
+    const [formData, setFormData] = useState<Concern>({
         name: '',
         email: '',
-        message: '',
+        content: '',
+        user: null,
     })
 
     const handleChange = (
@@ -29,7 +34,17 @@ const ContactUsForm = (props: PropsInterface) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setIsContactUsModalOpen(true)
+
+        if (isAuthenticated && user?.id) {
+            setFormData({
+                ...formData,
+                user: user?.id,
+            })
+        }
+
+        if (createConcern) {
+            createConcern(formData)
+        }
     }
 
     return (
@@ -79,10 +94,10 @@ const ContactUsForm = (props: PropsInterface) => {
 
                     <textarea
                         className="w-full h-32 md:h-64 px-4 py-3 rounded-lg border-2 border-white bg-secondary-dark outline-none text-white caret-white"
-                        id="message"
-                        name="message"
+                        id="content"
+                        name="content"
                         placeholder="Write your suggestion here..."
-                        value={formData.message}
+                        value={formData.content}
                         onChange={handleChange}
                         required
                     />

@@ -298,6 +298,7 @@ const AdminCreateContent = () => {
 
                 {currentStep === 2 && (
                     <ContentPreview
+                        formType="create"
                         contentType={contentType}
                         formData={getCurrentFormData()}
                         goToPreviousStep={goToPreviousStep}
