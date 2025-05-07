@@ -95,11 +95,11 @@ const ContentList = (props: { items: any }) => {
                             )
                         }
                     >
-                        <div className="flex items-center h-8">
+                        <div className="flex items-center h-3 md:h-6">
                             <span className="text-lg text-white hidden md:block mr-2">
                                 ADD NEW
                             </span>
-                            <FaPlus className="h-6 w-6 text-white" />
+                            <FaPlus className="h-4 w-4 md:h-8 md:w-8 text-white" />
                         </div>
                     </TheButton>
                 </div>
@@ -111,8 +111,20 @@ const ContentList = (props: { items: any }) => {
                         key={item.id}
                         id={item.id}
                         title={item.title}
-                        date_created={item.date_created}
-                        body={item.body}
+                        date_created={
+                            pathSegment === 'internship' ||
+                            pathSegment === 'scholarship'
+                                ? item.deadline
+                                : item.date_created
+                        }
+                        body={
+                            pathSegment === 'announcement'
+                                ? item.summary
+                                : pathSegment === 'internship' ||
+                                    pathSegment === 'scholarship'
+                                  ? item.requirements
+                                  : item.body
+                        }
                         image_url={item.image_url}
                         author={item.author}
                         contentType={pathSegment || ''}
