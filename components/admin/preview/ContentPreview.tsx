@@ -1,30 +1,34 @@
 'use client'
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import { FaArrowLeft, FaEdit } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
 import { useCreateUpdateDeleteEventStore } from '@/store/event'
 import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
 import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
 import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 interface ContentPreviewProps {
-    contentId?: string
-    formType: string
     contentType: string
     formData: any
     goToPreviousStep: () => void
+    redirectSetting: string
 }
 
 const ContentPreview: React.FC<ContentPreviewProps> = ({
-    contentId,
-    formType,
     contentType,
     formData,
     goToPreviousStep,
+    redirectSetting,
 }) => {
     const router = useRouter()
+    const pathname = usePathname()
+    const isUpdateMode = pathname.includes('/admin/update')
+    const searchParams = useSearchParams()
+    const id = searchParams.get('id')
+
     const [isUploading, setIsUploading] = useState(false)
 
     const { create: createEvent, update: updateEvent } =
@@ -142,46 +146,96 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 data.image_url = imageUrl
             }
 
-            // Handle article data formatting for backend
-            if (formData.article) {
-                // Extract only the fields needed for the backend Article model
-                const articleData = {
-                    title: formData.article.title,
-                    body: formData.article.body,
-                    author: formData.article.author,
-                }
-
-                data.article = articleData
+            // Set external_url and article based on redirectSetting
+            switch (redirectSetting) {
+                case 'none':
+                    data.external_url = null
+                    data.article = null
+                    break
+                case 'link':
+                    data.article = null
+                    break
+                case 'article':
+                    data.external_url = null
+                    data.article = {
+                        title: formData.article?.title || '',
+                        body: formData.article?.body || '',
+                        author: formData.article?.author || '',
+                    }
+                    break
+                default:
+                    // Fallback in case of unexpected value
+                    data.external_url = null
+                    data.article = null
             }
 
             console.log(`Publishing ${contentType}:`, data)
 
-            // Create the content with the appropriate store function
-            if (formType === 'create') {
-                if (contentType === 'event' && createEvent) {
+            if (contentType === 'event' && createEvent && updateEvent) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    await updateEvent(id, data)
+                } else {
                     await createEvent(data)
-                } else if (
-                    contentType === 'announcement' &&
-                    createAnnouncement
-                ) {
-                    await createAnnouncement(data)
-                } else if (contentType === 'scholarship' && createScholarship) {
-                    await createScholarship(data)
-                } else if (contentType === 'internship' && createInternship) {
-                    await createInternship(data)
                 }
-            } else if (formType === 'update' && contentId) {
-                if (contentType === 'event' && updateEvent) {
-                    await updateEvent(contentId, data)
-                } else if (
-                    contentType === 'announcement' &&
-                    updateAnnouncement
-                ) {
-                    await updateAnnouncement(contentId, data)
-                } else if (contentType === 'scholarship' && updateScholarship) {
-                    await updateScholarship(contentId, data)
-                } else if (contentType === 'internship' && updateInternship) {
-                    await updateInternship(contentId, data)
+            } else if (
+                contentType === 'announcement' &&
+                createAnnouncement &&
+                updateEvent
+            ) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    if (!updateAnnouncement) {
+                        console.error('updateAnnouncement is undefined.')
+                        alert('Update function is not available.')
+                        return
+                    }
+                    await updateAnnouncement(id, data)
+                } else {
+                    if (!createAnnouncement) {
+                        console.error('createAnnouncement is undefined.')
+                        alert('Create function is not available.')
+                        return
+                    }
+                    await createAnnouncement(data)
+                }
+            } else if (
+                contentType === 'scholarship' &&
+                createScholarship &&
+                updateScholarship
+            ) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    await updateScholarship(id, data)
+                } else {
+                    await createScholarship(data)
+                }
+            } else if (
+                contentType === 'internship' &&
+                createInternship &&
+                updateInternship
+            ) {
+                if (isUpdateMode) {
+                    if (!id) {
+                        console.error('No ID provided for update.')
+                        alert('Missing ID. Cannot update the content.')
+                        return
+                    }
+                    await updateInternship(id, data)
+                } else {
+                    await createInternship(data)
                 }
             }
 
@@ -317,6 +371,7 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                         <h1>PREVIOUS</h1>
                     </div>
                 </TheButton>
+
                 <TheButton
                     style={`w-auto bg-green-600 hover:bg-green-700 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={isUploading ? () => {} : publishContent}
@@ -325,7 +380,7 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                         <h1>
                             {isUploading
                                 ? 'UPLOADING...'
-                                : formType === 'update'
+                                : isUpdateMode
                                   ? 'UPDATE'
                                   : 'PUBLISH'}
                         </h1>

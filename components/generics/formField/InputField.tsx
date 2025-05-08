@@ -61,7 +61,7 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
                             value={value}
                             onChange={onChange}
                             placeholder={placeholder}
-                            className={`p-2 border rounded-xl bg-secondary-dark ${className}`}
+                            className={`p-3 mt-2 border rounded-xl bg-secondary-dark ${className}`}
                             readOnly={readonly}
                         />
                     </div>
@@ -98,7 +98,7 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
                             name={name}
                             value={value}
                             onChange={onChange}
-                            className={`p-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
+                            className={`p-3 mt-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
                         >
                             <option value="" disabled>
                                 Select an option

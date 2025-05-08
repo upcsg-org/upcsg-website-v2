@@ -11,4 +11,5 @@ export interface Event {
     date_created: Date;
     date_updated: Date;
     body: string;
+    location: string
 }

@@ -118,7 +118,7 @@ const AdminCreateContent = () => {
     }
 
     return (
-        <div>
+        <div className="ml-[-25px] md:ml-0">
             <CreateEventMenu
                 contentType={contentType}
                 onContentTypeChange={handleContentTypeChange}
@@ -171,8 +171,8 @@ const AdminCreateContent = () => {
                         )}
 
                         {/* Redirect Setting Component */}
-                        <div className="mt-12 mb-12 p-8 bg-[#171729] rounded-lg">
-                            <h2 className="text-2xl font-bold mb-6">
+                        <div className="mt-12 mb-12">
+                            <h2 className="text-md font-bold mb-6">
                                 {contentType.charAt(0).toUpperCase() +
                                     contentType.slice(1)}{' '}
                                 Redirect Setting

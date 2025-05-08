@@ -19,23 +19,28 @@ const AdminDashboardCard: React.FC<AdminDashboardCardProps> = ({
     cardTitleBackgroundColor,
     cardBodyBackgroundColor,
 }) => {
-    const authorLabel =
-        cardTitle === 'internships'
-            ? `at ${recentAuthor}`
-            : `by ${recentAuthor}`
+    const cardLinks: Record<string, string> = {
+        announcements: '/admin/announcement',
+        events: '/admin/event',
+        scholarships: '/admin/scholarship',
+        internships: '/admin/internship',
+    }
+
+    const lowerTitle = cardTitle.toLowerCase()
+    const href = cardLinks[lowerTitle] || '/admin'
+
     return (
         <div className="gap-0">
-            <div
+            <a
+                href={href}
+                className="block rounded-t-2xl text-center py-4 transition-colors duration-200 hover:opacity-75"
                 style={{ backgroundColor: cardTitleBackgroundColor }}
-                className={`rounded-t-2xl text-center pb-[5px] pt-1`}
             >
-                <a
-                    href="/"
-                    className="underline underline-offset-2 text-xs md:text-sm lg:text-xl font-vietnam"
-                >
+                <div className="font-bold text-xs md:text-sm lg:text-xl font-vietnam underline sm:no-underline sm:hover:underline underline-offset-2">
                     {cardTitle.toUpperCase()}
-                </a>
-            </div>
+                </div>
+            </a>
+
             <div
                 style={{ backgroundColor: cardBodyBackgroundColor }}
                 className={`flex flex-col gap-3 md:gap-2 sm:flex-row w-full text-white p-4 md:p-6 md:pt-4 pb-7 rounded-b-2xl`}
@@ -49,18 +54,17 @@ const AdminDashboardCard: React.FC<AdminDashboardCardProps> = ({
                     </div>
                 </div>
                 <div className="flex-col text-center md:text-left w-full md:basis-1/2 font-vietnam flex-grow">
-                    <div className="text-base md:text-xl lg:text-xl font-vietnam font-semibold text-[#ffcf81] p-0 m-0">
+                    <div className="text-lg md:text-xl lg:text-xl font-vietnam font-semibold text-[#ffcf81] p-0 m-0">
                         most recent:
                     </div>
                     <div className="">
                         <a
                             href="/"
-                            className="underline underline-offset-2 text-xs md:text-sm lg:text-lg font-vietnam p-0"
+                            className="underline sm:no-underline sm:hover:underline underline-offset-2 text-xs md:text-sm lg:text-lg font-vietnam p-0"
                         >
                             {recentTitle}
                         </a>
                     </div>
-                    <div className="text-xs lg:text-base">{authorLabel}</div>
                 </div>
             </div>
         </div>

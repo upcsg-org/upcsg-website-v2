@@ -1,9 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FaImage } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import { useSearchParams } from 'next/navigation'
+import { useAnnouncementStore } from '@/store/announcement'
 import Image from 'next/image'
 
-interface CreateAnnouncementFormProps {
+interface UpdateAnnouncementFormProps {
     formData: {
         title: string
         summary: string
@@ -12,24 +14,49 @@ interface CreateAnnouncementFormProps {
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
     goToNextStep: () => void
+    setFormData: React.Dispatch<React.SetStateAction<any>>
 }
 
-export const CreateAnnouncementForm = ({
+export const UpdateAnnouncementForm = ({
     formData,
     handleChange,
     handleImageChange,
     goToNextStep,
-}: CreateAnnouncementFormProps) => {
-    console.log('INSIDE FORM', formData)
-    // IMAGE OPERATIONS
+    setFormData,
+}: UpdateAnnouncementFormProps) => {
+    const searchParams = useSearchParams()
+    const [loading, setLoading] = useState(true)
+
     const imageInputRef = useRef<HTMLInputElement>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
-
     const handleImageUpload = (): void => {
         imageInputRef.current?.click()
     }
 
-    // Set image preview when image changes
+    const { fetchOne, item } = useAnnouncementStore()
+    useEffect(() => {
+        const id = searchParams.get('id')
+        if (id && fetchOne) {
+            fetchOne(id)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams, fetchOne])
+
+    useEffect(() => {
+        if (!item) return
+
+        setFormData({
+            title: item.title || '',
+            summary: item.summary || '',
+            external_url: item.external_url || null,
+            image_url: item.image_url || null,
+            article: item.article || null,
+        })
+
+        setLoading(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [item])
+
     useEffect(() => {
         if (formData.image_url) {
             if (typeof formData.image_url === 'string') {
@@ -48,27 +75,16 @@ export const CreateAnnouncementForm = ({
         }
     }, [formData.image_url])
 
-    // Form field configurations
-    const formConfig = [
-        {
-            field: {
-                label: 'Announcement Title',
-                name: 'title',
-                type: 'text',
-                placeholder: 'Input your title here.',
-                value: formData.title,
-                className: 'w-full rounded-xl p-2',
-            },
-            onChange: handleChange,
-        },
-    ]
+    if (loading) {
+        return <p>Loading...</p>
+    }
 
     return (
         <>
             {/* Announcement Title */}
             <div className="mb-6">
                 <label className="mb-1 font-semibold tracking-wide">
-                    Announcement Title
+                    Announcement Title Update
                 </label>
                 <input
                     type="text"
@@ -96,11 +112,9 @@ export const CreateAnnouncementForm = ({
             </div>
 
             {/* Announcement Image */}
-            <div className="my-6">
-                <label className="mb-1 font-semibold block">
-                    Announcement Image
-                </label>
-                <div className="flex items-center mb-4">
+            <div className="my-6 inline-flex flex-col">
+                <label className="mb-1 font-semibold">Announcement Image</label>
+                <div className="flex items-center">
                     <TheButton style={'w-auto'} onClick={handleImageUpload}>
                         <div className="flex items-center">
                             <h1 className="mr-6">UPLOAD IMAGE</h1>
@@ -120,27 +134,27 @@ export const CreateAnnouncementForm = ({
                         </p>
                     )}
                 </div>
-
-                {/* Image Preview */}
-                {imagePreview && (
-                    <div className="mt-4">
-                        <p className="text-sm mb-2">Image Preview:</p>
-                        <div
-                            className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
-                            style={{ height: '250px' }}
-                        >
-                            <Image
-                                src={imagePreview}
-                                alt="Preview"
-                                fill
-                                sizes="(max-width: 768px) 100vw, 400px"
-                                style={{ objectFit: 'contain' }}
-                                priority
-                            />
-                        </div>
-                    </div>
-                )}
             </div>
+
+            {/* Image Preview */}
+            {imagePreview && (
+                <div className="mt-4">
+                    <p className="text-sm mb-2">Image Preview:</p>
+                    <div
+                        className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
+                        style={{ height: '250px' }}
+                    >
+                        <Image
+                            src={imagePreview}
+                            alt="Preview"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 400px"
+                            style={{ objectFit: 'contain' }}
+                            priority
+                        />
+                    </div>
+                </div>
+            )}
         </>
     )
 }

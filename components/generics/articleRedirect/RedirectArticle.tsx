@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 // Updated to match backend Article model and simplified
 interface ArticleForm {
@@ -10,20 +10,24 @@ interface ArticleForm {
 interface RedirectArticleProps {
     contentType?: 'event' | 'announcement' | 'scholarship' | 'internship'
     onArticleDataChange?: (data: ArticleForm) => void
+    initialArticleData?: ArticleForm | null
 }
 
 export const RedirectArticle: React.FC<RedirectArticleProps> = ({
     contentType = 'event',
     onArticleDataChange,
+    initialArticleData,
 }) => {
     // Using ref to track changes and avoid excessive updates
     const initialRender = useRef(true)
 
-    const [formData, setFormData] = useState<ArticleForm>({
-        title: '',
-        body: '',
-        author: '',
-    })
+    const [formData, setFormData] = useState<ArticleForm>(
+        initialArticleData ?? {
+            title: '',
+            body: '',
+            author: '',
+        }
+    )
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -46,6 +50,13 @@ export const RedirectArticle: React.FC<RedirectArticleProps> = ({
         e.preventDefault()
         console.log('Form Submitted:', formData)
     }
+
+    useEffect(() => {
+        if (initialArticleData) {
+            const { title, body, author } = initialArticleData
+            setFormData({ title, body, author })
+        }
+    }, [initialArticleData])
 
     return (
         <form onSubmit={handleSubmit} className="space-y-5 tracking-wider">

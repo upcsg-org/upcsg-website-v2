@@ -20,6 +20,13 @@ export const RedirectLink: React.FC<RedirectLinkProps> = ({
         external_url: initialUrl,
     })
 
+    useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            external_url: initialUrl || '',
+        }))
+    }, [initialUrl])
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setFormData({

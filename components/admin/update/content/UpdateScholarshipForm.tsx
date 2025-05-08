@@ -1,9 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FaImage } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import { useSearchParams } from 'next/navigation'
+import { useScholarshipStore } from '@/store/scholarship'
 import Image from 'next/image'
 
-interface CreateScholarshipFormProps {
+interface UpdateScholarshipFormProps {
     formData: {
         title: string
         opening_date: string
@@ -16,23 +18,53 @@ interface CreateScholarshipFormProps {
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
     goToNextStep: () => void
+    setFormData: React.Dispatch<React.SetStateAction<any>>
 }
 
-export const CreateScholarshipForm = ({
+export const UpdateScholarshipForm = ({
     formData,
     handleChange,
     handleImageChange,
     goToNextStep,
-}: CreateScholarshipFormProps) => {
-    // IMAGE OPERATIONS
+    setFormData,
+}: UpdateScholarshipFormProps) => {
+    const searchParams = useSearchParams()
+    const [loading, setLoading] = useState(true)
+
     const imageInputRef = useRef<HTMLInputElement>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
-
     const handleImageUpload = (): void => {
         imageInputRef.current?.click()
     }
 
-    // Set image preview when image changes
+    const { fetchOne, item } = useScholarshipStore()
+    useEffect(() => {
+        const id = searchParams.get('id')
+        if (id && fetchOne) {
+            fetchOne(id)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams, fetchOne])
+
+    useEffect(() => {
+        if (!item) return
+
+        setFormData({
+            title: item.title || '',
+            benefits: item.benefits || '',
+            deadline: item.deadline || '',
+            opening_date: item.opening_date || '',
+            organization: item.organization || '',
+            requirements: item.requirements || '',
+            external_url: item.external_url || null,
+            image_url: item.image_url || null,
+            article: item.article || null,
+        })
+
+        setLoading(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [item])
+
     useEffect(() => {
         if (formData.image_url) {
             if (typeof formData.image_url === 'string') {
@@ -50,6 +82,10 @@ export const CreateScholarshipForm = ({
             setImagePreview(null)
         }
     }, [formData.image_url])
+
+    if (loading) {
+        return <p>Loading...</p>
+    }
 
     return (
         <>
@@ -142,11 +178,9 @@ export const CreateScholarshipForm = ({
             </div>
 
             {/* Scholarship Image */}
-            <div className="my-6">
-                <label className="mb-1 font-semibold block">
-                    Scholarship Image
-                </label>
-                <div className="flex items-center mb-4">
+            <div className="my-6 inline-flex flex-col">
+                <label className="mb-1 font-semibold">Scholarship Image</label>
+                <div className="flex items-center">
                     <TheButton style={'w-auto'} onClick={handleImageUpload}>
                         <div className="flex items-center">
                             <h1 className="mr-6">UPLOAD IMAGE</h1>
@@ -166,27 +200,27 @@ export const CreateScholarshipForm = ({
                         </p>
                     )}
                 </div>
-
-                {/* Image Preview */}
-                {imagePreview && (
-                    <div className="mt-4">
-                        <p className="text-sm mb-2">Image Preview:</p>
-                        <div
-                            className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
-                            style={{ height: '250px' }}
-                        >
-                            <Image
-                                src={imagePreview}
-                                alt="Preview"
-                                fill
-                                sizes="(max-width: 768px) 100vw, 400px"
-                                style={{ objectFit: 'contain' }}
-                                priority
-                            />
-                        </div>
-                    </div>
-                )}
             </div>
+
+            {/* Image Preview */}
+            {imagePreview && (
+                <div className="mt-4">
+                    <p className="text-sm mb-2">Image Preview:</p>
+                    <div
+                        className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
+                        style={{ height: '250px' }}
+                    >
+                        <Image
+                            src={imagePreview}
+                            alt="Preview"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 400px"
+                            style={{ objectFit: 'contain' }}
+                            priority
+                        />
+                    </div>
+                </div>
+            )}
         </>
     )
 }
