@@ -14,6 +14,7 @@ import {
     LuSettings,
     LuArrowRight,
     LuLogOut,
+    LuShoppingBag,
 } from 'react-icons/lu'
 import { useAuthStore } from '@/store/auth'
 
@@ -28,6 +29,11 @@ const menuItems: MenuItem[] = [
         title: 'DASHBOARD',
         icon: <LuLayoutDashboard size={20} />,
         path: '/admin/dashboard',
+    },
+    {
+        title: 'MERCH',
+        icon: <LuShoppingBag size={20} />,
+        path: '/admin/merch/products',
     },
     {
         title: 'ANNOUNCEMENTS',

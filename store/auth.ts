@@ -36,6 +36,7 @@ interface AuthState {
 // Registration data interface
 export interface RegisterData {
     email: string;
+    username: string;
     password1: string;
     password2: string;
     is_host?: boolean;
