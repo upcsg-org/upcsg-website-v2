@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { FaImage } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
-import { apiClient } from '@/lib/api'
+import { useEventStore } from '@/store/event'
+import Image from 'next/image'
 
 interface Article {
     title: string
@@ -19,7 +20,7 @@ interface UpdateEventFormProps {
         end_date: string
         external_url: string
         body: string
-        image_url: File | null
+        image_url: File | string | null
         location: string
         article: Article
     }
@@ -38,42 +39,58 @@ const UpdateEventForm = ({
     setFormData,
 }: UpdateEventFormProps) => {
     const searchParams = useSearchParams()
-    const imageInputRef = useRef<HTMLInputElement>(null)
     const [loading, setLoading] = useState(true)
 
+    const imageInputRef = useRef<HTMLInputElement>(null)
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
     const handleImageUpload = (): void => {
         imageInputRef.current?.click()
     }
 
+    const { fetchOne, item } = useEventStore()
     useEffect(() => {
         const id = searchParams.get('id')
-        const fetchEvent = async () => {
-            try {
-                const event = await apiClient.get(`/cms/events/${id}/`)
-                console.log('Fetched event:', event)
-
-                // Populate event form with fetched data
-                setFormData({
-                    title: event.title || '',
-                    start_date: event.start_date || '',
-                    end_date: event.end_date || '',
-                    external_url: event.external_url || null,
-                    image_url: event.image_url || null, // leave as string for preview
-                    body: event.body || '',
-                    location: event.location || '',
-                    article: event.article || null,
-                })
-
-                setLoading(false)
-
-                console.log('Form data now:', formData)
-            } catch (error) {
-                console.error('Failed to fetch event:', error)
-            }
+        if (id && fetchOne) {
+            fetchOne(id)
         }
-        fetchEvent()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchParams])
+    }, [searchParams, fetchOne])
+
+    useEffect(() => {
+        if (!item) return
+
+        setFormData({
+            title: item.title || '',
+            start_date: item.start_date || '',
+            end_date: item.end_date || '',
+            external_url: item.external_url || null,
+            image_url: item.image_url || null,
+            body: item.body || '',
+            location: item.location || '',
+            article: item.article || null,
+        })
+
+        setLoading(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [item])
+
+    useEffect(() => {
+        if (formData.image_url) {
+            if (typeof formData.image_url === 'string') {
+                // If image_url is a string, it's an existing URL
+                setImagePreview(formData.image_url)
+            } else if (formData.image_url instanceof File) {
+                // If image_url is a File, create a preview URL
+                const objectUrl = URL.createObjectURL(formData.image_url)
+                setImagePreview(objectUrl)
+
+                // Clean up the URL when component unmounts or image changes
+                return () => URL.revokeObjectURL(objectUrl)
+            }
+        } else {
+            setImagePreview(null)
+        }
+    }, [formData.image_url])
 
     if (loading) {
         return <p>Loading...</p>
@@ -161,13 +178,33 @@ const UpdateEventForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image_url && (
-                        <p className="w-full mt-5 sm:self-start text-sm md:text-base">
-                            {formData.image_url?.name}
+                    {formData.image_url instanceof File && (
+                        <p className="ml-5 sm:self-start">
+                            {formData.image_url.name}
                         </p>
                     )}
                 </div>
             </div>
+
+            {/* Image Preview */}
+            {imagePreview && (
+                <div className="mt-4">
+                    <p className="text-sm mb-2">Image Preview:</p>
+                    <div
+                        className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
+                        style={{ height: '250px' }}
+                    >
+                        <Image
+                            src={imagePreview}
+                            alt="Preview"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 400px"
+                            style={{ objectFit: 'contain' }}
+                            priority
+                        />
+                    </div>
+                </div>
+            )}
         </>
     )
 }

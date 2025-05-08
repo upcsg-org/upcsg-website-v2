@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import { ChooseRedirect } from '../../../../generics/articleRedirect/ChooseRedirect'
-import { RedirectLink } from '../../../../generics/articleRedirect/RedirectLink'
-import { RedirectArticle } from '../../../../generics/articleRedirect/RedirectArticle'
+import { ChooseRedirect } from '@/components/generics/articleRedirect/ChooseRedirect'
+import { RedirectLink } from '@/components/generics/articleRedirect/RedirectLink'
+import { RedirectArticle } from '@/components/generics/articleRedirect/RedirectArticle'
 
 interface UpdateArticleLinkProps {
     contentType?: 'event' | 'announcement' | 'scholarship' | 'internship'

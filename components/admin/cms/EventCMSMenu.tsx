@@ -62,7 +62,10 @@ function CreateEventMenu({
                     BACK TO DASHBOARD
                 </button>
             </div>
-            <div className="w-full flex flex-col-reverse lg:flex-row-reverse items-center md:justify-between pt-8 md:pt-12 gap-6 md:gap-12">
+            <div className="w-full flex flex-col lg:flex-row items-center md:justify-between pt-8 md:pt-12 gap-6 md:gap-12">
+                <h1 className="text-base md:text-3xl font-bold mt-10 uppercase mb-4">
+                    UPDATE {getDisplayTitle() || 'Content'}
+                </h1>
                 <div className="w-full lg:w-2/3 xl:w-1/2 flex flex-col md:flex-row gap-2 items-center justify-between">
                     <div
                         onClick={() => goToStep(1)}

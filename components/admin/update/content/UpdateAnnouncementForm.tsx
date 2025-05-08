@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { FaImage } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
 import { useSearchParams } from 'next/navigation'
-import { apiClient } from '@/lib/api'
+import { useAnnouncementStore } from '@/store/announcement'
+import Image from 'next/image'
 
 interface UpdateAnnouncementFormProps {
     formData: {
         title: string
         summary: string
-        image_url: File | null
+        image_url: File | string | null
     }
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void
@@ -23,41 +24,56 @@ export const UpdateAnnouncementForm = ({
     goToNextStep,
     setFormData,
 }: UpdateAnnouncementFormProps) => {
-    const imageInputRef = useRef<HTMLInputElement>(null)
     const searchParams = useSearchParams()
     const [loading, setLoading] = useState(true)
 
+    const imageInputRef = useRef<HTMLInputElement>(null)
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
     const handleImageUpload = (): void => {
         imageInputRef.current?.click()
     }
 
+    const { fetchOne, item } = useAnnouncementStore()
     useEffect(() => {
         const id = searchParams.get('id')
-        const fetchEvent = async () => {
-            try {
-                const announcement = await apiClient.get(
-                    `/cms/announcements/${id}/`
-                )
-                console.log('Fetched announcement:', announcement)
-
-                setFormData({
-                    title: announcement.title || '',
-                    summary: announcement.summary || '',
-                    external_url: announcement.external_url || null,
-                    image_url: announcement.image_url || null,
-                    article: announcement.article || null,
-                })
-
-                setLoading(false)
-
-                console.log('Form data now:', formData)
-            } catch (error) {
-                console.error('Failed to fetch event:', error)
-            }
+        if (id && fetchOne) {
+            fetchOne(id)
         }
-        fetchEvent()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchParams])
+    }, [searchParams, fetchOne])
+
+    useEffect(() => {
+        if (!item) return
+
+        setFormData({
+            title: item.title || '',
+            summary: item.summary || '',
+            external_url: item.external_url || null,
+            image_url: item.image_url || null,
+            article: item.article || null,
+        })
+
+        setLoading(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [item])
+
+    useEffect(() => {
+        if (formData.image_url) {
+            if (typeof formData.image_url === 'string') {
+                // If image_url is a string, it's an existing URL
+                setImagePreview(formData.image_url)
+            } else if (formData.image_url instanceof File) {
+                // If image_url is a File, create a preview URL
+                const objectUrl = URL.createObjectURL(formData.image_url)
+                setImagePreview(objectUrl)
+
+                // Clean up the URL when component unmounts or image changes
+                return () => URL.revokeObjectURL(objectUrl)
+            }
+        } else {
+            setImagePreview(null)
+        }
+    }, [formData.image_url])
 
     if (loading) {
         return <p>Loading...</p>
@@ -112,13 +128,33 @@ export const UpdateAnnouncementForm = ({
                         onChange={handleImageChange}
                         accept="image/*"
                     />
-                    {formData.image_url && (
+                    {formData.image_url instanceof File && (
                         <p className="ml-5 sm:self-start">
                             {formData.image_url.name}
                         </p>
                     )}
                 </div>
             </div>
+
+            {/* Image Preview */}
+            {imagePreview && (
+                <div className="mt-4">
+                    <p className="text-sm mb-2">Image Preview:</p>
+                    <div
+                        className="w-full max-w-md overflow-hidden rounded-lg border border-gray-300 relative"
+                        style={{ height: '250px' }}
+                    >
+                        <Image
+                            src={imagePreview}
+                            alt="Preview"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 400px"
+                            style={{ objectFit: 'contain' }}
+                            priority
+                        />
+                    </div>
+                </div>
+            )}
         </>
     )
 }
