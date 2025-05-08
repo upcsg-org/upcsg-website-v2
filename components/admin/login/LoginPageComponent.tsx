@@ -59,11 +59,11 @@ const LoginPageComponent = () => {
                                 textShadow: '5px 7px 32px rgba(0,106,231,0.9)',
                             }}
                         >
-                            WELCOME BACK, ADMIN!
+                            WELCOME BACK!
                         </h1>
                         <p className="text-gray-300 mt-4 md:mt-6 max-w-md text-sm md:text-base">
-                            Access the administrative dashboard to manage
-                            content, users, and website features.
+                            Access the dashboard to manage orders, users, and
+                            more.
                         </p>
                     </div>
                 </div>

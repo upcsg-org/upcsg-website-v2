@@ -4,6 +4,7 @@ import TheHeader from '@/components/generics/TheHeader'
 import TheFooter from '@/components/generics/TheFooter'
 import ReduxProvider from './reduxProvider'
 import { ApiProvider } from '@/components/ApiProvider'
+import AuthProvider from '@/components/AuthProvider'
 
 export const metadata: Metadata = {
     title: 'UP Computer Science Guild',
@@ -19,13 +20,15 @@ export default function RootLayout({
         <html lang="en">
             <ReduxProvider>
                 <ApiProvider>
-                    <body className="font-vietnam flex flex-col min-h-[100vh] overflow-x-hidden text-white">
-                        <TheHeader />
-                        <main className="flex flex-col bg-main-dark grow basis-0">
-                            {children}
-                        </main>
-                        <TheFooter />
-                    </body>
+                    <AuthProvider>
+                        <body className="font-vietnam flex flex-col min-h-[100vh] overflow-x-hidden text-white">
+                            <TheHeader />
+                            <main className="flex flex-col bg-main-dark grow basis-0">
+                                {children}
+                            </main>
+                            <TheFooter />
+                        </body>
+                    </AuthProvider>
                 </ApiProvider>
             </ReduxProvider>
         </html>

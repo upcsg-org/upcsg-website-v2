@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import FormFieldBuilder from '@/components/generics/formField/FormFieldBuilder'
 import { useAuthStore } from '@/store/auth'
 import { useApi } from '@/components/ApiProvider'
+import Link from 'next/link'
 
 interface LoginFormProps {
     handleSubmit: (
@@ -47,7 +48,7 @@ const LoginFormComponent = ({
                     LOGIN
                 </h1>
                 <h3 className="text-sm md:text-base text-gray-300">
-                    Enter your credentials to access the admin dashboard
+                    Enter your credentials to access the dashboard
                 </h3>
                 <form
                     onSubmit={handleSubmit(handleLogin)}
@@ -62,7 +63,16 @@ const LoginFormComponent = ({
                     )}
 
                     <div className="flex flex-col gap-y-5">
-                        <div className="text-right">
+                        <div className="flex justify-between items-center">
+                            <div className="text-center text-sm text-gray-300">
+                                No account?{' '}
+                                <Link
+                                    href="/register"
+                                    className="text-csg-green-200 hover:text-csg-green-100 transition-colors duration-200"
+                                >
+                                    Register here
+                                </Link>
+                            </div>
                             <a
                                 href="#"
                                 className="text-csg-green-200 hover:text-csg-green-100 text-sm transition-colors duration-200"

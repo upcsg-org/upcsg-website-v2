@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation'
 const TheHeader = () => {
     const pathname = usePathname()
 
-    const isExcludedRoute = pathname.startsWith('/admin/login')
+    const isExcludedRoute = pathname.startsWith('/login')
 
     const isAdminRoute = pathname.startsWith('/admin')
 

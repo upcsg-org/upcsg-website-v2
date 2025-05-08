@@ -22,7 +22,7 @@ interface AuthState {
     isAuthenticated: boolean;
     isLoading: boolean;
     error: Error | null;
-
+    isAuthChecked: boolean;
     // Auth actions
     login: (email: string, password: string) => Promise<void>;
     register: (data: RegisterData) => Promise<void>;
@@ -31,12 +31,13 @@ interface AuthState {
     refreshToken: () => Promise<boolean>;
     loadUserFromCookies: () => Promise<void>;
     getProfile: () => void;
+    setIsAuthChecked: (checked: boolean) => void;
 }
 
 // Registration data interface
 export interface RegisterData {
     email: string;
-    username: string;
+    username?: string;
     password1: string;
     password2: string;
     is_host?: boolean;
@@ -91,6 +92,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     isAuthenticated: false,
     isLoading: false,
     error: null,
+    isAuthChecked: false,
+
+    setIsAuthChecked: (checked: boolean) => set({ isAuthChecked: true }),
 
     login: async (username: string, password: string) => {
         set({ isLoading: true, error: null });
@@ -170,7 +174,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         // Redirect to login page
         if (typeof window !== 'undefined') {
-            window.location.href = '/admin/login';
+            window.location.href = '/login';
         }
     },
 
