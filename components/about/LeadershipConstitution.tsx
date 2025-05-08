@@ -41,7 +41,7 @@ const LeadershipConstitution = () => {
 const InfoBlock: React.FC<InfoBlockProps> = ({ title, content, buttonLink }) => {
   return (
     <div className="text-center bg-gray-900 bg-opacity-80 rounded-lg p-8 shadow-lg">
-      <h2 className="text-3xl font-semibold text-center mb-6">
+      <h2 className="text-3xl tracking-wide text-center mb-6">
         {title}
       </h2>
       <p className="max-w-3xl mx-auto mb-8">
