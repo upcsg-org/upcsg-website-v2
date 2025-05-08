@@ -1,5 +1,6 @@
 import React from 'react'
 import Goals from '../../components/about/Goals'
+import LeadershipConstitution from '@/components/about/LeadershipConstitution'
 
 const AboutPage = () => {
     return (
@@ -40,26 +41,7 @@ const AboutPage = () => {
             </section>
 
             {/* OUR LEADERSHIP & CONSTITUTION */}
-            <section className="bg-gray-800 py-10 px-4">
-                <h2 className="text-3xl font-semibold text-center mb-8">
-                    OUR LEADERSHIP
-                </h2>
-                <div className="max-w-4xl mx-auto text-center mb-6">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Pellentesque habitant morbi tristique senectus et netus.
-                    </p>
-                </div>
-                <h2 className="text-3xl font-semibold text-center mb-4">
-                    OUR CONSTITUTION
-                </h2>
-                <div className="max-w-4xl mx-auto text-center">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Pellentesque habitant morbi tristique senectus et netus.
-                    </p>
-                </div>
-            </section>
+            <LeadershipConstitution />
 
             {/* OUR JOURNEY */}
             <section className="bg-gray-900 py-10 px-4">
