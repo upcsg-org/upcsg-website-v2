@@ -5,13 +5,36 @@ import { motion, AnimatePresence } from 'framer-motion'
 import EventCard from './EventCard'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import TheButton from '../generics/TheButton'
-import { events } from '@/constants/events'
+import { useEventStore } from '@/store/event'
+import { Event } from '@/interface/event'
 
 const EventSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
     const [visibleEventCount, setVisibleEventCount] = useState(3)
+    const [events, setEvents] = useState<Event[]>([])
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
+
+    const { items, loading, error, fetchAll } = useEventStore()
+
+    useEffect(() => {
+        if (fetchAll) {
+            fetchAll()
+        }
+    }, [fetchAll])
+
+    useEffect(() => {
+        if (items) {
+            const sorted = [...items]
+                .sort(
+                    (a, b) =>
+                        new Date(b.start_date!).getTime() -
+                        new Date(a.start_date!).getTime()
+                )
+                .slice(0, 3) // or however many you want to prepare
+            setEvents(sorted)
+        }
+    }, [items])
 
     useEffect(() => {
         const updateVisibleEventCount = () => {
@@ -35,7 +58,7 @@ const EventSection: React.FC = () => {
         if (contentRef.current) {
             setContentHeight(contentRef.current.scrollHeight)
         }
-    }, [showAll, visibleEventCount])
+    }, [showAll, visibleEventCount, events])
 
     const visibleEvents = showAll ? events : events.slice(0, visibleEventCount)
 
@@ -63,7 +86,7 @@ const EventSection: React.FC = () => {
                         <AnimatePresence initial={false}>
                             {visibleEvents.map((event, index) => (
                                 <motion.div
-                                    key={index + event.title}
+                                    key={event.id ?? index}
                                     layout
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
@@ -97,9 +120,8 @@ const EventSection: React.FC = () => {
                                 {showAll ? 'See less' : 'See more'}
                             </TheButton>
                         )}
-
                         <TheButton link="/events">
-                            <div className=" flex items-center justify-center gap-x-2">
+                            <div className="flex items-center justify-center gap-x-2">
                                 <p>View All Events</p>
                                 <FaLongArrowAltRight />
                             </div>
