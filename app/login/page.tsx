@@ -1,7 +1,7 @@
 'use client'
 
 import LoginPageComponent from '@/components/admin/login/LoginPageComponent'
-import '../../../public/images/login-bg.png'
+import '@/public/images/login-bg.png'
 
 const AdminLoginPage = () => {
     return (

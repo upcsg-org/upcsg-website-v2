@@ -4,20 +4,26 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import useFormHandler from '@/hooks/FormHooks'
-import getFormConfig from '../../../configs/formConfig'
-import LoginFormComponent from './LoginForm'
+import getRegisterFormConfig from '../../../configs/registerFormConfig'
+import RegisterFormComponent from './RegisterFormComponent'
 
-const LoginPageComponent = () => {
+const RegisterPageComponent = () => {
     const [showErrorBanner, setShowErrorBanner] = useState(false)
 
     const initVal = {
         username: '',
+        email: '',
         password: '',
+        confirmPassword: '',
     }
 
     const { formData, handleChange, handleImageChange, handleSubmit } =
         useFormHandler(initVal)
-    const config = getFormConfig(formData, handleChange, handleImageChange)
+    const config = getRegisterFormConfig(
+        formData,
+        handleChange,
+        handleImageChange
+    )
 
     return (
         <div className="w-full min-h-screen p-6 md:p-12 lg:p-16 bg-[url('/images/login-bg.png')] bg-cover bg-center">
@@ -59,17 +65,17 @@ const LoginPageComponent = () => {
                                 textShadow: '5px 7px 32px rgba(0,106,231,0.9)',
                             }}
                         >
-                            WELCOME BACK!
+                            JOIN US TODAY!
                         </h1>
                         <p className="text-gray-300 mt-4 md:mt-6 max-w-md text-sm md:text-base">
-                            Access the dashboard to manage orders, users, and
-                            more.
+                            Create an account to access exclusive member
+                            features and benefits.
                         </p>
                     </div>
                 </div>
 
                 <div className="mt-8 md:mt-0 flex items-center justify-center">
-                    <LoginFormComponent
+                    <RegisterFormComponent
                         handleSubmit={handleSubmit}
                         config={config}
                         formData={formData}
@@ -80,4 +86,4 @@ const LoginPageComponent = () => {
     )
 }
 
-export default LoginPageComponent
+export default RegisterPageComponent

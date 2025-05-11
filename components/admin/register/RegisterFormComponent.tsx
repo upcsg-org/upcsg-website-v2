@@ -3,41 +3,58 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import FormFieldBuilder from '@/components/generics/formField/FormFieldBuilder'
-import { useAuthStore } from '@/store/auth'
+import { useAuthStore, RegisterData } from '@/store/auth'
 import { useApi } from '@/components/ApiProvider'
 import Link from 'next/link'
 
-interface LoginFormProps {
+interface RegisterFormProps {
     handleSubmit: (
         callback: (data: any) => void
     ) => (e: React.FormEvent<HTMLFormElement>) => void
     config: any
-    formData: { username: string; password: string }
+    formData: {
+        username: string
+        email: string
+        password: string
+        confirmPassword: string
+    }
 }
 
-const LoginFormComponent = ({
+const RegisterFormComponent = ({
     handleSubmit,
     config,
     formData,
-}: LoginFormProps) => {
+}: RegisterFormProps) => {
     const router = useRouter()
-    const { login, isLoading, error } = useAuthStore()
+    const { register, isLoading, error } = useAuthStore()
     const { isInitialized } = useApi()
-    const [loginError, setLoginError] = useState<string | null>(null)
+    const [registerError, setRegisterError] = useState<string | null>(null)
 
-    const handleLogin = async (data: any) => {
+    const handleRegister = async (data: any) => {
         if (!isInitialized) {
-            setLoginError('API not initialized. Please try again later.')
+            setRegisterError('API not initialized. Please try again later.')
             return
         }
 
-        setLoginError(null)
+        if (formData.password !== formData.confirmPassword) {
+            setRegisterError('Passwords do not match. Please try again.')
+            return
+        }
+
+        setRegisterError(null)
         try {
-            await login(formData.username, formData.password)
-            router.push('/admin/dashboard')
+            const registerData: RegisterData = {
+                email: formData.email,
+                username: formData.username,
+                password1: formData.password,
+                password2: formData.confirmPassword,
+            }
+
+            await register(registerData)
+            router.push('/login')
         } catch (err) {
-            setLoginError('Invalid credentials. Please try again.')
-            console.error('Login error:', err)
+            setRegisterError('Registration failed. Please try again.')
+            console.error('Registration error:', err)
         }
     }
 
@@ -45,40 +62,32 @@ const LoginFormComponent = ({
         <div className="background-blur backdrop-blur-xl rounded-3xl px-6 md:px-8 lg:px-12 py-12 md:py-20 min-w-[250px] md:min-w-[350px] lg:min-w-[400px] border-[1px] border-gray-700 grow shadow-2xl">
             <div className="flex flex-col justify-center w-full gap-y-3">
                 <h1 className="tracking-widest text-3xl md:text-4xl font-bold text-white">
-                    LOGIN
+                    REGISTER
                 </h1>
                 <h3 className="text-sm md:text-base text-gray-300">
-                    Enter your credentials to access the dashboard
+                    Create an account to join our community
                 </h3>
                 <form
-                    onSubmit={handleSubmit(handleLogin)}
+                    onSubmit={handleSubmit(handleRegister)}
                     className="flex flex-col gap-y-6 mt-6 md:mt-8"
                 >
                     <FormFieldBuilder formConfig={config} />
 
-                    {(loginError || error) && (
+                    {(registerError || error) && (
                         <div className="bg-red-900/50 text-red-200 py-2 px-3 rounded-md text-sm">
-                            {loginError || (error && error.message)}
+                            {registerError || (error && error.message)}
                         </div>
                     )}
 
                     <div className="flex flex-col gap-y-5">
-                        <div className="flex justify-between items-center">
-                            <div className="text-center text-sm text-gray-300">
-                                No account?{' '}
-                                <Link
-                                    href="/register"
-                                    className="text-csg-green-200 hover:text-csg-green-100 transition-colors duration-200"
-                                >
-                                    Register here
-                                </Link>
-                            </div>
-                            <a
-                                href="#"
-                                className="text-csg-green-200 hover:text-csg-green-100 text-sm transition-colors duration-200"
+                        <div className="text-center text-sm text-gray-300">
+                            Already have an account?{' '}
+                            <Link
+                                href="/login"
+                                className="text-csg-green-200 hover:text-csg-green-100 transition-colors duration-200"
                             >
-                                Forgot Password?
-                            </a>
+                                Login here
+                            </Link>
                         </div>
 
                         <button
@@ -108,10 +117,10 @@ const LoginFormComponent = ({
                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                         ></path>
                                     </svg>
-                                    Logging in...
+                                    Registering...
                                 </span>
                             ) : (
-                                'LOGIN'
+                                'REGISTER'
                             )}
                         </button>
                     </div>
@@ -121,4 +130,4 @@ const LoginFormComponent = ({
     )
 }
 
-export default LoginFormComponent
+export default RegisterFormComponent

@@ -14,6 +14,8 @@ import {
     LuSettings,
     LuArrowRight,
     LuLogOut,
+    LuShoppingCart,
+    LuMessageCircle,
 } from 'react-icons/lu'
 import { useAuthStore } from '@/store/auth'
 
@@ -28,6 +30,11 @@ const menuItems: MenuItem[] = [
         title: 'DASHBOARD',
         icon: <LuLayoutDashboard size={20} />,
         path: '/admin/dashboard',
+    },
+    {
+        title: 'MERCH',
+        icon: <LuShoppingCart size={20} />,
+        path: '/admin/merch/products',
     },
     {
         title: 'ANNOUNCEMENTS',
@@ -56,7 +63,7 @@ const menuItems: MenuItem[] = [
     },
     {
         title: 'CONCERNS',
-        icon: <LuUsers size={20} />,
+        icon: <LuMessageCircle size={20} />,
         path: '/admin/concern',
     },
     {
@@ -77,7 +84,7 @@ const AdminSidePanel: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false)
     const { logout } = useAuthStore()
 
-    const isExcludedRoute = pathname.startsWith('/admin/login')
+    const isExcludedRoute = pathname.startsWith('/login')
 
     const toggleSidebar = () => setIsOpen(!isOpen)
 

@@ -50,7 +50,7 @@ const handleLogout = async (): Promise<void> => {
     try {
         // Try to call the backend logout endpoint if we have an axios instance
         if (axiosInstance) {
-            await axiosInstance.post('/api/user/logout/');
+            await axiosInstance.post('/user/logout/');
         }
     } catch (error) {
         console.error('Failed to logout on server', error);
@@ -61,7 +61,7 @@ const handleLogout = async (): Promise<void> => {
 
     // Redirect to login page
     if (typeof window !== 'undefined') {
-        window.location.href = '/admin/login';
+        window.location.href = '/login';
     }
 };
 
