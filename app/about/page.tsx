@@ -29,14 +29,14 @@ const AboutPage = () => {
                         header="Mission"
                         text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Pellentesque habitant morbi tristique senectus et netus."
-                        imageUrl="put image here"
+                        imageUrl="/images/placeholder.png"
                         orientation="normal"
                     />
                     <Goals
                         header="Vission"
                         text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Pellentesque habitant morbi tristique senectus et netus."
-                        imageUrl="put image here"
+                        imageUrl="/images/placeholder.png"
                         orientation="reverse"
                     />
                 </div>
@@ -50,12 +50,13 @@ const AboutPage = () => {
 
             {/* LEARN MORE */}
             <section className="bg-gray-800 py-10 px-4">
-                <div className="max-w-6xl mx-auto grid grid-cols-2 gap-4">
-                    <div className="flex flex-col h-full">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* First Column - Hidden on small screens */}
+                    <div className="flex flex-col h-full md:block hidden">
                         <h2 className="text-3xl font-semibold ml-16 mb-8">
                             LEARN MORE
                         </h2>
-                        <div className="flex flex-1 w-full justify-end items-center">
+                        <div className="flex flex-col flex-1 w-full h-full justify-end items-center ">
                             <img
                                 src="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746736237/e3ef760a8325f33f7d2485ca75952e292d768acd_qp8dlf.png"
                                 alt="person"
@@ -63,7 +64,12 @@ const AboutPage = () => {
                             />
                         </div>
                     </div>
+
+                    {/* Second Column - Always visible */}
                     <div className="p-4 flex flex-col gap-4">
+                        <h2 className="text-3xl font-semibold mb-4 block md:hidden text-center">
+                            LEARN MORE
+                        </h2>
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746735986/dafa2019d05db1ee59b09d72fb2362711ed366e0_whfqxi.png"
                             title="TITLE"
