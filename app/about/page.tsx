@@ -1,6 +1,8 @@
 import React from 'react'
 import Goals from '../../components/about/Goals'
 import LMCard from '../../components/about/LMCard'
+import LeadershipConstitution from '@/components/about/LeadershipConstitution'
+import Journey from '@/components/about/Journey'
 
 const AboutPage = () => {
     return (
@@ -41,44 +43,10 @@ const AboutPage = () => {
             </section>
 
             {/* OUR LEADERSHIP & CONSTITUTION */}
-            <section className="bg-gray-800 py-10 px-4">
-                <h2 className="text-3xl font-semibold text-center mb-8">
-                    OUR LEADERSHIP
-                </h2>
-                <div className="max-w-4xl mx-auto text-center mb-6">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Pellentesque habitant morbi tristique senectus et netus.
-                    </p>
-                </div>
-                <h2 className="text-3xl font-semibold text-center mb-4">
-                    OUR CONSTITUTION
-                </h2>
-                <div className="max-w-4xl mx-auto text-center">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Pellentesque habitant morbi tristique senectus et netus.
-                    </p>
-                </div>
-            </section>
+            <LeadershipConstitution />
 
             {/* OUR JOURNEY */}
-            <section className="bg-gray-900 py-10 px-4">
-                <h2 className="text-3xl font-semibold text-center mb-8">
-                    OUR JOURNEY
-                </h2>
-                <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {[1, 2, 3, 4, 5, 6].map((item) => (
-                        <div
-                            key={item}
-                            className="bg-gray-700 p-4 rounded-lg text-center"
-                        >
-                            <div className="h-32 bg-gray-600 mb-2 rounded"></div>
-                            <h4 className="text-lg font-semibold">TITLE</h4>
-                        </div>
-                    ))}
-                </div>
-            </section>
+            <Journey />
 
             {/* LEARN MORE */}
             <section className="bg-gray-800 py-10 px-4">
