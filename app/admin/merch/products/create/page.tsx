@@ -199,6 +199,29 @@ export default function CreateProductPage() {
         setVariants(updatedVariants)
     }
 
+  const deleteSizeRow = (variantIndex: number) => {
+    if (variants[variantIndex].sizeRows.length <= 1) return
+
+    const updatedVariants = [...variants]
+    // Remove the last size row
+    updatedVariants[variantIndex].sizeRows = updatedVariants[variantIndex].sizeRows.slice(0, -1)
+    setVariants(updatedVariants)
+  }
+
+  const deleteVariant = () => {
+    if (variants.length <= 1) return
+
+    // Remove the last variant
+    const updatedVariants = variants.slice(0, -1)
+    setVariants(updatedVariants)
+
+    // Also update the form errors
+    setFormErrors((prev) => ({
+      ...prev,
+      variants: prev.variants.slice(0, -1),
+    }))
+  }
+
     const addVariant = () => {
         const newId =
             variants.length > 0
@@ -644,15 +667,23 @@ export default function CreateProductPage() {
                                     )}
                             </div>
 
-                            <div className="pt-4 mb-6 flex items-center justify-center w-full">
-                                <button
-                                    onClick={() => addSizeRow(variantIndex)}
-                                    className="w-1/4 bg-[#4CAF50] hover:bg-[#45a049] text-white px-4 py-2 rounded flex items-center justify-center"
-                                >
-                                    ADD MORE SIZES
-                                </button>
-                            </div>
-                        </div>
+              <div className="mb-6 flex items-center gap-4 w-full">
+                <button
+                  onClick={() => addSizeRow(variantIndex)}
+                  className="w-8 h-8 bg-[#41A01E] hover:bg-green-500 text-black rounded-full flex items-center justify-center text-xl border-2 border-black"
+                >
+                  {"+"}
+                </button>
+                {variant.sizeRows.length > 1 && (
+                  <button
+                    onClick={() => deleteSizeRow(variantIndex)}
+                    className="w-8 h-8 bg-[#EB5B5B] hover:bg-red-500 text-black rounded-full flex items-center justify-center text-xl border-2 border-black"
+                  >
+                    {"-"}
+                  </button>
+                )}
+              </div>
+            </div>
 
                         <div className="col-span-3 self-start sticky top-6">
                             <div className="flex flex-col">
@@ -758,15 +789,23 @@ export default function CreateProductPage() {
                 </div>
             ))}
 
-            {/* Add the "Add more variants" button */}
-            <div className="mb-6 flex items-center justify-center w-full">
-                <button
-                    onClick={addVariant}
-                    className="w-1/5 bg-[#B63EFF] hover:bg-[#A035E5] text-white px-4 py-2 rounded flex items-center justify-center"
-                >
-                    ADD MORE VARIANTS
-                </button>
-            </div>
+      {/* Add the "Add more variants" button */}
+      <div className="mb-6 flex items-center justify-between w-full">
+        
+        <button
+          onClick={addVariant}
+          className="w-1/5 bg-[#B63EFF] hover:bg-[#A035E5] text-white px-4 py-2 rounded flex items-center justify-center"
+        >
+          ADD MORE VARIANTS
+        </button>
+        <button
+          onClick={() => (variants.length > 1 ? deleteVariant() : null)}
+          className={`w-1/5 ${variants.length > 1 ? "bg-red-500 hover:bg-red-600" : "bg-gray-500 cursor-not-allowed"} text-white px-4 py-2 rounded flex items-center justify-center`}
+          disabled={variants.length <= 1}
+        >
+          DELETE VARIANT
+        </button>
+      </div>
 
             <div className="flex justify-center">
                 <button
