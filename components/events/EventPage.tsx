@@ -11,6 +11,7 @@ const EventPage: React.FC = () => {
 
     useEffect(() => {
         fetchAll?.()
+        console.log(items)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
