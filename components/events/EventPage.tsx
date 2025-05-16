@@ -10,10 +10,10 @@ const EventPage: React.FC = () => {
     const { items, loading, error, fetchAll } = useEventStore()
 
     useEffect(() => {
-        fetchAll?.()
-        console.log(items)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        if (!items || items.length === 0) {
+            fetchAll?.()
+        }
+    }, [items, fetchAll])
 
     const today = new Date()
 
