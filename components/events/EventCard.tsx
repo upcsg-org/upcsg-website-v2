@@ -87,7 +87,7 @@ const EventCard = (props: PropsInterface) => {
                         </div>
                     )}
                     {start_date && (
-                        <div className="self-center hidden md:block text-xs md:text-sm font-thin text-white mb-2">
+                        <div className="self-center hidden md:block text-xs md:text-sm font-thin text-white">
                             {getDayOfWeek(new Date(start_date))}
                         </div>
                     )}

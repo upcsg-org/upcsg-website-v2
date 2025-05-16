@@ -4,13 +4,22 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AnnouncementCard from './AnnouncementCard'
 import TheButton from '../generics/TheButton'
-import { announcements } from '@/constants/announcements'
+import { useAnnouncementStore } from '@/store/announcement'
+import { FaLongArrowAltRight } from 'react-icons/fa'
 
 const AnnouncementSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
-    const [visibleCount, setVisibleCount] = useState(3)
+    const [visibleCount, setVisibleCount] = useState(4)
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
+
+    const { items, loading, error, fetchAll } = useAnnouncementStore()
+
+    useEffect(() => {
+        if (!items || items.length === 0) {
+            fetchAll?.()
+        }
+    }, [items, fetchAll])
 
     useEffect(() => {
         const updateVisibleCount = () => {
@@ -20,7 +29,7 @@ const AnnouncementSection: React.FC = () => {
             } else if (width < 768) {
                 setVisibleCount(2)
             } else {
-                setVisibleCount(3)
+                setVisibleCount(4)
             }
         }
 
@@ -33,11 +42,12 @@ const AnnouncementSection: React.FC = () => {
         if (contentRef.current) {
             setContentHeight(contentRef.current.scrollHeight)
         }
-    }, [showAll, visibleCount])
+    }, [showAll, visibleCount, items])
 
+    // Use items from store and slice for display
     const visibleAnnouncements = showAll
-        ? announcements
-        : announcements.slice(0, visibleCount)
+        ? (items?.slice(0, 4) ?? [])
+        : (items?.slice(0, visibleCount) ?? [])
 
     const handleToggle = () => {
         setShowAll(!showAll)
@@ -56,7 +66,7 @@ const AnnouncementSection: React.FC = () => {
                 }}
             >
                 <div ref={contentRef}>
-                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10 justify-items-center">
+                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-10 justify-items-center">
                         <AnimatePresence initial={false}>
                             {visibleAnnouncements.map((announcement, index) => (
                                 <motion.div
@@ -82,20 +92,27 @@ const AnnouncementSection: React.FC = () => {
                 </div>
             </motion.div>
             <AnimatePresence mode="wait">
-                {announcements.length > visibleCount && (
-                    <motion.div
-                        key="button"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex justify-center"
-                    >
+                <motion.div
+                    key="button"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex justify-end gap-6"
+                >
+                    {/* Only show toggle if more items exist beyond the visible count */}
+                    {items && items.length > visibleCount && (
                         <TheButton onClick={handleToggle}>
                             {showAll ? 'See less' : 'See more'}
                         </TheButton>
-                    </motion.div>
-                )}
+                    )}
+                    <TheButton link="/announcements">
+                        <div className="flex items-center justify-center gap-x-2">
+                            <p>View All Announcements</p>
+                            <FaLongArrowAltRight />
+                        </div>
+                    </TheButton>
+                </motion.div>
             </AnimatePresence>
         </div>
     )
