@@ -670,14 +670,14 @@ export default function CreateProductPage() {
               <div className="mb-6 flex items-center gap-4 w-full">
                 <button
                   onClick={() => addSizeRow(variantIndex)}
-                  className="w-8 h-8 bg-[#41A01E] hover:bg-green-500 text-black rounded-full flex items-center justify-center text-xl border-2 border-black"
+                  className="w-8 h-8 bg-[#41A01E] hover:bg-green-500 text-white rounded-full flex items-center justify-center text-xl"
                 >
                   {"+"}
                 </button>
                 {variant.sizeRows.length > 1 && (
                   <button
                     onClick={() => deleteSizeRow(variantIndex)}
-                    className="w-8 h-8 bg-[#EB5B5B] hover:bg-red-500 text-black rounded-full flex items-center justify-center text-xl border-2 border-black"
+                    className="w-8 h-8 bg-[#EB5B5B] hover:bg-red-500 text-white rounded-full flex items-center justify-center text-xl"
                   >
                     {"-"}
                   </button>
