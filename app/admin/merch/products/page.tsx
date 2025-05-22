@@ -39,19 +39,6 @@ export default function ProductsPage() {
             </div>
 
             <div className="relative w-[180px]">
-              <select className="w-full appearance-none bg-[#31334C] text-white border border-black focus:border-white rounded px-3 py-2 pr-8">
-                <option value="tag">Tag</option>
-                <option value="tote">Tote Bags</option>
-                <option value="shirt">Shirts</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="relative w-[180px]">
               <input
                 type="search"
                 placeholder="Search"
