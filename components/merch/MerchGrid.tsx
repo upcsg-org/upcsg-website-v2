@@ -1,11 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
 import MerchCard from './MerchCard'
 import MerchHeaderButtonGroup from './filters-and-buttons/MerchHeaderButtonGroup'
 import MerchHeaderFilterTabs from './filters-and-buttons/MerchHeaderFilterTabs'
-import { merchItems } from '@/constants/merch/merch'
+import { useMerchStore } from '@/store/merch'
 import { MerchItem } from '@/interface/merch'
 import { priceRanges } from '@/constants/merch/merchRanges'
 import Empty from '../generics/Empty'
@@ -18,6 +18,36 @@ const MerchGrid = () => {
         selectedSizes,
         selectedSort,
     } = useSelector((state: RootState) => state.filters)
+
+    const { fetchAll, items: merchandise } = useMerchStore()
+
+    useEffect(() => {
+        fetchAll?.()
+    }, [fetchAll])
+
+    const transformedMerchandise =
+        merchandise?.map((item) => ({
+            ...item,
+            type: {
+                text: item.merch_type?.name || '',
+                value: item.merch_type?.name?.toLowerCase() || '',
+            },
+            price: item.variants?.[0]?.price || 0,
+            images: [
+                item.image,
+                ...(item.variants?.map((v) => v.image) || []),
+            ].filter(Boolean),
+            sizes:
+                item.merch_type?.sizes?.map((size) => ({
+                    text: size.name,
+                    value: size.name.toLowerCase(),
+                })) || [],
+            colors: [], // Colors not in backend model
+            isBestSeller: item.variants?.[0]?.is_bestseller || false,
+            isAvailable: item.variants?.[0]?.is_available || true,
+            isLimitedEdition: item.variants?.[0]?.is_limited || false,
+            onSale: item.variants?.[0]?.on_sale || false,
+        })) || []
 
     const filterByStatus = (merchList: MerchItem[]) => {
         if (headerFilterType === 'All Items') {
@@ -62,7 +92,7 @@ const MerchGrid = () => {
         return 0
     }
 
-    const filteredAndSortedItems = filterByStatus(merchItems)
+    const filteredAndSortedItems = filterByStatus(transformedMerchandise)
         .filter(filterMerchItems)
         .sort(sortMerchItems)
 
@@ -77,7 +107,7 @@ const MerchGrid = () => {
 
             <MerchHeaderFilterTabs handleSwitchFilter={setHeaderFilterType} />
 
-            {filterByStatus(merchItems).length ? (
+            {filterByStatus(transformedMerchandise).length ? (
                 <div
                     className="gap-2 lg:gap-1 w-full text-site-main grid items-center justify-around
                             grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3"
