@@ -20,12 +20,10 @@ export const ChooseRedirect: React.FC<ChooseRedirectProps> = ({
 
     return (
         <div className="font-vietnam space-y-2">
-            <h1 className="font-semibold text-lg md:text-xl">
-                Redirect Setting
-            </h1>
-            <div className="flex justify-around md:w-[50%] lg:w-[40%] uppercase bg-black rounded-lg text-sm md:text-base tracking-widest">
+            <h1 className="font-semibold text-md">Redirect Setting</h1>
+            <div className="flex justify-around md:w-[50%] lg:w-[40%] uppercase bg-black rounded-lg text-xs md:text-base tracking-widest">
                 <button
-                    className={`rounded-lg w-full h-full p-2 text-center uppercase  ${redirectState === 'none' ? 'bg-csg-green-100' : ''}`}
+                    className={`rounded-lg w-full h-full p-2 text-center uppercase ${redirectState === 'none' ? 'bg-csg-green-100' : ''}`}
                     onClick={() => handleRedirectChange('none')}
                 >
                     none

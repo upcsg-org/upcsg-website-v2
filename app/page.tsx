@@ -9,6 +9,7 @@ import FacultySection from '@/components/landing/FacultySection'
 import EventSection from '@/components/events/EventSection'
 import { LandingPageCarouselContent } from '@/constants/carousel'
 import ComingSoonModal from '@/components/generics/ComingSoonModal'
+import AnnouncementSection from '@/components/landing/AnnouncementSection'
 
 export default function Home() {
     const [isContactUsModalOpen, setIsContactUsModalOpen] = useState(false)
@@ -23,6 +24,9 @@ export default function Home() {
             <div className="flex flex-col gap-14 py-10">
                 <section>
                     <EventSection />
+                </section>
+                <section>
+                    <AnnouncementSection />
                 </section>
                 <section>
                     <ScholarshipsSection />

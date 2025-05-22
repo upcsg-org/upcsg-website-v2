@@ -3,11 +3,12 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { BiEdit, BiTrash } from 'react-icons/bi'
+import { useRouter } from 'next/navigation'
 import { useCreateUpdateDeleteEventStore } from '@/store/event'
 import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
 import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
 import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
-import { useRouter } from 'next/navigation'
+
 interface ContentListItemProps {
     id: number
     title: string
@@ -23,6 +24,7 @@ const ContentListItem = (props: ContentListItemProps) => {
     const router = useRouter()
     const { id, title, image_url, date_created, body, contentType, onDelete } =
         props
+
     const formattedDate =
         date_created instanceof Date
             ? date_created.toLocaleDateString()
@@ -61,7 +63,8 @@ const ContentListItem = (props: ContentListItemProps) => {
         }
     }
 
-    const handleUpdate = () => {
+    const handleEdit = () => {
+        // Redirect to the update page with contentType and id as query parameters
         router.push(`/admin/update/content?type=${contentType}&id=${id}`)
     }
 
@@ -91,7 +94,7 @@ const ContentListItem = (props: ContentListItemProps) => {
                 className={`absolute top-2 right-2 flex space-x-2 ${isButtonHovered ? 'opacity-100' : 'opacity-0'} transition-opacity`}
             >
                 <button
-                    onClick={handleUpdate}
+                    onClick={handleEdit}
                     className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                 >
                     <BiEdit size={20} />

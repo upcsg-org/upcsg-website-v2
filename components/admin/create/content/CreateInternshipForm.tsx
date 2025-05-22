@@ -64,7 +64,7 @@ export const CreateInternshipForm = ({
                     value={formData.title}
                     onChange={handleChange}
                     placeholder="Input your title here."
-                    className="w-full p-2 border rounded-xl bg-secondary-dark"
+                    className="w-full p-3 mt-2 border rounded-xl bg-secondary-dark"
                 />
             </div>
 
@@ -79,7 +79,7 @@ export const CreateInternshipForm = ({
                         name="opening_date"
                         value={formData.opening_date}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded-xl bg-secondary-dark"
+                        className="w-full p-3 mt-2 border rounded-xl bg-secondary-dark"
                     />
                 </div>
                 <div className="lg:w-1/2">
@@ -91,7 +91,7 @@ export const CreateInternshipForm = ({
                         name="deadline"
                         value={formData.deadline}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded-xl bg-secondary-dark"
+                        className="w-full p-3 mt-2 border rounded-xl bg-secondary-dark"
                     />
                 </div>
             </div>
@@ -106,7 +106,7 @@ export const CreateInternshipForm = ({
                     value={formData.requirements}
                     onChange={handleChange}
                     placeholder="Input requirements here."
-                    className="w-full p-2 border rounded-xl resize-none bg-secondary-dark"
+                    className="w-full p-3 mt-2 border rounded-xl resize-none bg-secondary-dark"
                     rows={6}
                 />
             </div>
@@ -121,7 +121,7 @@ export const CreateInternshipForm = ({
                     value={formData.benefits}
                     onChange={handleChange}
                     placeholder="Input benefits here."
-                    className="w-full p-2 border rounded-xl resize-none bg-secondary-dark"
+                    className="w-full p-3 mt-2 border rounded-xl resize-none bg-secondary-dark"
                     rows={6}
                 />
             </div>
@@ -137,7 +137,7 @@ export const CreateInternshipForm = ({
                     value={formData.organization}
                     onChange={handleChange}
                     placeholder="Input your organization here."
-                    className="w-full p-2 border rounded-xl bg-secondary-dark"
+                    className="w-full p-3 mt-2 border rounded-xl bg-secondary-dark"
                 />
             </div>
 

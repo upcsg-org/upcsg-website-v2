@@ -3,27 +3,23 @@
 import React, { useEffect } from 'react'
 import ArticleTemplate from '@/components/generics/ArticleTemplate'
 import NotFound from '@/components/generics/NotFound'
-import { useEventStore } from '@/store/event'
+import { useInternshipStore } from '@/store/internship'
 
 interface PropsInterface {
     params: {
-        eventId: string
+        internshipId: string
     }
 }
 
 const IndividualEventPage: React.FC<PropsInterface> = ({ params }) => {
-    const { item, loading, error, fetchOne } = useEventStore()
-    const eventId = parseInt(params.eventId, 10)
+    const { item, loading, error, fetchOne } = useInternshipStore()
+    const internshipId = parseInt(params.internshipId, 10)
 
     useEffect(() => {
-        if (!isNaN(eventId)) {
-            fetchOne?.(eventId)
+        if (!isNaN(internshipId)) {
+            fetchOne?.(internshipId)
         }
-    }, [eventId, fetchOne])
-
-    useEffect(() => {
-        console.log('Item:', item)
-    }, [item])
+    }, [internshipId, fetchOne])
 
     if (item && item.article)
         return (

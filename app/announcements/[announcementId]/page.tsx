@@ -3,23 +3,23 @@
 import React, { useEffect } from 'react'
 import ArticleTemplate from '@/components/generics/ArticleTemplate'
 import NotFound from '@/components/generics/NotFound'
-import { useEventStore } from '@/store/event'
+import { useAnnouncementStore } from '@/store/announcement'
 
 interface PropsInterface {
     params: {
-        eventId: string
+        announcementId: string
     }
 }
 
 const IndividualEventPage: React.FC<PropsInterface> = ({ params }) => {
-    const { item, loading, error, fetchOne } = useEventStore()
-    const eventId = parseInt(params.eventId, 10)
+    const { item, loading, error, fetchOne } = useAnnouncementStore()
+    const announcementId = parseInt(params.announcementId, 10)
 
     useEffect(() => {
-        if (!isNaN(eventId)) {
-            fetchOne?.(eventId)
+        if (!isNaN(announcementId)) {
+            fetchOne?.(announcementId)
         }
-    }, [eventId, fetchOne])
+    }, [announcementId, fetchOne])
 
     useEffect(() => {
         console.log('Item:', item)
