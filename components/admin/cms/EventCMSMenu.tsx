@@ -1,7 +1,9 @@
 'use client'
 import React from 'react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { IoChevronBackOutline } from 'react-icons/io5'
 import { IoChevronDownOutline } from 'react-icons/io5'
 import { useRouter } from 'next/navigation'
@@ -20,6 +22,8 @@ function CreateEventMenu({
     onStepChange,
 }: CreateEventMenuProps) {
     const currentRoute = usePathname()
+    const searchParams = useSearchParams()
+    const typeParam = searchParams.get('type')
     const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -58,7 +62,20 @@ function CreateEventMenu({
                     BACK TO DASHBOARD
                 </button>
             </div>
-            <div className="w-full flex flex-col-reverse lg:flex-row-reverse items-center md:justify-between pt-8 md:pt-12 gap-6 md:gap-12">
+            <div
+                className={`w-full flex items-center md:justify-between pt-8 md:pt-12 gap-6 md:gap-12 ${
+                    currentRoute === '/admin/update/content'
+                        ? 'flex-col lg:flex-row'
+                        : currentRoute === '/admin/create/content'
+                          ? 'flex-col-reverse lg:flex-row-reverse'
+                          : ''
+                }`}
+            >
+                {currentRoute === '/admin/update/content' && (
+                    <h1 className="text-base md:text-3xl font-bold mt-10 uppercase mb-4">
+                        UPDATE {getDisplayTitle() || 'Content'}
+                    </h1>
+                )}
                 <div className="w-full lg:w-2/3 xl:w-1/2 flex flex-col md:flex-row gap-2 items-center justify-between">
                     <div
                         onClick={() => goToStep(1)}

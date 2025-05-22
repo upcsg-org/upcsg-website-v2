@@ -18,14 +18,14 @@ const CMSDashboardSummary: React.FC = () => {
     // Display a loading state if dashboardData is null
     if (!dashboardData) {
         return (
-            <div className="p-6 h-fit m-7 bg-[#0e0e1a] flex justify-center items-center">
+            <div className="p-4 h-fit m-7 bg-main-dark flex justify-center items-center">
                 Loading dashboard data...
             </div>
         )
     }
 
     return (
-        <div className="p-6 h-fit m-7 bg-[#0e0e1a]">
+        <div className="flex flex-col md:flex-row py-6 md:px-16 xl:px-48 h-fit m-7 bg-main-dark items-center justify-center">
             <div className="flex flex-col-reverse md:flex-row gap-4 md:gap-8">
                 <div className="flex flex-col gap-6 md:gap-8 md:w-1/3 grow justify-between">
                     {/* Announcements Card */}
@@ -90,7 +90,7 @@ const CMSDashboardSummary: React.FC = () => {
                     OVERVIEW
                 </div>
                 <div className="flex flex-col basis-96 md:basis-1/2 flex-shrink text-ellipsis gap-0">
-                    <h2 className="text-center md:text-left text-2xl md:text-3xl lg:text-4xl font-bold mb-4 font-vietnam tracking-widest">
+                    <h2 className="text-center md:text-left text-xl md:text-2xl lg:text-3xl font-bold mb-4 font-vietnam">
                         LATEST ANNOUNCEMENT
                     </h2>
                     <div className="w-full h-60 relative overflow-hidden rounded-t-2xl">
@@ -110,23 +110,24 @@ const CMSDashboardSummary: React.FC = () => {
                             objectFit="cover"
                         />
                     </div>
-                    <div className="bg-[#1d2146] p-6 md:p-8 rounded-b-2xl flex flex-col flex-grow font-vietnam">
-                        <div className="text-xl md:text-2xl font-vietnam font-semibold tracking-wide">
+                    <div className="bg-[#1d2146] p-6 md:p-8 rounded-b-2xl flex flex-col font-vietnam h-full">
+                        <div className="text-sm md:text-xl font-vietnam font-semibold tracking-wide opacity-75">
                             ANNOUNCEMENT
                         </div>
-                        <div className="mt-3 text-lg md:text-2xl lg:text-3xl font-bold tracking-wide">
+                        <div className="mt-3 text-lg md:text-2xl lg:text-3xl font-bold tracking-wide text-justify">
                             {dashboardData.announcement.most_recent.title}
                         </div>
-                        <div className="mt-4 text-base md:text-lg whitespace-pre-line">
+                        <div className="mt-4 text-md md:text-base whitespace-pre-line">
                             {dashboardData.announcement.most_recent.summary}
                         </div>
-                        <div className="text-base md:text-lg mt-4">
-                            {
-                                dashboardData.announcement.most_recent
-                                    .date_created
-                            }
-                        </div>
-                        <div className="flex justify-end mt-4">
+
+                        <div className="mt-auto flex flex-col md:flex-row gap-3 justify-between">
+                            <div className="text-xs md:text-md mt-4">
+                                {new Date(
+                                    dashboardData.announcement.most_recent.date_created
+                                ).toLocaleDateString()}
+                            </div>
+
                             <button
                                 onClick={() =>
                                     router.push('/admin/announcement')

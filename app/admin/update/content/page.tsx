@@ -1,81 +1,32 @@
 'use client'
-import { useState, useEffect } from 'react'
+
+import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import CreateEventMenu from '@/components/admin/cms/EventCMSMenu'
-import CreateEventForm from '@/components/admin/create/content/CreateEventForm'
-import { CreateAnnouncementForm } from '@/components/admin/create/content/CreateAnnouncementForm'
-import { CreateScholarshipForm } from '@/components/admin/create/content/CreateScholarshipForm'
-import { CreateInternshipForm } from '@/components/admin/create/content/CreateInternshipForm'
-import { CreateArticleLink } from '@/components/admin/create/content/article/createArticleLink'
-import ContentPreview from '@/components/admin/preview/ContentPreview'
+import UpdateEventForm from '@/components/admin/update/content/UpdateEventForm'
+import { UpdateAnnouncementForm } from '@/components/admin/update/content/UpdateAnnouncementForm'
+import { UpdateScholarshipForm } from '@/components/admin/update/content/UpdateScholarshipForm'
+import { UpdateInternshipForm } from '@/components/admin/update/content/UpdateInternshipForm'
+import { UpdateArticleLink } from '@/components/admin/create/content/article/updateArticleLink'
 import useFormHandler from '@/hooks/FormHooks'
+import ContentPreview from '@/components/admin/preview/ContentPreview'
+
 import { FaArrowRight } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
-import { useAnnouncementStore } from '@/store/announcement'
-import { useScholarshipStore } from '@/store/scholarship'
-import { useInternshipStore } from '@/store/internship'
-import { useEventStore } from '@/store/event'
 
 const AdminUpdateContent = () => {
-    const searchParams = useSearchParams()
-    const { fetchOne: fetchEventOne, item: eventData } = useEventStore()
-    const { fetchOne: fetchAnnouncementOne, item: announcementData } =
-        useAnnouncementStore()
-    const { fetchOne: fetchScholarshipOne, item: scholarshipData } =
-        useScholarshipStore()
-    const { fetchOne: fetchInternshipOne, item: internshipData } =
-        useInternshipStore()
-    const [contentType, setContentType] = useState('event') // Default to event
-    const [currentStep, setCurrentStep] = useState(1)
-    const [contentId, setContentId] = useState('')
-    // Set content type from URL parameter on initial load
-    useEffect(() => {
-        const typeParam = searchParams.get('type')
-        const contentId = searchParams.get('id')
-        if (
-            typeParam &&
-            ['event', 'announcement', 'scholarship', 'internship'].includes(
-                typeParam
-            ) &&
-            contentId
-        ) {
-            setContentType(typeParam)
-            setContentId(contentId)
-            if (fetchEventOne && typeParam === 'event') {
-                fetchEventOne(contentId)
-            } else if (fetchAnnouncementOne && typeParam === 'announcement') {
-                fetchAnnouncementOne(contentId)
-            } else if (fetchScholarshipOne && typeParam === 'scholarship') {
-                fetchScholarshipOne(contentId)
-            } else if (fetchInternshipOne && typeParam === 'internship') {
-                fetchInternshipOne(contentId)
-            }
-        }
-    }, [
-        searchParams,
-        fetchEventOne,
-        fetchAnnouncementOne,
-        fetchScholarshipOne,
-        fetchInternshipOne,
-    ])
-
-    // Function to move to next step
-    const goToNextStep = () => {
-        setCurrentStep(2)
+    const initialValues = {
+        eventTitle: '',
+        startTime: '',
+        endTime: '',
+        eventLocation: '',
+        eventDay: '',
+        eventMonth: '',
+        eventYear: '',
+        image: null,
     }
 
-    // Function to go back to previous step
-    const goToPreviousStep = () => {
-        setCurrentStep(1)
-    }
-
-    // Handle step change
-    const handleStepChange = (step: number) => {
-        setCurrentStep(step)
-    }
-
-    // Event form data
-    const eventNullValues = {
+    const eventInitialValues = {
         title: '',
         start_date: '',
         end_date: '',
@@ -86,87 +37,43 @@ const AdminUpdateContent = () => {
         article: null,
     }
 
-    const eventInitialValues = eventData ?? eventNullValues
-    const eventForm = useFormHandler(eventInitialValues)
-
-    // Update event form data when initial values change
-    useEffect(() => {
-        if (eventData) {
-            eventForm.setFormData(eventData)
-        }
-    }, [eventData])
-
-    // Announcement form data
-
-    const announcementNullValues = {
+    const announcementInitialValues = {
         title: '',
         summary: '',
         image_url: null,
         external_url: '',
         article: null,
     }
-    const announcementInitialValues = announcementData ?? announcementNullValues
-    console.log('ANNOUNCEMENT INITIAL VALUES', announcementInitialValues)
+
+    const scholarshipInitialValues = {
+        title: '',
+        opening_date: '',
+        deadline: '',
+        requirements: '',
+        benefits: '',
+        organization: '',
+        image_url: null,
+        external_url: '',
+        article: null,
+    }
+
+    const internshipInitialValues = {
+        title: '',
+        opening_date: '',
+        deadline: '',
+        requirements: '',
+        benefits: '',
+        organization: '',
+        image_url: null,
+        external_url: '',
+        article: null,
+    }
+
+    const eventForm = useFormHandler(eventInitialValues)
     const announcementForm = useFormHandler(announcementInitialValues)
-    console.log('ANNOUNCEMENT FORM', announcementForm)
-
-    // Update form data when initial values change
-    useEffect(() => {
-        if (announcementData) {
-            announcementForm.setFormData(announcementData)
-        }
-    }, [announcementData])
-
-    // Scholarship form data
-    const scholarshipNullValues = {
-        title: '',
-        opening_date: '',
-        deadline: '',
-        requirements: '',
-        benefits: '',
-        organization: '',
-        image_url: null,
-        external_url: '',
-        article: null,
-    }
-    const scholarshipInitialValues = scholarshipData ?? scholarshipNullValues
     const scholarshipForm = useFormHandler(scholarshipInitialValues)
-
-    // Update scholarship form data when initial values change
-    useEffect(() => {
-        if (scholarshipData) {
-            scholarshipForm.setFormData(scholarshipData)
-        }
-    }, [scholarshipData])
-
-    // Internship form data
-    const internshipNullValues = {
-        title: '',
-        opening_date: '',
-        deadline: '',
-        requirements: '',
-        benefits: '',
-        organization: '',
-        image_url: null,
-        external_url: '',
-        article: null,
-    }
-    const internshipInitialValues = internshipData ?? internshipNullValues
     const internshipForm = useFormHandler(internshipInitialValues)
 
-    // Update internship form data when initial values change
-    useEffect(() => {
-        if (internshipData) {
-            internshipForm.setFormData(internshipData)
-        }
-    }, [internshipData])
-
-    // Handle content type change from dropdown
-    const handleContentTypeChange = (type: string) => {
-        setContentType(type)
-    }
-
-    // Get current form data based on content type
     const getCurrentFormData = () => {
         switch (contentType) {
             case 'event':
@@ -182,8 +89,43 @@ const AdminUpdateContent = () => {
         }
     }
 
+    const [contentType, setContentType] = useState('event')
+    const [currentStep, setCurrentStep] = useState(1)
+
+    const goToNextStep = () => {
+        setCurrentStep(2)
+    }
+
+    const goToPreviousStep = () => {
+        setCurrentStep(1)
+    }
+
+    // Handle step change
+    const handleStepChange = (step: number) => {
+        setCurrentStep(step)
+    }
+
+    const handleContentTypeChange = (type: string) => {
+        setContentType(type)
+    }
+
+    const searchParams = useSearchParams()
+    useEffect(() => {
+        const typeParam = searchParams.get('type')
+        if (
+            typeParam &&
+            ['event', 'announcement', 'scholarship', 'internship'].includes(
+                typeParam
+            )
+        ) {
+            setContentType(typeParam)
+        }
+    }, [searchParams])
+
+    const [redirectSetting, setRedirectSetting] = useState('none')
+
     return (
-        <div>
+        <div className="ml-[-25px] md:ml-0">
             <CreateEventMenu
                 contentType={contentType}
                 onContentTypeChange={handleContentTypeChange}
@@ -194,55 +136,59 @@ const AdminUpdateContent = () => {
                 {currentStep === 1 && (
                     <>
                         {contentType === 'event' && (
-                            <CreateEventForm
+                            <UpdateEventForm
                                 formData={eventForm.formData}
                                 handleChange={eventForm.handleChange}
                                 handleImageChange={eventForm.handleImageChange}
                                 goToNextStep={goToNextStep}
+                                setFormData={eventForm.setFormData}
                             />
                         )}
 
                         {contentType === 'announcement' && (
-                            <CreateAnnouncementForm
+                            <UpdateAnnouncementForm
                                 formData={announcementForm.formData}
                                 handleChange={announcementForm.handleChange}
                                 handleImageChange={
                                     announcementForm.handleImageChange
                                 }
                                 goToNextStep={goToNextStep}
+                                setFormData={announcementForm.setFormData}
                             />
                         )}
 
                         {contentType === 'scholarship' && (
-                            <CreateScholarshipForm
+                            <UpdateScholarshipForm
                                 formData={scholarshipForm.formData}
                                 handleChange={scholarshipForm.handleChange}
                                 handleImageChange={
                                     scholarshipForm.handleImageChange
                                 }
                                 goToNextStep={goToNextStep}
+                                setFormData={scholarshipForm.setFormData}
                             />
                         )}
 
                         {contentType === 'internship' && (
-                            <CreateInternshipForm
+                            <UpdateInternshipForm
                                 formData={internshipForm.formData}
                                 handleChange={internshipForm.handleChange}
                                 handleImageChange={
                                     internshipForm.handleImageChange
                                 }
                                 goToNextStep={goToNextStep}
+                                setFormData={internshipForm.setFormData}
                             />
                         )}
 
                         {/* Redirect Setting Component */}
-                        <div className="mt-12 mb-12 p-8 bg-[#171729] rounded-lg">
-                            <h2 className="text-2xl font-bold mb-6">
+                        <div className="mt-12 mb-12">
+                            <h2 className="text-md font-bold mb-6">
                                 {contentType.charAt(0).toUpperCase() +
                                     contentType.slice(1)}{' '}
                                 Redirect Setting
                             </h2>
-                            <CreateArticleLink
+                            <UpdateArticleLink
                                 contentType={
                                     contentType as
                                         | 'event'
@@ -251,7 +197,10 @@ const AdminUpdateContent = () => {
                                         | 'internship'
                                 }
                                 initialExternalUrl={
-                                    getCurrentFormData().external_url || ''
+                                    getCurrentFormData().external_url
+                                }
+                                initialArticle={
+                                    getCurrentFormData().article || null
                                 }
                                 onExternalUrlChange={(url) => {
                                     // Update the form data with external URL
@@ -341,6 +290,8 @@ const AdminUpdateContent = () => {
                                         article: articleDataForBackend,
                                     })
                                 }}
+                                redirectState={redirectSetting}
+                                setRedirectState={setRedirectSetting}
                             />
                         </div>
 
@@ -363,11 +314,10 @@ const AdminUpdateContent = () => {
 
                 {currentStep === 2 && (
                     <ContentPreview
-                        contentId={contentId}
-                        formType="update"
                         contentType={contentType}
                         formData={getCurrentFormData()}
                         goToPreviousStep={goToPreviousStep}
+                        redirectSetting={redirectSetting}
                     />
                 )}
             </section>

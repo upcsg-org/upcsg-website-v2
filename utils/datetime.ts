@@ -1,4 +1,8 @@
 export const getDateString = (datetime: Date) => {
+    if (!(datetime instanceof Date)) {
+        datetime = new Date(datetime);
+    }
+
     const day = datetime.getDate();
 
     const formatOptions: Intl.DateTimeFormatOptions = day > 1

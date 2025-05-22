@@ -24,11 +24,19 @@ const TimeInput = ({ formConfig }: TimeInputProps) => {
                     name={name}
                     value={value}
                     onChange={onChange}
-                    className={`p-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
+                    className={`p-3 mt-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
                 />
             </div>
         </div>
     )
+}
+
+interface Article {
+    title: string
+    date_created: string
+    date_updated: string
+    body: string
+    author?: string | null
 }
 
 interface CreateEventFormProps {
@@ -38,7 +46,9 @@ interface CreateEventFormProps {
         end_date: string
         external_url: string
         body: string
-        image_url: File | string | null
+        image_url: File | null
+        location: string
+        article: Article
     }
     handleChange: (e: any) => void
     handleImageChange: (e: any) => void

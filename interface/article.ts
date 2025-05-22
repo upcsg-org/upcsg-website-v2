@@ -4,7 +4,7 @@ export interface Article {
     date_created: Date
     date_updated: Date
     body: string
-    author?: string
+    author: string
 }
 
 export interface ArticleList {
