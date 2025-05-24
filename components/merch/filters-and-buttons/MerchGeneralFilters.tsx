@@ -11,7 +11,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { IoIosArrowDown } from 'react-icons/io'
 import { LuFilter } from 'react-icons/lu'
 import TheButton from '../../generics/TheButton'
-import { merchTypes } from '@/constants/merch/merchTypes'
+import { useMerchTypes } from '@/constants/merch/merchTypes'
 import {
     PRICE_RANGE_20_50,
     PRICE_RANGE_50_100,
@@ -22,7 +22,7 @@ import {
     PRICE_RANGE_LOWEST_TO_HIGHEST,
     PRICE_RANGE_HIGHEST_TO_LOWEST,
 } from '@/constants/merch/merchRanges'
-import { merchSizes } from '@/constants/merch/merchSizes'
+import { useMerchSizes } from '@/constants/merch/merchSizes'
 
 const PriceRanges = [
     PRICE_RANGE_20_50,
@@ -46,6 +46,15 @@ const MerchGeneralFilters = () => {
     const [selectedPriceRange, setSelectedPriceRange] = useState<string[]>([])
     const [selectedSizes, setSelectedSizes] = useState<string[]>([])
     const [selectedSort, setSelectedSort] = useState<string[]>([])
+
+    // Fetch types and sizes from backend
+    const { fetchTypes, types } = useMerchTypes()
+    const { fetchSizes, sizes } = useMerchSizes()
+
+    useEffect(() => {
+        fetchTypes?.()
+        fetchSizes?.()
+    }, [fetchTypes, fetchSizes])
 
     const toggleMenu = (index: number) => {
         setIsOpen((prevState) =>
@@ -122,7 +131,7 @@ const MerchGeneralFilters = () => {
                         </button>
                         {isOpen[0] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col font-normal">
-                                {merchTypes.map((type) => (
+                                {types.map((type) => (
                                     <li
                                         key={type.id}
                                         className="flex items-center mt-2"
@@ -237,7 +246,7 @@ const MerchGeneralFilters = () => {
                         </button>
                         {isOpen[2] && (
                             <ul className="grid grid-cols-2 lg:flex lg:flex-col text-white font-normal">
-                                {merchSizes.map((size) => (
+                                {sizes.map((size) => (
                                     <li
                                         key={size.id}
                                         className="flex items-center mt-2"

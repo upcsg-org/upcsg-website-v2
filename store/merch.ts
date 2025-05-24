@@ -27,7 +27,13 @@ export interface MerchVariant {
     image: string
     variant: string
     is_limited: boolean
-    size: number
+    size: {
+        id: number
+        name: string
+        description: string
+        created_at: string
+        updated_at: string
+    }
     quantity: number
     is_bestseller: boolean
     is_available: boolean
