@@ -13,9 +13,8 @@ const AboutPage = () => {
                     WHAT IS UPCSG?
                 </h1>
                 <p className="max-w-2xl mx-auto font-vietnam">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nulla facilisi. Sed viverra diam in nulla aliquet, eu
-                    condimentum justo efficitur.
+                    A diverse and dynamic community nurturing the next
+                    generation of trailblazing technology leaders.
                 </p>
             </section>
 
@@ -27,15 +26,26 @@ const AboutPage = () => {
                 <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-rows-2 gap-[180px] pt-16 pb-16">
                     <Goals
                         header="Mission"
-                        text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Pellentesque habitant morbi tristique senectus et netus."
+                        text="The UPCSG is committed to empowering students to reach their 
+                        full potential as Iskolars ng Bayan. Our goal is to create a vibrant
+                        and supportive environment where students can connect with industry 
+                        professionals, and develop the skills they need to become successful
+                        innovators, scientists, engineers, designers, and more in their own 
+                        right and expertise, contributing to the holistic growth of the UP 
+                        Cebu community."
                         imageUrl="/images/placeholder.png"
                         orientation="normal"
                     />
                     <Goals
-                        header="Vission"
-                        text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Pellentesque habitant morbi tristique senectus et netus."
+                        header="Vision"
+                        text="The UPCSG envisions a vibrant and dynamic community of computer 
+                        science students at UP Cebu, united in their pursuit of knowledge, 
+                        innovation, and excellence in the field of Computer Science. We 
+                        aspire to be a premier organization that empowers its members to 
+                        become leaders, collaborators, innovators, and change-makers in the 
+                        tech industry and beyond. By fostering a culture of integrity, 
+                        inclusivity, and academic excellence, we aim to create a lasting 
+                        impact within our university and the broader society."
                         imageUrl="/images/placeholder.png"
                         orientation="reverse"
                     />
@@ -72,31 +82,31 @@ const AboutPage = () => {
                         </h2>
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746735986/dafa2019d05db1ee59b09d72fb2362711ed366e0_whfqxi.png"
-                            title="TITLE"
+                            title="COMMUNITY"
                             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
                             variant="violet"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746736925/8c1347931ebd6e1118082fdeb9ccb2882928ec81_k4nyoe.png"
-                            title="TITLE"
+                            title="EVENTS"
                             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
                             variant="green"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746737007/d47bc0f4e52811f1456899b6c2504b21c4081b38_exait2.png"
-                            title="TITLE"
+                            title="NETWORKING"
                             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
                             variant="violet"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746737073/281a61c6735781ef86b9ca85d6f3473dc777b0bd_n2zmjt.png"
-                            title="TITLE"
+                            title="ACADEMICS"
                             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
                             variant="green"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746737118/bab3010fe3a9bd1deb50ef5cdb8f0e0b3362c934_qqtz1s.png"
-                            title="TITLE"
+                            title="MERCH"
                             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
                             variant="violet"
                         />
