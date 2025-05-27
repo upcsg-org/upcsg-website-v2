@@ -20,7 +20,18 @@ export interface MerchItem {
     created_at: string
     updated_at: string
     merch_type?: MerchType
-    variants?: MerchVariant[]
+    variants?: Array<{
+        id: number
+        name: string
+        price: number
+        image: string
+        size: string
+        quantity: number
+        isLimited: boolean
+        isBestSeller: boolean
+        isAvailable: boolean
+        onSale: boolean
+    }>
     // Computed properties for frontend display
     type: {
         text: string
