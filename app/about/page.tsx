@@ -76,38 +76,38 @@ const AboutPage = () => {
                     </div>
 
                     {/* Second Column - Always visible */}
-                    <div className="p-4 flex flex-col gap-4">
+                    <div className="p-4 flex flex-col gap-4 items-center">
                         <h2 className="text-3xl font-semibold mb-4 block md:hidden text-center">
                             LEARN MORE
                         </h2>
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746735986/dafa2019d05db1ee59b09d72fb2362711ed366e0_whfqxi.png"
                             title="COMMUNITY"
-                            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                            content="Connect with fellow CS students through shared interests, support systems, and collaborative spaces."
                             variant="violet"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746736925/8c1347931ebd6e1118082fdeb9ccb2882928ec81_k4nyoe.png"
                             title="EVENTS"
-                            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                            content="Join exciting activities like hackathons, workshops, and socials that foster learning and fun."
                             variant="green"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746737007/d47bc0f4e52811f1456899b6c2504b21c4081b38_exait2.png"
                             title="NETWORKING"
-                            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                            content="Meet industry professionals, alumni, and peers to build meaningful connections for your future."
                             variant="violet"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746737073/281a61c6735781ef86b9ca85d6f3473dc777b0bd_n2zmjt.png"
                             title="ACADEMICS"
-                            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                            content="Access resources, study groups, and peer support to help you thrive in your CS journey."
                             variant="green"
                         />
                         <LMCard
                             iconUrl="https://res.cloudinary.com/dlz7oiktg/image/upload/v1746737118/bab3010fe3a9bd1deb50ef5cdb8f0e0b3362c934_qqtz1s.png"
                             title="MERCH"
-                            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                            content="Show your Guild pride with exclusive UP CSG apparel and accessories."
                             variant="violet"
                         />
                     </div>
