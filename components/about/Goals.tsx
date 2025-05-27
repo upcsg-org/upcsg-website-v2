@@ -90,7 +90,7 @@ const Goals: React.FC<GoalsProps> = ({
                         >
                             {header}
                         </h1>
-                        <div className="w-[95%] bg-red-500">
+                        <div className="w-[95%]">
                             <p
                                 className={`text-white p-4 break-words text-xs sm:xs ${
                                     orientation === 'reverse' ? 'pr-4' : 'pl-4'
