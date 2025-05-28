@@ -16,7 +16,7 @@ const AnnouncementSection: React.FC = () => {
     const { items, loading, error, fetchAll } = useAnnouncementStore()
 
     useEffect(() => {
-        if (!items || items.length === 0) {
+        if (fetchAll) {
             fetchAll?.()
         }
     }, [])
