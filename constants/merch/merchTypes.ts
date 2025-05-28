@@ -1,22 +1,22 @@
-export const HAT = {
-    id: 0,
-    text: 'HAT'
-}
-export const BAG = {
-    id: 1,
-    text: 'BAG'
-}
-export const SHIRT = {
-    id: 2,
-    text: 'SHIRT'
-}
-export const STICKER = {
-    id: 3,
-    text: 'STICKER'
-}
-export const PIN = {
-    id: 4,
-    text: 'PIN'
+import { useMerchTypeStore } from '@/store/merch'
+
+// Fetch merch types from backend
+export const useMerchTypes = () => {
+    const { fetchAll: fetchTypes, items: types } = useMerchTypeStore()
+
+    // Transform types to match the required format and ensure uniqueness
+    const transformedTypes = Array.from(
+        new Set(types?.map((type) => type.name.toLowerCase()))
+    ).map((typeName, index) => ({
+        id: index,
+        text: typeName,
+    }))
+
+    return {
+        fetchTypes,
+        types: transformedTypes,
+    }
 }
 
-export const merchTypes = [HAT, BAG, SHIRT, STICKER, PIN]
+// Export the array of types (will be populated from backend)
+export const merchTypes = [] as { id: number; text: string }[]

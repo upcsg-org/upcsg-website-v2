@@ -1,6 +1,6 @@
-import { HAT, BAG, SHIRT } from "./merchTypes"
-import { SMALL, MEDIUM, LARGE, XL } from "./merchSizes"
-import { RED, GREEN, BLUE, WHITE, VULCAN, VIDA_LOCA } from "../generic/color"
+import { HAT, BAG, SHIRT } from './merchTypes'
+import { SMALL, MEDIUM, LARGE, XL } from './merchSizes'
+import { RED, GREEN, BLUE, WHITE, VULCAN, VIDA_LOCA } from '../generic/color'
 
 export const merchItems = [
     {
@@ -18,7 +18,7 @@ export const merchItems = [
         isBestSeller: true,
         isAvailable: true,
         isLimitedEdition: false,
-        onSale: false
+        onSale: false,
     },
     {
         id: 2,
@@ -31,7 +31,7 @@ export const merchItems = [
         isBestSeller: false,
         isAvailable: false,
         isLimitedEdition: false,
-        onSale: false
+        onSale: false,
     },
     {
         id: 3,
@@ -44,7 +44,7 @@ export const merchItems = [
         isBestSeller: true,
         isAvailable: false,
         isLimitedEdition: false,
-        onSale: false
+        onSale: false,
     },
     {
         id: 4,
@@ -57,6 +57,6 @@ export const merchItems = [
         isBestSeller: true,
         isAvailable: false,
         isLimitedEdition: false,
-        onSale: false
-    }
+        onSale: false,
+    },
 ]

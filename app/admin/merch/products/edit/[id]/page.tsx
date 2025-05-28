@@ -4,13 +4,15 @@ import type React from 'react'
 import { useDebounce } from '@/hooks/DebounceHook'
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import {
     useMerchTypeStore,
     useCreateUpdateDeleteMerchStore,
     useCreateUpdateDeleteMerchVariantStore,
     useCreateUpdateDeleteMerchTypeStore,
     useCreateUpdateDeleteMerchSizeStore,
+    useMerchStore,
+    useMerchVariantStore,
 } from '@/store/merch'
 import type { MerchType, MerchSize } from '@/store/merch'
 import { uploadImageToCloudinary } from '@/hooks/cloudinary'
@@ -37,14 +39,24 @@ interface VariantFormError {
     sizes: boolean
 }
 
-export default function CreateProductPage() {
+export default function EditProductPage() {
+    const params = useParams()
+    const productId = params?.id as string
+
     const router = useRouter()
     const { fetchAll: FetchTypes, items: existingTypes } = useMerchTypeStore()
-    const { create: createMerch } = useCreateUpdateDeleteMerchStore()
-    const { create: createMerchVariant } =
-        useCreateUpdateDeleteMerchVariantStore()
+    const { fetchOne: fetchMerch, item: fetchedMerch } = useMerchStore()
+    const { fetchAll: fetchVariants, items: fetchedVariants } =
+        useMerchVariantStore()
+    const { update: updateMerch } = useCreateUpdateDeleteMerchStore()
+    const {
+        update: updateMerchVariant,
+        create: createMerchVariant,
+        remove: deleteMerchVariant,
+    } = useCreateUpdateDeleteMerchVariantStore()
     const { create: createMerchType } = useCreateUpdateDeleteMerchTypeStore()
-    const { create: createMerchSize } = useCreateUpdateDeleteMerchSizeStore()
+    const { create: createMerchSize, remove: removeMerchSize } =
+        useCreateUpdateDeleteMerchSizeStore()
 
     const [productName, setProductName] = useState('')
     const [productTypeSearch, setProductTypeSearch] = useState('')
@@ -58,17 +70,13 @@ export default function CreateProductPage() {
         variantIndex: number
         rowIndex: number
     } | null>(null)
-    const [variants, setVariants] = useState<Variant[]>([
-        {
-            id: 1,
-            name: '',
-            sizeRows: [{ id: 1, size: '', price: '', quantity: '' }],
-            isLimited: false,
-            variantImage: null,
-        },
-    ])
+    const [variants, setVariants] = useState<Variant[]>([])
     const [sizeSearch, setSizeSearch] = useState('')
     const [selectedSize, setSelectedSize] = useState<MerchSize | null>(null)
+    const [deletedVariantIds, setDeletedVariantIds] = useState<number[]>([])
+    const [deletedSizeIds, setDeletedSizeIds] = useState<
+        Record<number, number[]>
+    >({})
     const [coverImage, setCoverImage] = useState<string | null>(null)
     const [formErrors, setFormErrors] = useState<{
         coverImage: boolean
@@ -81,12 +89,13 @@ export default function CreateProductPage() {
         productName: false,
         productType: false,
         productDescription: false,
-        variants: [{ id: 1, name: false, image: false, sizes: false }],
+        variants: [],
     })
     const [showValidation, setShowValidation] = useState(false)
     const [isFormValid, setIsFormValid] = useState(true)
     const [submitError, setSubmitError] = useState<string | null>(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     const variantImageRefs = useRef<(HTMLInputElement | null)[]>([])
     const coverImageRef = useRef<HTMLInputElement>(null)
@@ -120,26 +129,99 @@ export default function CreateProductPage() {
         variants,
     ])
 
-    // Fetch merch types and sizes when component mounts
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (FetchTypes) {
-                    await FetchTypes()
-                }
+                setIsLoading(true)
+                await FetchTypes?.()
+                await fetchMerch?.(parseInt(productId))
+                await fetchVariants?.()
             } catch (error) {
                 console.error('Error fetching data:', error)
+                setSubmitError('Failed to load product data')
+            } finally {
+                setIsLoading(false)
             }
         }
+
         fetchData()
-    }, [FetchTypes])
+    }, [productId, FetchTypes, fetchMerch, fetchVariants])
+
+    useEffect(() => {
+        if (!fetchedMerch) return
+
+        setProductName(fetchedMerch.name)
+        setProductDescription(fetchedMerch.description)
+        setCoverImage(fetchedMerch.image)
+
+        const productType = existingTypes?.find(
+            (type) => type.id === fetchedMerch.merch_type.id
+        )
+
+        if (productType) {
+            setSelectedProductType(productType)
+            setProductTypeSearch(productType.name)
+        }
+    }, [fetchedMerch, existingTypes])
+
+    useEffect(() => {
+        if (!fetchedVariants || fetchedVariants.length === 0) return
+
+        const productVariants = fetchedVariants.filter(
+            (v) => v.merch.id === parseInt(productId)
+        )
+
+        console.log('Filtered variants for product:', productVariants)
+
+        if (productVariants.length > 0) {
+            const groupedVariants = productVariants.reduce((acc, variant) => {
+                const existingVariant = acc.find((v) => v.name === variant.name)
+                if (existingVariant) {
+                    existingVariant.sizeRows.push({
+                        id: variant.id,
+                        size: variant.size.name,
+                        price: variant.price.toString(),
+                        quantity: variant.quantity.toString(),
+                    })
+                } else {
+                    acc.push({
+                        id: variant.id,
+                        name: variant.name,
+                        sizeRows: [
+                            {
+                                id: variant.id,
+                                size: variant.size.name,
+                                price: variant.price.toString(),
+                                quantity: variant.quantity.toString(),
+                            },
+                        ],
+                        isLimited: variant.is_limited,
+                        variantImage: variant.image,
+                    })
+                }
+                return acc
+            }, [] as Variant[])
+
+            setVariants(groupedVariants)
+            setFormErrors((prev) => ({
+                ...prev,
+                variants: groupedVariants.map((v) => ({
+                    id: v.id,
+                    name: false,
+                    image: false,
+                    sizes: false,
+                })),
+            }))
+        }
+    }, [fetchedVariants, productId])
 
     const validateForm = () => {
         let isValid = true
+
         const newErrors = {
             coverImage: !coverImage,
             productName: !productName.trim(),
-            productType: !productTypeSearch.trim(),
+            productType: !selectedProductType,
             productDescription: !productDescription.trim(),
             variants: variants.map((variant) => ({
                 id: variant.id,
@@ -147,29 +229,26 @@ export default function CreateProductPage() {
                 image: !variant.variantImage,
                 sizes: variant.sizeRows.some(
                     (row) =>
-                        !row.size.trim() || !row.price.trim() || !row.quantity
+                        !row.size?.toString().trim() ||
+                        !row.price.trim() ||
+                        !row.quantity
                 ),
             })),
         }
 
         setFormErrors(newErrors)
 
-        // Check if any errors exist
-        if (
+        const hasTopLevelError =
             newErrors.coverImage ||
             newErrors.productName ||
             newErrors.productType ||
             newErrors.productDescription
-        ) {
-            isValid = false
-        }
 
-        for (const variant of newErrors.variants) {
-            if (variant.name || variant.image || variant.sizes) {
-                isValid = false
-                break
-            }
-        }
+        const hasVariantError = newErrors.variants.some(
+            (v) => v.name || v.image || v.sizes
+        )
+
+        isValid = !(hasTopLevelError || hasVariantError)
 
         setIsFormValid(isValid)
         return isValid
@@ -179,12 +258,11 @@ export default function CreateProductPage() {
         setShowValidation(true)
         setSubmitError(null)
 
-        const isValid = validateForm()
-        if (!isValid) return
+        if (!validateForm()) return
 
         if (
-            !createMerch ||
-            !createMerchVariant ||
+            !updateMerch ||
+            !updateMerchVariant ||
             !createMerchType ||
             !createMerchSize
         ) {
@@ -195,97 +273,137 @@ export default function CreateProductPage() {
         try {
             setIsSubmitting(true)
 
-            // 1. Upload cover image to Cloudinary
-            const coverImageFile = coverImageRef.current?.files?.[0]
-            if (!coverImageFile) throw new Error('Cover image is required')
-            const coverImageUrl = await uploadImageToCloudinary(coverImageFile)
-
-            // 2. Create or get product type
-            let productType = selectedProductType
-            if (!productType) {
-                // Create new product type if it doesn't exist
-                const newProductType = await createMerchType({
-                    name: productTypeSearch,
-                    sizes: [], // We'll add sizes later
-                })
-                if (!newProductType)
-                    throw new Error('Failed to create product type')
-                productType = newProductType
+            for (const variantIndex in deletedSizeIds) {
+                const sizeIds = deletedSizeIds[variantIndex]
+                for (const sizeId of sizeIds) {
+                    try {
+                        await deleteMerchVariant?.(sizeId) // Assuming size row is a variant row with a unique ID
+                    } catch (error) {
+                        console.error(
+                            'Failed to delete size row',
+                            error,
+                            sizeId
+                        )
+                    }
+                }
             }
 
-            // 3. Create the main merch product
-            const merchData = {
+            // 1. Upload cover image if changed
+            let coverImageUrl = coverImage
+            const coverImageFile = coverImageRef.current?.files?.[0]
+            if (coverImageFile) {
+                coverImageUrl = await uploadImageToCloudinary(coverImageFile)
+            }
+
+            // 2. Ensure product type exists
+            let productType = selectedProductType
+            if (!productType) {
+                const newType = await createMerchType({
+                    name: productTypeSearch,
+                    sizes: [],
+                })
+                if (!newType) throw new Error('Failed to create product type')
+                productType = newType
+            }
+
+            // 3. Update the base merch product
+            const updatedMerch = await updateMerch(parseInt(productId), {
+                id: parseInt(productId),
                 name: productName,
                 merch_type_id: productType.id,
                 description: productDescription,
-                image: coverImageUrl,
-            }
-            const createdMerch = await createMerch(merchData)
-            if (!createdMerch) throw new Error('Failed to create product')
+                image: coverImageUrl || '',
+            })
+            if (!updatedMerch) throw new Error('Failed to update merch')
 
-            // 4. Create variants
-            for (const variant of variants) {
-                // Upload variant image to Cloudinary
-                const variantImageFile =
-                    variantImageRefs.current[variant.id - 1]?.files?.[0]
-                if (!variantImageFile)
-                    throw new Error(
-                        `Variant image is required for ${variant.name}`
+            // 4. Loop through each variant
+            for (let index = 0; index < variants.length; index++) {
+                const variant = variants[index]
+                const variantImageFile: File | undefined =
+                    variantImageRefs.current[index]?.files?.[0]
+
+                let variantImageUrl = variant.variantImage // Existing image URL from state
+
+                // Check if existing image is a valid Cloudinary URL
+                const hasValidImage =
+                    variantImageUrl && variantImageUrl.startsWith('http')
+
+                // Only upload if there's no existing valid image but the user selected a new file
+                if (!hasValidImage) {
+                    if (variantImageFile) {
+                        variantImageUrl =
+                            await uploadImageToCloudinary(variantImageFile)
+                    } else {
+                        throw new Error(
+                            `Variant image is required for ${variant.name}`
+                        )
+                    }
+                }
+                for (const row of variant.sizeRows) {
+                    let size = productType.sizes?.find(
+                        (s) => s.name === row.size
                     )
-                const variantImageUrl =
-                    await uploadImageToCloudinary(variantImageFile)
-
-                // Create a variant for each size row
-                for (const sizeRow of variant.sizeRows) {
-                    // Find or create size
-                    let selectedSize = productType.sizes?.find(
-                        (size) => size.name === sizeRow.size
-                    )
-
-                    if (!selectedSize) {
-                        // Create new size if it doesn't exist
-                        const newSize = await createMerchSize({
-                            name: sizeRow.size,
+                    if (!size) {
+                        size = await createMerchSize({
+                            name: row.size,
                             merch_type: productType.id,
                         })
-                        if (!newSize)
+                        if (!size)
                             throw new Error(
-                                `Failed to create size: ${sizeRow.size}`
+                                `Failed to create size: ${row.size}`
                             )
-                        selectedSize = newSize
                     }
 
                     const variantData = {
-                        merch_id: createdMerch.id,
+                        id: row.id,
+                        merch_id: updatedMerch.id,
                         name: variant.name,
-                        price: parseFloat(sizeRow.price),
-                        image: variantImageUrl,
+                        price: parseFloat(row.price),
+                        image: variantImageUrl || undefined,
                         variant: variant.name,
                         is_limited: variant.isLimited,
-                        size_id: selectedSize.id,
-                        quantity: parseInt(sizeRow.quantity),
+                        size_id: size.id,
+                        quantity: parseInt(row.quantity),
                         is_bestseller: false,
                         is_available: true,
                         on_sale: false,
                     }
-                    await createMerchVariant(variantData)
+
+                    // Check if the variant already exists
+                    const existingVariant = fetchedVariants.find(
+                        (v) => v.id === row.id
+                    )
+                    if (existingVariant) {
+                        // Update the existing variant
+                        const update = await updateMerchVariant(
+                            existingVariant.id,
+                            variantData
+                        )
+                        if (!update)
+                            throw new Error(
+                                `Failed to update variant: ${variant.name}`
+                            )
+                    } else {
+                        // Create a new variant
+                        const create = await createMerchVariant?.(variantData)
+                        if (!create)
+                            throw new Error(
+                                `Failed to create variant: ${variant.name}`
+                            )
+                    }
                 }
             }
 
-            // Redirect to products list on success
             router.push('/admin/merch/products')
         } catch (error) {
-            console.error('Error creating product:', error)
+            console.error('Error submitting form:', error)
             setSubmitError(
-                error instanceof Error
-                    ? error.message
-                    : 'Failed to create product'
+                error instanceof Error ? error.message : 'Failed to submit form'
             )
         } finally {
             setIsSubmitting(false)
         }
     }
-
     const addSizeRow = (variantIndex: number) => {
         const updatedVariants = [...variants]
         const variant = updatedVariants[variantIndex]
@@ -300,26 +418,37 @@ export default function CreateProductPage() {
         setVariants(updatedVariants)
     }
 
-    const deleteSizeRow = (variantIndex: number) => {
-        if (variants[variantIndex].sizeRows.length <= 1) return
-
+    const handleDeleteSizeRow = (variantIndex: number, rowIndex: number) => {
         const updatedVariants = [...variants]
-        updatedVariants[variantIndex].sizeRows = updatedVariants[
-            variantIndex
-        ].sizeRows.slice(0, -1)
+        const variant = updatedVariants[variantIndex]
+
+        const removedRow = variant.sizeRows[rowIndex]
+        variant.sizeRows.splice(rowIndex, 1)
         setVariants(updatedVariants)
+
+        // Track deleted size ID if it existed in backend
+        if (removedRow.id) {
+            setDeletedSizeIds((prev) => {
+                const prevIds = prev[variantIndex] || []
+                return { ...prev, [variantIndex]: [...prevIds, removedRow.id] }
+            })
+        }
     }
 
     const deleteVariant = () => {
         if (variants.length <= 1) return
 
+        // Get the last variant to be deleted
+        const variantToDelete = variants[variants.length - 1]
+
+        // Remove last variant from variants array
         const updatedVariants = variants.slice(0, -1)
         setVariants(updatedVariants)
 
-        setFormErrors((prev) => ({
-            ...prev,
-            variants: prev.variants.slice(0, -1),
-        }))
+        // Add variant id to deletedVariantIds if it exists (means it exists in backend)
+        if (variantToDelete.id) {
+            setDeletedVariantIds((prev) => [...prev, variantToDelete.id])
+        }
     }
 
     const addVariant = () => {
@@ -434,6 +563,16 @@ export default function CreateProductPage() {
         }
     }
 
+    if (isLoading) {
+        return (
+            <div className="flex-1 rounded-md p-6 bg-[#0F1729] text-white">
+                <div className="flex items-center justify-center h-full">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#30b8c4]"></div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="flex-1 rounded-md p-6 bg-[#0F1729] text-white">
             <div className="mb-6 pb-3 border-b border-black">
@@ -458,7 +597,7 @@ export default function CreateProductPage() {
                 </button>
             </div>
 
-            <h2 className="text-lg font-medium mb-4">PRODUCT DETAILS</h2>
+            <h2 className="text-lg font-medium mb-4">EDIT PRODUCT</h2>
 
             <div className="grid grid-cols-10 gap-6 border-4 border-[#242460] rounded-lg p-4 mb-8">
                 <div className="col-span-7 space-y-6 pr-4">
@@ -655,7 +794,7 @@ export default function CreateProductPage() {
                             </div>
 
                             <div className="mb-4">
-                                <div className="grid grid-cols-3 gap-4 mb-2">
+                                <div className="grid grid-cols-4 gap-4 mb-2">
                                     <div>
                                         <label className="text-gray-400 text-s uppercase block mb-2">
                                             SIZE
@@ -671,169 +810,200 @@ export default function CreateProductPage() {
                                             QUANTITY
                                         </label>
                                     </div>
+                                    <div></div>
                                 </div>
 
-                                {variant.sizeRows.map((row, index) => (
-                                    <div
-                                        key={row.id}
-                                        className="grid grid-cols-3 gap-4 mb-4"
-                                    >
-                                        <div className="relative">
-                                            <input
-                                                type="text"
-                                                placeholder="Search size..."
-                                                value={row.size}
-                                                onChange={(e) => {
-                                                    const value = e.target.value
-                                                    handleSizeRowChange(
-                                                        variantIndex,
-                                                        index,
-                                                        'size',
-                                                        value
-                                                    )
-                                                    setActiveDropdown({
-                                                        variantIndex,
-                                                        rowIndex: index,
-                                                    })
-                                                }}
-                                                onFocus={() =>
-                                                    setActiveDropdown({
-                                                        variantIndex,
-                                                        rowIndex: index,
-                                                    })
-                                                }
-                                                className={`w-full bg-white text-black border-0 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                                    showValidation &&
-                                                    formErrors.variants[
-                                                        variantIndex
-                                                    ]?.sizes
-                                                        ? 'border-2 border-red-500 bg-red-50'
-                                                        : ''
-                                                }`}
-                                            />
-                                            {activeDropdown?.variantIndex ===
-                                                variantIndex &&
-                                                activeDropdown?.rowIndex ===
-                                                    index &&
-                                                selectedProductType?.sizes &&
-                                                (() => {
-                                                    const availableSizes =
-                                                        selectedProductType.sizes.filter(
-                                                            (size) => {
-                                                                const isUsed =
-                                                                    variants[
-                                                                        variantIndex
-                                                                    ].sizeRows.some(
-                                                                        (
-                                                                            otherRow,
-                                                                            otherIndex
-                                                                        ) =>
-                                                                            otherIndex !==
-                                                                                index &&
-                                                                            otherRow.size ===
-                                                                                size.name
-                                                                    )
-                                                                return (
-                                                                    !isUsed &&
-                                                                    size.name
-                                                                        .toLowerCase()
-                                                                        .includes(
-                                                                            row.size.toLowerCase()
-                                                                        )
-                                                                )
-                                                            }
+                                {variant.sizeRows.map((row, index) => {
+                                    // Define currentSizeName here, at the start of the map callback
+                                    const currentSizeName =
+                                        typeof row.size === 'string'
+                                            ? row.size
+                                            : row.size?.name || ''
+
+                                    return (
+                                        <div
+                                            key={row.id}
+                                            className="grid grid-cols-4 gap-4 mb-4"
+                                        >
+                                            <div className="relative">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search size..."
+                                                    value={currentSizeName} // use it here
+                                                    onChange={(e) => {
+                                                        const value =
+                                                            e.target.value
+                                                        handleSizeRowChange(
+                                                            variantIndex,
+                                                            index,
+                                                            'size',
+                                                            value
                                                         )
+                                                        setActiveDropdown({
+                                                            variantIndex,
+                                                            rowIndex: index,
+                                                        })
+                                                    }}
+                                                    onFocus={() =>
+                                                        setActiveDropdown({
+                                                            variantIndex,
+                                                            rowIndex: index,
+                                                        })
+                                                    }
+                                                    className={`w-full bg-white text-black border-0 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                                                        showValidation &&
+                                                        formErrors.variants[
+                                                            variantIndex
+                                                        ]?.sizes
+                                                            ? 'border-2 border-red-500 bg-red-50'
+                                                            : ''
+                                                    }`}
+                                                />
 
-                                                    if (
-                                                        availableSizes.length ===
-                                                        0
-                                                    )
-                                                        return null // 🛑 Prevent rendering empty <ul>
+                                                {/* Your dropdown code here, using currentSizeName for filtering */}
+                                                {activeDropdown?.variantIndex ===
+                                                    variantIndex &&
+                                                    activeDropdown?.rowIndex ===
+                                                        index &&
+                                                    selectedProductType?.sizes &&
+                                                    (() => {
+                                                        const availableSizes =
+                                                            selectedProductType.sizes.filter(
+                                                                (size) => {
+                                                                    const isUsed =
+                                                                        variants[
+                                                                            variantIndex
+                                                                        ].sizeRows.some(
+                                                                            (
+                                                                                otherRow,
+                                                                                otherIndex
+                                                                            ) =>
+                                                                                otherIndex !==
+                                                                                    index &&
+                                                                                (typeof otherRow.size ===
+                                                                                'string'
+                                                                                    ? otherRow.size ===
+                                                                                      size.name
+                                                                                    : otherRow
+                                                                                          .size
+                                                                                          ?.name ===
+                                                                                      size.name)
+                                                                        )
+                                                                    return (
+                                                                        !isUsed &&
+                                                                        size.name
+                                                                            .toLowerCase()
+                                                                            .includes(
+                                                                                currentSizeName.toLowerCase()
+                                                                            )
+                                                                    )
+                                                                }
+                                                            )
 
-                                                    return (
-                                                        <ul className="absolute z-10 bg-white border text-black border-gray-300 w-full mt-1 rounded shadow-md max-h-40 overflow-y-auto">
-                                                            {availableSizes.map(
-                                                                (size) => (
-                                                                    <li
-                                                                        key={
-                                                                            size.id
-                                                                        }
-                                                                        onClick={() => {
-                                                                            handleSizeRowChange(
-                                                                                variantIndex,
-                                                                                index,
-                                                                                'size',
+                                                        if (
+                                                            availableSizes.length ===
+                                                            0
+                                                        )
+                                                            return null
+
+                                                        return (
+                                                            <ul className="absolute z-10 bg-white border text-black border-gray-300 w-full mt-1 rounded shadow-md max-h-40 overflow-y-auto">
+                                                                {availableSizes.map(
+                                                                    (size) => (
+                                                                        <li
+                                                                            key={
+                                                                                size.id
+                                                                            }
+                                                                            onClick={() => {
+                                                                                handleSizeRowChange(
+                                                                                    variantIndex,
+                                                                                    index,
+                                                                                    'size',
+                                                                                    size.name
+                                                                                )
+                                                                                setSelectedSize(
+                                                                                    size
+                                                                                )
+                                                                                setActiveDropdown(
+                                                                                    null
+                                                                                )
+                                                                            }}
+                                                                            className="px-3 py-2 hover:bg-blue-100 cursor-pointer"
+                                                                        >
+                                                                            {
                                                                                 size.name
-                                                                            )
-                                                                            setSelectedSize(
-                                                                                size
-                                                                            )
-                                                                            setActiveDropdown(
-                                                                                null
-                                                                            )
-                                                                        }}
-                                                                        className="px-3 py-2 hover:bg-blue-100 cursor-pointer"
-                                                                    >
-                                                                        {
-                                                                            size.name
-                                                                        }
-                                                                    </li>
-                                                                )
-                                                            )}
-                                                        </ul>
-                                                    )
-                                                })()}
+                                                                            }
+                                                                        </li>
+                                                                    )
+                                                                )}
+                                                            </ul>
+                                                        )
+                                                    })()}
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="text"
+                                                    placeholder="PHP"
+                                                    value={row.price}
+                                                    onChange={(e) =>
+                                                        handleSizeRowChange(
+                                                            variantIndex,
+                                                            index,
+                                                            'price',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className={`w-full bg-white text-black border-0 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                                                        showValidation &&
+                                                        formErrors.variants[
+                                                            variantIndex
+                                                        ]?.sizes
+                                                            ? 'border-2 border-red-500 bg-red-50'
+                                                            : ''
+                                                    }`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    step="0.01"
+                                                    min="0"
+                                                    value={row.quantity}
+                                                    onChange={(e) =>
+                                                        handleSizeRowChange(
+                                                            variantIndex,
+                                                            index,
+                                                            'quantity',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className={`w-full bg-white text-black border-0 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                                                        showValidation &&
+                                                        formErrors.variants[
+                                                            variantIndex
+                                                        ]?.sizes
+                                                            ? 'border-2 border-red-500 bg-red-50'
+                                                            : ''
+                                                    }`}
+                                                />
+                                            </div>
+                                            {variant.sizeRows.length > 1 && (
+                                                <button
+                                                    onClick={() =>
+                                                        handleDeleteSizeRow(
+                                                            variantIndex,
+                                                            index
+                                                        )
+                                                    }
+                                                    className="w-8 h-8 bg-[#EB5B5B] hover:bg-red-500 text-white rounded-full flex items-center justify-center text-xl"
+                                                >
+                                                    {'-'}
+                                                </button>
+                                            )}
                                         </div>
-                                        <div>
-                                            <input
-                                                type="text"
-                                                placeholder="PHP"
-                                                value={row.price}
-                                                onChange={(e) =>
-                                                    handleSizeRowChange(
-                                                        variantIndex,
-                                                        index,
-                                                        'price',
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className={`w-full bg-white text-black border-0 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                                    showValidation &&
-                                                    formErrors.variants[
-                                                        variantIndex
-                                                    ]?.sizes
-                                                        ? 'border-2 border-red-500 bg-red-50'
-                                                        : ''
-                                                }`}
-                                            />
-                                        </div>
-                                        <div>
-                                            <input
-                                                type="number"
-                                                placeholder="0"
-                                                step="0.01"
-                                                min="0"
-                                                value={row.quantity}
-                                                onChange={(e) =>
-                                                    handleSizeRowChange(
-                                                        variantIndex,
-                                                        index,
-                                                        'quantity',
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className={`w-full bg-white text-black border-0 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                                    showValidation &&
-                                                    formErrors.variants[
-                                                        variantIndex
-                                                    ]?.sizes
-                                                        ? 'border-2 border-red-500 bg-red-50'
-                                                        : ''
-                                                }`}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                                 {showValidation &&
                                     formErrors.variants[variantIndex]
                                         ?.sizes && (
@@ -850,16 +1020,6 @@ export default function CreateProductPage() {
                                 >
                                     {'+'}
                                 </button>
-                                {variant.sizeRows.length > 1 && (
-                                    <button
-                                        onClick={() =>
-                                            deleteSizeRow(variantIndex)
-                                        }
-                                        className="w-8 h-8 bg-[#EB5B5B] hover:bg-red-500 text-white rounded-full flex items-center justify-center text-xl"
-                                    >
-                                        {'-'}
-                                    </button>
-                                )}
                             </div>
                         </div>
 

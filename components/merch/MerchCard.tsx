@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { AiOutlineHeart, AiFillHeart, AiOutlineShopping } from 'react-icons/ai'
 import { VscSparkle } from 'react-icons/vsc'
 import OrderForm from './OrderForm'
-import { AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import LikedPop from './effects-popup/LikedPop'
 import { TfiFaceSad } from 'react-icons/tfi'
 import { MerchItem } from '@/interface/merch'
@@ -19,19 +19,23 @@ const MerchCard = (props: PropsInterface) => {
         type,
         price,
         images,
-        colors,
-        sizes,
         isBestSeller,
         isAvailable,
+        isLimitedEdition,
+        onSale,
+        variants = [],
     } = merch
 
     const [currentImage, setCurrentImage] = useState(0)
     const [showOrderForm, setShowOrderForm] = useState(false)
     const [showLiked, setShowLiked] = useState(false)
+    const [selectedVariant, setSelectedVariant] = useState(variants[0])
 
-    const handleColorChange = (index: number) => {
-        setCurrentImage(index)
-    }
+    useEffect(() => {
+        if (variants.length > 0) {
+            setSelectedVariant(variants[0])
+        }
+    }, [variants])
 
     const handleCardClick = (e: React.MouseEvent) => {
         e.preventDefault()
@@ -74,21 +78,40 @@ const MerchCard = (props: PropsInterface) => {
                     >
                         <ul className="absolute flex flex-col w-full h-full tracking-wider p-2 xl:p-6 z-10">
                             <li className="flex flex-row items-center w-full text-black text-xl xl:text-3xl gap-2">
-                                {isBestSeller ? <VscSparkle /> : <>&#8203;</>}
+                                {isBestSeller && <VscSparkle />}
+                                {isLimitedEdition && (
+                                    <span className="text-purple-500">
+                                        Limited Edition
+                                    </span>
+                                )}
+                                {onSale && (
+                                    <span className="text-red-500">
+                                        On Sale
+                                    </span>
+                                )}
                             </li>
                             <li className="flex flex-grow w-full h-full text-[#A6A6B1] text-base items-center justify-end">
                                 <div className="flex flex-col gap-1">
-                                    {!!colors.length &&
-                                        colors.map((color, index) => (
+                                    {variants.length > 1 &&
+                                        variants.map((variant, index) => (
                                             <button
-                                                key={index + color.hex}
-                                                className="rounded-full size-3 xl:size-4 border-[1px] border-black"
-                                                style={{
-                                                    backgroundColor: color.hex,
-                                                }}
+                                                key={variant.id}
+                                                className={`rounded-full size-3 xl:size-4 border-[1px] border-black
+                                                      ${currentImage === index ? 'bg-white' : 'bg-gray-300'}`}
                                                 onClick={(e) => {
                                                     e.stopPropagation()
-                                                    handleColorChange(index)
+                                                    const imageIndex =
+                                                        images.findIndex(
+                                                            (img) =>
+                                                                img ===
+                                                                variant.image
+                                                        )
+                                                    if (imageIndex !== -1) {
+                                                        setCurrentImage(
+                                                            imageIndex
+                                                        )
+                                                    }
+                                                    setSelectedVariant(variant)
                                                 }}
                                             />
                                         ))}
@@ -110,7 +133,7 @@ const MerchCard = (props: PropsInterface) => {
                         <div className="w-full h-full relative">
                             <Image
                                 src={images[currentImage]}
-                                alt="Background"
+                                alt={name}
                                 layout="fill"
                                 objectFit="cover"
                                 className=""
@@ -126,7 +149,7 @@ const MerchCard = (props: PropsInterface) => {
                         {type.text}
                     </li>
                     <li className="w-full text-[#6479CB] text-sm xl:text-2xl truncate text-ellipsis">
-                        PHP {price}
+                        PHP {selectedVariant?.price || price}
                     </li>
                 </ul>
             </div>

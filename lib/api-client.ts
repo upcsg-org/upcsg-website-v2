@@ -12,11 +12,11 @@ import {
 const isPublicEndpoint = (url?: string): boolean => {
     if (!url) return false;
     const publicEndpoints = [
-        '/api/user/registration/',
-        '/api/user/login/',
-        '/api/user/token/refresh/',
-        '/api/user/token/verify/',
-        '/api/user/logout/',
+        '/user/registration/',
+        '/user/login/',
+        '/user/token/refresh/',
+        '/user/token/verify/',
+        '/user/logout/',
     ];
     return publicEndpoints.some((endpoint) => url.endsWith(endpoint));
 };

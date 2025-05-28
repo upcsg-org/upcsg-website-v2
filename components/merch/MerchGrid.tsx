@@ -1,11 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
 import MerchCard from './MerchCard'
 import MerchHeaderButtonGroup from './filters-and-buttons/MerchHeaderButtonGroup'
 import MerchHeaderFilterTabs from './filters-and-buttons/MerchHeaderFilterTabs'
-import { merchItems } from '@/constants/merch/merch'
+import { useMerchStore, useMerchVariantStore } from '@/store/merch'
 import { MerchItem } from '@/interface/merch'
 import { priceRanges } from '@/constants/merch/merchRanges'
 import Empty from '../generics/Empty'
@@ -18,6 +18,76 @@ const MerchGrid = () => {
         selectedSizes,
         selectedSort,
     } = useSelector((state: RootState) => state.filters)
+
+    const { fetchAll: fetchMerch, items: merchandise } = useMerchStore()
+    const { fetchAll: fetchVariants, items: allVariants } =
+        useMerchVariantStore()
+
+    useEffect(() => {
+        fetchMerch?.()
+        fetchVariants?.()
+    }, [fetchMerch, fetchVariants])
+
+    useEffect(() => {
+        if (merchandise && allVariants) {
+            merchandise.forEach((merch) => {
+                const merchVariants = allVariants.filter(
+                    (v) => v.merch.id === merch.id
+                )
+                console.log(`Merch: ${merch.name} (ID: ${merch.id})`, {
+                    merch,
+                    variants: merchVariants,
+                })
+            })
+        }
+    }, [merchandise, allVariants])
+
+    const transformedMerchandise =
+        merchandise?.map((item) => {
+            // Filter variants for this specific merch item
+            const itemVariants =
+                allVariants?.filter((v) => v.merch.id === item.id) || []
+
+            return {
+                ...item,
+                type: {
+                    text: item.merch_type?.name || '',
+                    value: item.merch_type?.name?.toLowerCase() || '',
+                },
+                price: itemVariants[0]?.price || 0,
+                images: [
+                    item.image,
+                    ...itemVariants.map((v) => v.image).filter(Boolean),
+                ],
+                sizes: itemVariants.map((v) => ({
+                    text: v.size.name,
+                    value: v.size.name.toLowerCase(),
+                })),
+                colors: [], // Colors not in backend model
+                isBestSeller: itemVariants[0]?.is_bestseller || false,
+                isAvailable: itemVariants[0]?.is_available || true,
+                isLimitedEdition: itemVariants[0]?.is_limited || false,
+                onSale: itemVariants[0]?.on_sale || false,
+                variants: itemVariants.map((variant) => ({
+                    id: variant.id,
+                    name: variant.name,
+                    price: variant.price,
+                    image: variant.image,
+                    size: variant.size.name.toLowerCase(),
+                    quantity: variant.quantity,
+                    isLimited: variant.is_limited,
+                    isBestSeller: variant.is_bestseller,
+                    isAvailable: variant.is_available,
+                    onSale: variant.on_sale,
+                })),
+            }
+        }) || []
+
+    useEffect(() => {
+        if (transformedMerchandise.length > 0) {
+            console.log('Transformed Merchandise:', transformedMerchandise)
+        }
+    }, [transformedMerchandise])
 
     const filterByStatus = (merchList: MerchItem[]) => {
         if (headerFilterType === 'All Items') {
@@ -36,20 +106,35 @@ const MerchGrid = () => {
     const filterMerchItems = (merch: MerchItem) => {
         const matchesProductType =
             selectedProductTypes.length === 0 ||
-            selectedProductTypes.includes(merch.type.text)
+            selectedProductTypes.some(
+                (type) => merch.type.value === type.toLowerCase()
+            )
+
         const matchesSize =
             selectedSizes.length === 0 ||
-            merch.sizes.some((size) => selectedSizes.includes(size.text))
+            merch.variants?.some((variant) =>
+                selectedSizes.includes(variant.size.toLowerCase())
+            ) ||
+            false
+
         const matchesRange =
             selectedPriceRanges.length === 0 ||
-            priceRanges.some(
-                (range) =>
-                    (range.lowerBound === null ||
-                        merch.price >= range.lowerBound) &&
-                    (range.upperBound === null ||
-                        merch.price <= range.upperBound) &&
+            priceRanges.some((range) => {
+                // Check if any variant's price falls within this range
+                const hasVariantInRange = merch.variants?.some((variant) => {
+                    const price = variant.price
+                    return (
+                        (range.lowerBound === null ||
+                            price >= range.lowerBound) &&
+                        (range.upperBound === null || price <= range.upperBound)
+                    )
+                })
+                return (
+                    hasVariantInRange &&
                     selectedPriceRanges.includes(range.label)
-            )
+                )
+            })
+
         return matchesProductType && matchesRange && matchesSize
     }
 
@@ -62,7 +147,7 @@ const MerchGrid = () => {
         return 0
     }
 
-    const filteredAndSortedItems = filterByStatus(merchItems)
+    const filteredAndSortedItems = filterByStatus(transformedMerchandise)
         .filter(filterMerchItems)
         .sort(sortMerchItems)
 
@@ -77,7 +162,7 @@ const MerchGrid = () => {
 
             <MerchHeaderFilterTabs handleSwitchFilter={setHeaderFilterType} />
 
-            {filterByStatus(merchItems).length ? (
+            {filterByStatus(transformedMerchandise).length ? (
                 <div
                     className="gap-2 lg:gap-1 w-full text-site-main grid items-center justify-around
                             grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3"
