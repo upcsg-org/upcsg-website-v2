@@ -87,7 +87,7 @@ const Journey = () => {
         <section className="bg-gray-900 py-16 px-4">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <h2 className="text-4xl tracking-wide text-center text-white mb-16">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-wide text-center text-white mb-16">
                     OUR JOURNEY
                 </h2>
 
@@ -100,13 +100,13 @@ const Journey = () => {
                             const position = index % 2 === 0 ? 'left' : 'right'
                             return (
                                 <div key={index} className="mb-24 relative">
-                                    <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-green-600 z-10"></div>
+                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-green-600 z-10"></div>
 
                                     <div
-                                        className={`flex ${position === 'left' ? 'flex-row' : 'flex-row-reverse'}`}
+                                        className={`flex flex-col md:${position === 'left' ? 'flex-row' : 'flex-row-reverse'}`}
                                     >
                                         <div
-                                            className={`w-1/2 ${position === 'left' ? 'pr-12' : 'pl-12'} ${position === 'left' ? 'text-right' : 'text-left'}`}
+                                            className={`w-full md:w-1/2 ${position === 'left' ? 'md:pr-12' : 'md:pl-12'} ${position === 'left' ? 'md:text-right' : 'md:text-left'}`}
                                         >
                                             <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-left">
                                                 <div className="mb-4 overflow-hidden rounded-lg">
@@ -116,16 +116,16 @@ const Journey = () => {
                                                         className="w-full h-48 object-cover object-center"
                                                     />
                                                 </div>
-                                                <h3 className="text-2xl font-bold mb-2 text-white">
+                                                <h3 className="text-lg md:text-2xl font-bold mb-2 text-white">
                                                     {event.title}
                                                 </h3>
-                                                <p className="text-gray-300">
+                                                <p className="text-sm md:text-base text-gray-300">
                                                     {event.description}
                                                 </p>
                                             </div>
                                         </div>
 
-                                        <div className="w-1/2">
+                                        <div className="w-full md:w-1/2 mt-4 md:mt-0">
                                             <p
                                                 className={`text-sm font-medium text-gray-300 whitespace-nowrap ${position === 'left' ? 'text-left pl-8' : 'text-right pr-8'}`}
                                             >
