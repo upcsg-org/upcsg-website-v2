@@ -73,7 +73,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (!isAuthenticated && !isPublicRoute(pathname)) {
             console.log('Redirecting unauthenticated user to login:', pathname)
             lastRedirectRef.current = '/login'
-            router.push('/login')
+            // router.push('/login')
             return
         }
 
@@ -84,7 +84,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
                     'Access denied: User is not a superuser, redirecting to root'
                 )
                 lastRedirectRef.current = '/'
-                router.push('/')
+                // router.push('/')
                 return
             }
         }

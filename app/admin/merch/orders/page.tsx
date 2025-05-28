@@ -68,16 +68,35 @@ export default function OrdersPage() {
     ) => {
         try {
             if (selectedOrder) {
+                // Debug: Check if buyer exists
+                console.log('Selected order:', selectedOrder)
+                console.log('Buyer object:', selectedOrder.buyer)
+
+                // Always use buyer.id as the buyer_id
+                const buyerId = selectedOrder.buyer?.id
+
+                // Ensure we have a valid buyer_id
+                if (!buyerId) {
+                    console.error('No buyer found in selected order')
+                    alert(
+                        'Error: No buyer found for this order. This order may have corrupted data.'
+                    )
+                    return
+                }
+
+                console.log('Using buyer.id as buyer_id:', buyerId)
+
+                // Always preserve critical fields that should not change during edits
                 await updateOrder!(id, {
-                    buyer_id: selectedOrder.buyer_id,
+                    buyer_id: buyerId, // PRESERVE: Never change the original buyer
                     payment_method:
                         updatedData.payment_method ||
                         selectedOrder.payment_method,
-                    proof_of_payment: selectedOrder.proof_of_payment,
+                    proof_of_payment: selectedOrder.proof_of_payment, // PRESERVE: Keep original proof
                     total_price:
                         updatedData.total_price || selectedOrder.total_price,
                     status: updatedData.status || selectedOrder.status,
-                    date_created: selectedOrder.date_created,
+                    date_created: selectedOrder.date_created, // PRESERVE: Keep original creation date
                     date_paid: selectedOrder.date_paid,
                 })
             }
@@ -85,6 +104,7 @@ export default function OrdersPage() {
             setSelectedOrder(null)
         } catch (error) {
             console.error('Error updating order:', error)
+            alert('Error updating order. Please check the console for details.')
         }
     }
 
@@ -99,15 +119,41 @@ export default function OrdersPage() {
     }
 
     const handleQuickStatusUpdate = async (order: Order, newStatus: string) => {
-        await updateOrder!(order.id, {
-            buyer_id: order.buyer_id,
-            payment_method: order.payment_method,
-            proof_of_payment: order.proof_of_payment,
-            total_price: order.total_price,
-            status: newStatus,
-            date_created: order.date_created,
-            date_paid: order.date_paid,
-        })
+        try {
+            // Debug: Check if buyer exists
+            console.log('Order for status update:', order)
+            console.log('Buyer object:', order.buyer)
+
+            // Always use buyer.id as the buyer_id
+            const buyerId = order.buyer?.id
+
+            // Ensure we have a valid buyer_id
+            if (!buyerId) {
+                console.error('No buyer found in order')
+                alert(
+                    'Error: No buyer found for this order. This order may have corrupted data.'
+                )
+                return
+            }
+
+            console.log('Using buyer.id as buyer_id:', buyerId)
+
+            // Always preserve critical fields that should not change during status updates
+            await updateOrder!(order.id, {
+                buyer_id: buyerId, // PRESERVE: Never change the original buyer
+                payment_method: order.payment_method, // PRESERVE: Keep original payment method
+                proof_of_payment: order.proof_of_payment, // PRESERVE: Keep original proof
+                total_price: order.total_price, // PRESERVE: Keep original total price
+                status: newStatus, // ONLY UPDATE: Change status
+                date_created: order.date_created, // PRESERVE: Keep original creation date
+                date_paid: order.date_paid, // PRESERVE: Keep original payment date
+            })
+        } catch (error) {
+            console.error('Error updating order status:', error)
+            alert(
+                'Error updating order status. Please check the console for details.'
+            )
+        }
     }
 
     const openEditModal = (order: Order) => {

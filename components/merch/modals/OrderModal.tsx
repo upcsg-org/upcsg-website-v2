@@ -63,11 +63,14 @@ const OrderModal = (props: PropsInterface) => {
     )
 
     const getStatusColor = (status: string) => {
-        switch (status) {
+        const normalizedStatus = status.toUpperCase()
+        switch (normalizedStatus) {
             case 'PAID':
                 return 'text-green-400 bg-green-400/10'
             case 'PENDING':
                 return 'text-yellow-400 bg-yellow-400/10'
+            case 'DELIVERED':
+                return 'text-blue-400 bg-blue-400/10'
             case 'CANCELLED':
                 return 'text-red-400 bg-red-400/10'
             default:
