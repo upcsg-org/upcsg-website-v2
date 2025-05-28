@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuthStore } from '../../store/auth'
 import { User } from '../../interface/user'
 import Image from 'next/image'
+import { uploadImageToCloudinary } from '../../hooks/cloudinary'
 
 interface EditProfileModalProps {
     isOpen: boolean
@@ -25,6 +26,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         image_url: '',
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isUploadingImage, setIsUploadingImage] = useState(false)
+    const [isDragOver, setIsDragOver] = useState(false)
     const [message, setMessage] = useState<{
         type: 'success' | 'error'
         text: string
@@ -97,6 +100,85 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         }
     }
 
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        await processImageFile(file)
+    }
+
+    const processImageFile = async (file: File) => {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            setMessage({
+                type: 'error',
+                text: 'Please select a valid image file (JPG, PNG, or GIF).',
+            })
+            return
+        }
+
+        // Validate file size (max 5MB)
+        const maxSize = 5 * 1024 * 1024 // 5MB
+        if (file.size > maxSize) {
+            setMessage({
+                type: 'error',
+                text: 'Image size must be less than 5MB.',
+            })
+            return
+        }
+
+        setIsUploadingImage(true)
+        setMessage(null)
+
+        try {
+            const imageUrl = await uploadImageToCloudinary(file)
+            setFormData((prev) => ({
+                ...prev,
+                image_url: imageUrl,
+            }))
+            setMessage({
+                type: 'success',
+                text: 'Image uploaded successfully!',
+            })
+        } catch (error) {
+            console.error('Error uploading image:', error)
+            setMessage({
+                type: 'error',
+                text: 'Failed to upload image. Please try again.',
+            })
+        } finally {
+            setIsUploadingImage(false)
+        }
+    }
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragOver(true)
+    }
+
+    const handleDragLeave = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragOver(false)
+    }
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragOver(false)
+
+        const files = e.dataTransfer.files
+        if (files.length > 0) {
+            processImageFile(files[0])
+        }
+    }
+
+    const removeImage = () => {
+        setFormData((prev) => ({
+            ...prev,
+            image_url: '',
+        }))
+        setMessage(null)
+    }
+
     if (!isOpen) return null
 
     return (
@@ -118,38 +200,139 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Profile Image */}
-                    <div className="flex items-center space-x-4">
-                        <div className="h-20 w-20 rounded-full overflow-hidden border-2 border-csg-blue-400/30">
-                            {formData.image_url ? (
-                                <Image
-                                    src={formData.image_url}
-                                    alt="Profile"
-                                    width={80}
-                                    height={80}
-                                    className="object-cover w-full h-full"
-                                />
-                            ) : (
-                                <div className="h-full w-full bg-csg-blue-600 flex items-center justify-center">
-                                    <span className="text-white text-xl font-bold">
-                                        {formData.first_name?.charAt(0) ||
-                                            user?.username?.charAt(0) ||
-                                            '?'}
-                                    </span>
+                    <div className="space-y-6">
+                        <div className="text-center">
+                            <h3 className="text-lg font-bold text-csg-blue-800 tracking-wider uppercase mb-4">
+                                Profile Image
+                            </h3>
+
+                            {/* Current Image Preview */}
+                            <div className="flex justify-center mb-6">
+                                <div className="relative group">
+                                    <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-csg-blue-400/30 shadow-lg">
+                                        {formData.image_url ? (
+                                            <Image
+                                                src={formData.image_url}
+                                                alt="Profile"
+                                                width={128}
+                                                height={128}
+                                                className="object-cover w-full h-full"
+                                            />
+                                        ) : (
+                                            <div className="h-full w-full bg-gradient-to-br from-csg-blue-600 to-csg-blue-800 flex items-center justify-center">
+                                                <span className="text-white text-3xl font-bold">
+                                                    {formData.first_name?.charAt(
+                                                        0
+                                                    ) ||
+                                                        user?.username?.charAt(
+                                                            0
+                                                        ) ||
+                                                        '?'}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Remove Image Button */}
+                                    {formData.image_url && (
+                                        <button
+                                            type="button"
+                                            onClick={removeImage}
+                                            className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors shadow-lg"
+                                            title="Remove image"
+                                        >
+                                            <span className="text-sm">×</span>
+                                        </button>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                        <div className="flex-1">
-                            <label className="block text-sm font-bold text-csg-blue-800 tracking-wider uppercase mb-2">
-                                Profile Image URL
-                            </label>
-                            <input
-                                type="url"
-                                name="image_url"
-                                value={formData.image_url}
-                                onChange={handleInputChange}
-                                className="w-full px-4 py-2 bg-main-dark border border-csg-blue-400/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-csg-green-100 transition-colors"
-                                placeholder="https://example.com/image.jpg"
-                            />
+                            </div>
+
+                            {/* Upload Area */}
+                            <div
+                                className={`relative border-2 border-dashed rounded-xl p-8 transition-all duration-300 ${
+                                    isDragOver
+                                        ? 'border-csg-green-100 bg-csg-green-100/10'
+                                        : 'border-csg-blue-400/30 hover:border-csg-green-100/50'
+                                } ${isUploadingImage ? 'opacity-50 pointer-events-none' : ''}`}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                            >
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileUpload}
+                                    disabled={isUploadingImage}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    id="image-upload"
+                                />
+
+                                <div className="text-center space-y-4">
+                                    {isUploadingImage ? (
+                                        <div className="flex flex-col items-center space-y-3">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-csg-green-100"></div>
+                                            <p className="text-csg-green-100 font-medium">
+                                                Uploading your image...
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="text-6xl text-csg-blue-400/50 mb-4">
+                                                📷
+                                            </div>
+                                            <div>
+                                                <p className="text-white font-medium text-lg mb-2">
+                                                    Drop your image here, or{' '}
+                                                    <span className="text-csg-green-100 underline cursor-pointer">
+                                                        browse
+                                                    </span>
+                                                </p>
+                                                <p className="text-gray-400 text-sm">
+                                                    Supports JPG, PNG, GIF up to
+                                                    5MB
+                                                </p>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Divider */}
+                            <div className="flex items-center my-6">
+                                <div className="flex-1 border-t border-csg-blue-400/20"></div>
+                                <span className="px-4 text-gray-400 text-sm font-medium">
+                                    OR
+                                </span>
+                                <div className="flex-1 border-t border-csg-blue-400/20"></div>
+                            </div>
+
+                            {/* URL Input */}
+                            <div className="space-y-3">
+                                <label className="block text-sm font-medium text-csg-blue-800 tracking-wider uppercase">
+                                    Image URL
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="url"
+                                        name="image_url"
+                                        value={formData.image_url}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-3 bg-main-dark border border-csg-blue-400/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-csg-green-100 focus:ring-2 focus:ring-csg-green-100/20 transition-all"
+                                        placeholder="https://example.com/your-image.jpg"
+                                        disabled={isUploadingImage}
+                                    />
+                                    {formData.image_url && (
+                                        <button
+                                            type="button"
+                                            onClick={removeImage}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-400 transition-colors"
+                                            title="Clear URL"
+                                        >
+                                            <span className="text-lg">×</span>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
 import { FaUpload } from 'react-icons/fa'
 import NotificationModal from '@/components/generics/NotificationModal'
+import { uploadImageToCloudinary } from '@/hooks/cloudinary'
 
 interface PaymentModalProps {
     isOpen: boolean
     onClose: () => void
-    onConfirm: (paymentMethod: string, proofOfPayment?: File) => void
+    onConfirm: (paymentMethod: string, proofOfPayment?: string) => void
     totalPrice: number
 }
 
@@ -19,6 +20,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     const [paymentMethod, setPaymentMethod] = useState<string>('cash')
     const [proofOfPayment, setProofOfPayment] = useState<File | null>(null)
     const [dragActive, setDragActive] = useState(false)
+    const [isUploading, setIsUploading] = useState(false)
     const [notification, setNotification] = useState<{
         isOpen: boolean
         type: 'success' | 'error' | 'warning' | 'info'
@@ -101,8 +103,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         }
     }
 
-    const handleConfirm = () => {
-        if (paymentMethod === 'Online' && !proofOfPayment) {
+    const handleConfirm = async () => {
+        if (paymentMethod === 'online' && !proofOfPayment) {
             showNotification(
                 'warning',
                 'Missing Proof of Payment',
@@ -110,7 +112,33 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
             )
             return
         }
-        onConfirm(paymentMethod, proofOfPayment || undefined)
+
+        try {
+            setIsUploading(true)
+            let proofOfPaymentUrl: string | undefined
+
+            if (paymentMethod === 'online' && proofOfPayment) {
+                // Upload image to Cloudinary
+                proofOfPaymentUrl =
+                    await uploadImageToCloudinary(proofOfPayment)
+                showNotification(
+                    'success',
+                    'Upload Successful',
+                    'Proof of payment uploaded successfully'
+                )
+            }
+
+            onConfirm(paymentMethod, proofOfPaymentUrl)
+        } catch (error) {
+            console.error('Error uploading proof of payment:', error)
+            showNotification(
+                'error',
+                'Upload Failed',
+                'Failed to upload proof of payment. Please try again.'
+            )
+        } finally {
+            setIsUploading(false)
+        }
     }
 
     return (
@@ -147,7 +175,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                         </select>
                     </div>
 
-                    {paymentMethod === 'Online' && (
+                    {paymentMethod === 'online' && (
                         <div className="mb-6">
                             <label className="block text-sm font-semibold mb-3">
                                 Upload Proof of Payment:
@@ -221,14 +249,16 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                         <button
                             onClick={onClose}
                             className="flex-1 py-3 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
+                            disabled={isUploading}
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleConfirm}
-                            className="flex-1 py-3 px-4 bg-[#b53629] text-white rounded-lg hover:bg-red-700 transition font-semibold"
+                            disabled={isUploading}
+                            className="flex-1 py-3 px-4 bg-[#b53629] text-white rounded-lg hover:bg-red-700 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Confirm Order
+                            {isUploading ? 'Uploading...' : 'Confirm Order'}
                         </button>
                     </div>
                 </div>

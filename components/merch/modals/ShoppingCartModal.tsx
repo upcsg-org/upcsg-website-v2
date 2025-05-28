@@ -93,7 +93,7 @@ const ShoppingCartModal = (props: PropsInterface) => {
 
     const handlePaymentConfirm = async (
         paymentMethod: string,
-        proofOfPayment?: File
+        proofOfPayment?: string
     ) => {
         if (!isAuthenticated || !user) {
             showNotification(
@@ -117,28 +117,14 @@ const ShoppingCartModal = (props: PropsInterface) => {
         setShowPaymentModal(false)
 
         try {
-            let newOrder: any
-
-            // Handle file upload if proof of payment is provided
-            if (proofOfPayment) {
-                // For file uploads, use FormData with direct API call
-                const formData = new FormData()
-                formData.append('buyer_id', user.id.toString())
-                formData.append('payment_method', paymentMethod)
-                formData.append('total_price', total_price.toString())
-                formData.append('proof_of_payment', proofOfPayment)
-
-                // Use direct API call for file uploads
-                newOrder = await apiClient.postFile('/order/', formData)
-            } else {
-                // For cash orders without file upload, use the store method
-                const orderData = {
-                    buyer_id: user.id,
-                    payment_method: paymentMethod,
-                    total_price: total_price,
-                }
-                newOrder = await orderStore.create(orderData)
+            // Create order with proof of payment URL if provided
+            const orderData = {
+                buyer_id: user.id,
+                payment_method: paymentMethod,
+                total_price: total_price,
+                ...(proofOfPayment && { proof_of_payment: proofOfPayment }),
             }
+            const newOrder = await orderStore.create(orderData)
 
             if (!newOrder || !newOrder.id) {
                 throw new Error('Failed to create order')
