@@ -238,9 +238,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     set({ isAuthenticated: false, isLoading: false });
                     return;
                 }
-            } else {
-                set({ isAuthenticated: true, isLoading: false });
             }
+
+            // If token is valid (or was successfully refreshed), fetch user profile
+            set({ isAuthenticated: true });
+            await get().getProfile();
+            set({ isLoading: false });
         } catch (error) {
             console.error("AuthStore: Failed to load user from cookies", error);
             set({

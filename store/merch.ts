@@ -21,7 +21,7 @@ export interface MerchSize {
 
 export interface MerchVariant {
     id: number
-    merch: number
+    merch: Merch
     name: string
     price: number
     image: string
