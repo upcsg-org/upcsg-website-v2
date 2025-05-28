@@ -19,7 +19,7 @@ const AboutPage = () => {
             </section>
 
             {/* OUR GOALS */}
-            <section className="bg-gray-900 py-10 px-4 ">
+            <section className="bg-gray-900 py-10 px-4 relative overflow-hidden pb-16 ps:pb-24 xs:pb-16">
                 <h2 className="text-3xl font-semibold text-center mb-12 mt-8">
                     OUR GOALS
                 </h2>
