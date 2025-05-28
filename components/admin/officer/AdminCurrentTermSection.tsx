@@ -26,9 +26,9 @@ const CurrentTermSection = ({
     }
 
     return (
-        <section className="md:p-20 px-4">
+        <section className="md:p-20 px-4 mb-4 md:mb-0">
             <div
-                className={`flex justify-between items-center text-white p-2 md:p-4 border border-white rounded gap-2 ${isEditing ? 'flex-col md:flex-row gap-2' : 'items-center gap-2'}`}
+                className={`flex justify-between items-center text-white p-2 md:p-4 border border-white rounded gap-2 ${isEditing ? 'flex-col md:flex-row' : 'items-center'}`}
             >
                 <h2 className="text-base md:text-2xl font-bold">
                     Current Term:

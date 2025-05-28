@@ -17,6 +17,10 @@ const AdminOfficers = () => {
         <div>
             <AdminCurrentTermSection startYear={2024} endYear={2025} />
 
+            <h2 className="text-base md:text-2xl font-bold mb-3 md:mb-6 text-center">
+                CURRENT BOARD OF DIRECTORS
+            </h2>
+
             <section className="grid grid-cols-2 md:grid-cols-3 px-4 gap-x-4 gap-y-8 md:gap-y-16 justify-items-center mt-8">
                 <div className="md:col-span-3 col-span-2">
                     <AdminOfficerCard officer={officers[0]} />
