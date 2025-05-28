@@ -41,6 +41,7 @@ export default function OrdersPage() {
     const [sortField, setSortField] = useState<SortField>('date_created')
     const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
     const [showFilters, setShowFilters] = useState(false)
+    const [loadingOrderItems, setLoadingOrderItems] = useState(false)
 
     const {
         fetchAll: fetchAllOrders,
@@ -51,12 +52,12 @@ export default function OrdersPage() {
         error,
     } = useManageOrderStore()
 
-    const { fetchAll: fetchAllOrderItems, items: orderItems } =
+    const { fetchAll: fetchOrderItems, items: orderItems } =
         useManageOrderItemStore()
 
     useEffect(() => {
         const fetchData = async () => {
-            await Promise.all([fetchAllOrders!(), fetchAllOrderItems!()])
+            await fetchAllOrders!()
         }
         fetchData()
     }, [])
@@ -124,9 +125,19 @@ export default function OrdersPage() {
         setIsDeleteModalOpen(true)
     }
 
-    const openDetailsModal = (order: Order) => {
+    const openDetailsModal = async (order: Order) => {
         setSelectedOrder(order)
         setIsDetailsModalOpen(true)
+        setLoadingOrderItems(true)
+
+        try {
+            // Fetch order items with order_id filter
+            await fetchOrderItems!({ order_id: order.id })
+        } catch (error) {
+            console.error('Error fetching order items:', error)
+        } finally {
+            setLoadingOrderItems(false)
+        }
     }
 
     const handleSort = (field: SortField) => {
@@ -249,11 +260,11 @@ export default function OrdersPage() {
     const stats = getOrderStats()
 
     const getOrderItems = (orderId: number) => {
-        return orderItems.filter((item) => item.order_id === orderId)
+        return orderItems.filter((item) => item.order?.id === orderId)
     }
 
     const refreshData = async () => {
-        await Promise.all([fetchAllOrders!(), fetchAllOrderItems!()])
+        await fetchAllOrders!()
     }
 
     if (loading) {
@@ -794,43 +805,110 @@ export default function OrdersPage() {
                                         Order Items
                                     </h4>
                                     <div className="space-y-3">
-                                        {getOrderItems(selectedOrder.id).map(
-                                            (item, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="flex justify-between items-center p-3 bg-[#1E1E2E] rounded-lg"
-                                                >
-                                                    <div>
-                                                        <p className="text-white font-medium">
-                                                            {item.merch_variant
-                                                                ?.merch?.name ||
-                                                                'Product'}
-                                                            {item.merch_variant
-                                                                ?.size &&
-                                                                ` - ${item.merch_variant.size.name}`}
-                                                            {item.merch_variant
-                                                                ?.variant &&
-                                                                ` (${item.merch_variant.variant})`}
-                                                        </p>
-                                                        <p className="text-gray-400 text-sm">
-                                                            Quantity:{' '}
-                                                            {item.quantity}
-                                                        </p>
-                                                    </div>
-                                                    <p className="text-green-400 font-medium">
-                                                        ₱
-                                                        {formatPrice(
-                                                            item.subtotal_price
-                                                        )}
+                                        {loadingOrderItems ? (
+                                            <div className="flex items-center justify-center py-8">
+                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                                                <span className="ml-3 text-gray-400">
+                                                    Loading order items...
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {getOrderItems(selectedOrder.id)
+                                                    .length > 0 ? (
+                                                    getOrderItems(
+                                                        selectedOrder.id
+                                                    ).map((item, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className="flex justify-between items-center p-3 bg-[#1E1E2E] rounded-lg"
+                                                        >
+                                                            <div className="flex items-center gap-3">
+                                                                {/* Product Image */}
+                                                                {item
+                                                                    .merch_variant
+                                                                    ?.image && (
+                                                                    <div className="w-16 h-16 flex-shrink-0">
+                                                                        <img
+                                                                            src={
+                                                                                item
+                                                                                    .merch_variant
+                                                                                    .image
+                                                                            }
+                                                                            alt={
+                                                                                item
+                                                                                    .merch_variant
+                                                                                    ?.merch
+                                                                                    ?.name ||
+                                                                                'Product'
+                                                                            }
+                                                                            className="w-full h-full object-cover rounded-lg border border-gray-600"
+                                                                            onError={(
+                                                                                e
+                                                                            ) => {
+                                                                                e.currentTarget.style.display =
+                                                                                    'none'
+                                                                            }}
+                                                                        />
+                                                                    </div>
+                                                                )}
+
+                                                                {/* Product Details */}
+                                                                <div>
+                                                                    <p className="text-white font-medium">
+                                                                        {item
+                                                                            .merch_variant
+                                                                            ?.merch
+                                                                            ?.name ||
+                                                                            'Product'}
+                                                                        {item
+                                                                            .merch_variant
+                                                                            ?.size &&
+                                                                            ` - ${item.merch_variant.size.name}`}
+                                                                        {item
+                                                                            .merch_variant
+                                                                            ?.variant &&
+                                                                            ` (${item.merch_variant.variant})`}
+                                                                    </p>
+                                                                    <p className="text-gray-400 text-sm">
+                                                                        Quantity:{' '}
+                                                                        {
+                                                                            item.quantity
+                                                                        }
+                                                                    </p>
+                                                                    <p className="text-gray-400 text-sm">
+                                                                        Unit
+                                                                        Price: ₱
+                                                                        {formatPrice(
+                                                                            item
+                                                                                .merch_variant
+                                                                                ?.price ||
+                                                                                0
+                                                                        )}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Price */}
+                                                            <div className="text-right">
+                                                                <p className="text-green-400 font-medium">
+                                                                    ₱
+                                                                    {formatPrice(
+                                                                        item.subtotal_price
+                                                                    )}
+                                                                </p>
+                                                                <p className="text-gray-500 text-sm">
+                                                                    Total
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p className="text-gray-400 text-center py-4">
+                                                        No items found
                                                     </p>
-                                                </div>
-                                            )
-                                        )}
-                                        {getOrderItems(selectedOrder.id)
-                                            .length === 0 && (
-                                            <p className="text-gray-400 text-center py-4">
-                                                No items found
-                                            </p>
+                                                )}
+                                            </>
                                         )}
                                     </div>
                                 </div>
