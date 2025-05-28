@@ -12,7 +12,7 @@ const AnnouncementsPage: React.FC = () => {
         if (!items || items.length === 0) {
             fetchAll?.()
         }
-    }, [items, fetchAll])
+    }, [])
 
     return (
         <div>

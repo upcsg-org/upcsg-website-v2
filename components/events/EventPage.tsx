@@ -13,7 +13,7 @@ const EventPage: React.FC = () => {
         if (!items || items.length === 0) {
             fetchAll?.()
         }
-    }, [items, fetchAll])
+    }, [items])
 
     const today = new Date()
 

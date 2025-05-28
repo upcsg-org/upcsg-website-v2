@@ -19,7 +19,7 @@ const AnnouncementSection: React.FC = () => {
         if (!items || items.length === 0) {
             fetchAll?.()
         }
-    }, [items, fetchAll])
+    }, [])
 
     useEffect(() => {
         const updateVisibleCount = () => {
