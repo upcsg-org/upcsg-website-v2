@@ -11,7 +11,7 @@ const AdminInternships = () => {
         if (fetchAll) {
             fetchAll()
         }
-    }, [fetchAll])
+    }, [])
 
     return <ContentList items={items} />
 }

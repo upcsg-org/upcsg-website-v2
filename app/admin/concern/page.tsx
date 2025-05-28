@@ -22,7 +22,7 @@ const AdminConcernPage = () => {
         if (fetchAll) {
             fetchAll()
         }
-    }, [fetchAll])
+    }, [])
 
     useEffect(() => {
         setFilteredItems(items || [])
