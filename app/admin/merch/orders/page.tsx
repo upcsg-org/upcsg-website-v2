@@ -42,6 +42,7 @@ export default function OrdersPage() {
     const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
     const [showFilters, setShowFilters] = useState(false)
     const [loadingOrderItems, setLoadingOrderItems] = useState(false)
+    const [isExporting, setIsExporting] = useState(false)
 
     const {
         fetchAll: fetchAllOrders,
@@ -313,6 +314,106 @@ export default function OrdersPage() {
         await fetchAllOrders!()
     }
 
+    const exportToCSV = async () => {
+        if (sortedAndFilteredOrders.length === 0) {
+            alert('No orders to export')
+            return
+        }
+
+        setIsExporting(true)
+
+        try {
+            // Define CSV headers
+            const headers = [
+                'Order ID',
+                'Customer Username',
+                'Customer Email',
+                'Status',
+                'Payment Method',
+                'Total Price (₱)',
+                'Date Created',
+                'Date Paid',
+            ]
+
+            // Convert order data to CSV rows
+            const csvData = sortedAndFilteredOrders.map((order) => [
+                order.id,
+                order.buyer?.username || '',
+                order.buyer?.email || '',
+                order.status,
+                order.payment_method,
+                formatPrice(order.total_price),
+                formatDate(order.date_created),
+                order.date_paid ? formatDate(order.date_paid) : '',
+            ])
+
+            // Combine headers and data
+            const csvContent = [headers, ...csvData]
+                .map((row) =>
+                    row
+                        .map((field) => {
+                            // Escape fields that contain commas, quotes, or newlines
+                            if (
+                                typeof field === 'string' &&
+                                (field.includes(',') ||
+                                    field.includes('"') ||
+                                    field.includes('\n'))
+                            ) {
+                                return `"${field.replace(/"/g, '""')}"`
+                            }
+                            return field
+                        })
+                        .join(',')
+                )
+                .join('\n')
+
+            // Create and download the file
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;',
+            })
+            const link = document.createElement('a')
+
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob)
+                link.setAttribute('href', url)
+
+                // Generate filename with current date and filter info
+                const currentDate = new Date().toISOString().split('T')[0]
+                let filename = `orders_export_${currentDate}`
+
+                // Add filter info to filename if filters are applied
+                if (statusFilter !== 'all') {
+                    filename += `_${statusFilter}`
+                }
+                if (paymentMethodFilter !== 'all') {
+                    filename += `_${paymentMethodFilter}`
+                }
+                if (searchQuery) {
+                    filename += '_filtered'
+                }
+
+                link.setAttribute('download', `${filename}.csv`)
+                link.style.visibility = 'hidden'
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+                URL.revokeObjectURL(url)
+
+                // Show success message
+                console.log(
+                    `Successfully exported ${sortedAndFilteredOrders.length} orders to ${filename}.csv`
+                )
+            } else {
+                throw new Error('File download not supported in this browser')
+            }
+        } catch (error) {
+            console.error('Error exporting orders:', error)
+            alert('Failed to export orders. Please try again.')
+        } finally {
+            setIsExporting(false)
+        }
+    }
+
     if (loading) {
         return (
             <div className="space-y-6">
@@ -368,9 +469,24 @@ export default function OrdersPage() {
                         <FiRefreshCw className="w-4 h-4" />
                         Refresh
                     </button>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                        <FiDownload className="w-4 h-4" />
-                        Export
+                    <button
+                        onClick={exportToCSV}
+                        disabled={
+                            isExporting || sortedAndFilteredOrders.length === 0
+                        }
+                        className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                    >
+                        {isExporting ? (
+                            <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                Exporting...
+                            </>
+                        ) : (
+                            <>
+                                <FiDownload className="w-4 h-4" />
+                                Export ({sortedAndFilteredOrders.length})
+                            </>
+                        )}
                     </button>
                 </div>
             </div>
