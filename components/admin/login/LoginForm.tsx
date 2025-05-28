@@ -34,7 +34,7 @@ const LoginFormComponent = ({
         setLoginError(null)
         try {
             await login(formData.username, formData.password)
-            router.push('/admin/dashboard')
+            router.push('/')
         } catch (err) {
             setLoginError('Invalid credentials. Please try again.')
             console.error('Login error:', err)
@@ -48,7 +48,8 @@ const LoginFormComponent = ({
                     LOGIN
                 </h1>
                 <h3 className="text-sm md:text-base text-gray-300">
-                    Enter your credentials to access the dashboard
+                    Enter your credentials to access the merch and other
+                    personalized features
                 </h3>
                 <form
                     onSubmit={handleSubmit(handleLogin)}

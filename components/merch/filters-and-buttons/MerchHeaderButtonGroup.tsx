@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MerchHeaderButton from './MerchHeaderButton'
 import {
     AiOutlineHeart,
@@ -7,18 +7,57 @@ import {
 } from 'react-icons/ai'
 import MyLikesModal from '../MyLikesModal'
 import ShoppingCartModal from '../modals/ShoppingCartModal'
-import ComingSoonModal from '../../generics/ComingSoonModal'
+import OrderModal from '../modals/OrderModal'
 import CheckoutPop from '../checkout-popup/CheckoutPop'
+import LoginRequiredModal from '../modals/LoginRequiredModal'
+import { useCartStore } from '@/store/cart'
+import { useOrderStore } from '@/store/orders'
+import { useAuthStore } from '@/store/auth'
 
 const MerchHeaderButtonGroup = () => {
-    const [bagCount, setBagCount] = useState(0)
-    const [likeCount, setLikeCount] = useState(0)
-    const [purchaseCount, setPurchaseCount] = useState(0)
+    const cartItems = useCartStore((state) => state.cartItems)
+    const cartItemCount = cartItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+    )
+
+    const { fetchAll: fetchAllOrders, items: orders } = useOrderStore()
+    const { isAuthenticated } = useAuthStore()
+
+    const [orderCount, setOrderCount] = useState(0)
 
     const [likesModalShow, setLikesModalShow] = useState(false)
     const [shoppingBagModalShow, setShoppingBagModalShow] = useState(false)
-    const [purchasesModalShow, setPurchasesModalShow] = useState(false)
+    const [ordersModalShow, setOrdersModalShow] = useState(false)
     const [showCheckoutModal, setShowCheckoutModal] = useState(false)
+    const [showLoginRequiredModal, setShowLoginRequiredModal] = useState(false)
+
+    useEffect(() => {
+        if (fetchAllOrders) {
+            fetchUserOrders()
+        }
+    }, [])
+
+    const fetchUserOrders = async () => {
+        try {
+            // Fetch orders with user filter parameter
+            await fetchAllOrders!()
+        } catch (error) {
+            console.error('Error fetching user orders:', error)
+        }
+    }
+
+    useEffect(() => {
+        setOrderCount(orders.length)
+    }, [orders])
+
+    const handleShoppingBagClick = () => {
+        if (!isAuthenticated) {
+            setShowLoginRequiredModal(true)
+        } else {
+            setShoppingBagModalShow(true)
+        }
+    }
 
     const toggleShoppingCart = () => {
         setShoppingBagModalShow(!shoppingBagModalShow)
@@ -34,24 +73,24 @@ const MerchHeaderButtonGroup = () => {
                 <MerchHeaderButton
                     Icon={AiOutlineShopping}
                     text="Shopping Bag"
-                    count={bagCount}
-                    clickEvent={() => setShoppingBagModalShow(true)}
+                    count={cartItemCount}
+                    clickEvent={handleShoppingBagClick}
                     className="bg-[#45AE95]"
                 />
 
-                <MerchHeaderButton
+                {/* <MerchHeaderButton
                     Icon={AiOutlineHeart}
                     text="Likes"
                     count={likeCount}
                     clickEvent={() => setLikesModalShow(true)}
                     className="bg-[#5B67CC]"
-                />
+                /> */}
 
                 <MerchHeaderButton
                     Icon={AiOutlineProfile}
-                    text="Purchases"
-                    count={purchaseCount}
-                    clickEvent={() => setPurchasesModalShow(true)}
+                    text="Orders"
+                    count={orderCount}
+                    clickEvent={() => setOrdersModalShow(true)}
                     className="bg-[#D7584B]"
                 />
             </div>
@@ -61,19 +100,24 @@ const MerchHeaderButtonGroup = () => {
             )}
 
             {shoppingBagModalShow && (
-                <ComingSoonModal toggleModal={setShoppingBagModalShow} />
-                // <ShoppingCartModal
-                //     toggleShoppingCart={toggleShoppingCart}
-                //     toggleCheckoutModal={toggleCheckoutModal}
-                // />
+                <ShoppingCartModal
+                    toggleShoppingCart={toggleShoppingCart}
+                    toggleCheckoutModal={toggleCheckoutModal}
+                />
             )}
 
-            {purchasesModalShow && (
-                <ComingSoonModal toggleModal={setPurchasesModalShow} />
+            {ordersModalShow && (
+                <OrderModal onClose={() => setOrdersModalShow(false)} />
             )}
 
             {showCheckoutModal && (
                 <CheckoutPop toggleCheckoutModal={toggleCheckoutModal} />
+            )}
+
+            {showLoginRequiredModal && (
+                <LoginRequiredModal
+                    onClose={() => setShowLoginRequiredModal(false)}
+                />
             )}
         </>
     )

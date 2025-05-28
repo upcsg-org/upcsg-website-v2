@@ -21,7 +21,7 @@ const EventSection: React.FC = () => {
         if (fetchAll) {
             fetchAll()
         }
-    }, [fetchAll])
+    }, [])
 
     useEffect(() => {
         if (items) {

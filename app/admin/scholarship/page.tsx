@@ -11,7 +11,7 @@ const AdminScholarships = () => {
         if (fetchAll) {
             fetchAll()
         }
-    }, [fetchAll])
+    }, [])
 
     return <ContentList items={items} />
 }
