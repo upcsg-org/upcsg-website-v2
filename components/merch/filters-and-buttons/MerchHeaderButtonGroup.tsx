@@ -9,6 +9,7 @@ import MyLikesModal from '../MyLikesModal'
 import ShoppingCartModal from '../modals/ShoppingCartModal'
 import OrderModal from '../modals/OrderModal'
 import CheckoutPop from '../checkout-popup/CheckoutPop'
+import LoginRequiredModal from '../modals/LoginRequiredModal'
 import { useCartStore } from '@/store/cart'
 import { useOrderStore } from '@/store/orders'
 import { useAuthStore } from '@/store/auth'
@@ -21,6 +22,7 @@ const MerchHeaderButtonGroup = () => {
     )
 
     const { fetchAll: fetchAllOrders, items: orders } = useOrderStore()
+    const { isAuthenticated } = useAuthStore()
 
     const [orderCount, setOrderCount] = useState(0)
 
@@ -28,6 +30,7 @@ const MerchHeaderButtonGroup = () => {
     const [shoppingBagModalShow, setShoppingBagModalShow] = useState(false)
     const [ordersModalShow, setOrdersModalShow] = useState(false)
     const [showCheckoutModal, setShowCheckoutModal] = useState(false)
+    const [showLoginRequiredModal, setShowLoginRequiredModal] = useState(false)
 
     useEffect(() => {
         if (fetchAllOrders) {
@@ -48,6 +51,14 @@ const MerchHeaderButtonGroup = () => {
         setOrderCount(orders.length)
     }, [orders])
 
+    const handleShoppingBagClick = () => {
+        if (!isAuthenticated) {
+            setShowLoginRequiredModal(true)
+        } else {
+            setShoppingBagModalShow(true)
+        }
+    }
+
     const toggleShoppingCart = () => {
         setShoppingBagModalShow(!shoppingBagModalShow)
     }
@@ -63,7 +74,7 @@ const MerchHeaderButtonGroup = () => {
                     Icon={AiOutlineShopping}
                     text="Shopping Bag"
                     count={cartItemCount}
-                    clickEvent={() => setShoppingBagModalShow(true)}
+                    clickEvent={handleShoppingBagClick}
                     className="bg-[#45AE95]"
                 />
 
@@ -101,6 +112,12 @@ const MerchHeaderButtonGroup = () => {
 
             {showCheckoutModal && (
                 <CheckoutPop toggleCheckoutModal={toggleCheckoutModal} />
+            )}
+
+            {showLoginRequiredModal && (
+                <LoginRequiredModal
+                    onClose={() => setShowLoginRequiredModal(false)}
+                />
             )}
         </>
     )

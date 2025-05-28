@@ -25,7 +25,7 @@ export default function ProductsPage() {
             }
         }
         fetchProducts()
-    }, [fetchAll])
+    }, [])
 
     const handleDelete = async (productId: number) => {
         if (!deleteMerch) return

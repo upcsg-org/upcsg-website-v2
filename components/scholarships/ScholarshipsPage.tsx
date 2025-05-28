@@ -11,7 +11,7 @@ const ScholarshipsPage: React.FC = () => {
         if (!items || items.length === 0) {
             fetchAll?.()
         }
-    }, [items, fetchAll])
+    }, [items])
 
     return (
         <div>

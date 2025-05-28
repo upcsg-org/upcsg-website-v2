@@ -13,7 +13,7 @@ const CMSDashboardSummary: React.FC = () => {
     useEffect(() => {
         // Fetch dashboard data when component mounts
         fetchData()
-    }, [fetchData])
+    }, []) // Removed fetchData from dependencies - only run on mount
 
     // Display a loading state if dashboardData is null
     if (!dashboardData) {

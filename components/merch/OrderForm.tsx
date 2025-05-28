@@ -5,6 +5,7 @@ import { VscSparkle } from 'react-icons/vsc'
 import { FiMinus, FiPlus } from 'react-icons/fi'
 import { HiShoppingBag } from 'react-icons/hi'
 import ShopPop from './effects-popup/ShopPop'
+import LoginRequiredModal from './modals/LoginRequiredModal'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MerchItem } from '@/interface/merch'
 import { useOrderStore } from '@/store/orders'
@@ -22,7 +23,7 @@ interface PropsInterface {
 
 const OrderForm = (props: PropsInterface) => {
     const { product, onClose } = props
-    const { user } = useAuthStore()
+    const { user, isAuthenticated } = useAuthStore()
     const { create: createOrder } = useOrderStore()
     const addItem = useCartStore((state) => state.addItem)
     const [quantity, setQuantity] = useState(1)
@@ -30,6 +31,7 @@ const OrderForm = (props: PropsInterface) => {
         product.variants?.[0]
     )
     const [showShopPop, setShowShopPop] = useState(false)
+    const [showLoginRequiredModal, setShowLoginRequiredModal] = useState(false)
     const [currentImage, setCurrentImage] = useState(product.image)
 
     const handleVariantChange = (variantId: string) => {
@@ -44,6 +46,13 @@ const OrderForm = (props: PropsInterface) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+
+        // Check if user is authenticated
+        if (!isAuthenticated) {
+            setShowLoginRequiredModal(true)
+            return
+        }
+
         if (selectedVariant) {
             // TODO: This needs proper type mapping between MerchItem variants and MerchVariant
             // For now, using type assertion to unblock the functionality
@@ -331,6 +340,12 @@ const OrderForm = (props: PropsInterface) => {
                             }}
                         />
                     </motion.div>
+                )}
+
+                {showLoginRequiredModal && (
+                    <LoginRequiredModal
+                        onClose={() => setShowLoginRequiredModal(false)}
+                    />
                 )}
             </AnimatePresence>
         </motion.div>

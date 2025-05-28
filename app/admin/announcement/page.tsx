@@ -11,7 +11,7 @@ const AdminAnnouncements = () => {
         if (fetchAll) {
             fetchAll()
         }
-    }, [fetchAll])
+    }, [])
 
     return <ContentList items={items} />
 }

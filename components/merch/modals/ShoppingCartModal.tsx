@@ -1,6 +1,7 @@
 ﻿import React, { useState } from 'react'
 import ShoppingCartItem from './ShoppingCartItem'
 import PaymentModal from './PaymentModal'
+import NotificationModal from '@/components/generics/NotificationModal'
 import { FaLongArrowAltLeft } from 'react-icons/fa'
 import TheButton from '../../generics/TheButton'
 import { useCartStore } from '@/store/cart'
@@ -24,6 +25,34 @@ const ShoppingCartModal = (props: PropsInterface) => {
 
     const [showPaymentModal, setShowPaymentModal] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
+    const [notification, setNotification] = useState<{
+        isOpen: boolean
+        type: 'success' | 'error' | 'warning' | 'info'
+        title: string
+        message: string
+    }>({
+        isOpen: false,
+        type: 'info',
+        title: '',
+        message: '',
+    })
+
+    const showNotification = (
+        type: 'success' | 'error' | 'warning' | 'info',
+        title: string,
+        message: string
+    ) => {
+        setNotification({
+            isOpen: true,
+            type,
+            title,
+            message,
+        })
+    }
+
+    const closeNotification = () => {
+        setNotification((prev) => ({ ...prev, isOpen: false }))
+    }
 
     // Early return if cartItems is not properly initialized
     if (!cartItems) {
@@ -37,17 +66,25 @@ const ShoppingCartModal = (props: PropsInterface) => {
     const handleCheckout = () => {
         // Check if auth is still loading
         if (authLoading) {
-            alert('Please wait while we verify your login status...')
+            showNotification(
+                'info',
+                'Please Wait',
+                'Please wait while we verify your login status...'
+            )
             return
         }
 
         if (!isAuthenticated || !user) {
-            alert('Please log in to place an order')
+            showNotification(
+                'warning',
+                'Login Required',
+                'Please log in to place an order'
+            )
             return
         }
 
         if (cartItems.length === 0) {
-            alert('Your cart is empty')
+            showNotification('warning', 'Empty Cart', 'Your cart is empty')
             return
         }
 
@@ -56,15 +93,23 @@ const ShoppingCartModal = (props: PropsInterface) => {
 
     const handlePaymentConfirm = async (
         paymentMethod: string,
-        proofOfPayment?: File
+        proofOfPayment?: string
     ) => {
         if (!isAuthenticated || !user) {
-            alert('Please log in to place an order')
+            showNotification(
+                'warning',
+                'Login Required',
+                'Please log in to place an order'
+            )
             return
         }
 
         if (!orderStore.create || !orderItemStore.create) {
-            alert('Order system is not available. Please try again later.')
+            showNotification(
+                'error',
+                'System Error',
+                'Order system is not available. Please try again later.'
+            )
             return
         }
 
@@ -72,28 +117,14 @@ const ShoppingCartModal = (props: PropsInterface) => {
         setShowPaymentModal(false)
 
         try {
-            let newOrder: any
-
-            // Handle file upload if proof of payment is provided
-            if (proofOfPayment) {
-                // For file uploads, use FormData with direct API call
-                const formData = new FormData()
-                formData.append('buyer_id', user.id.toString())
-                formData.append('payment_method', paymentMethod)
-                formData.append('total_price', total_price.toString())
-                formData.append('proof_of_payment', proofOfPayment)
-
-                // Use direct API call for file uploads
-                newOrder = await apiClient.postFile('/order/', formData)
-            } else {
-                // For cash orders without file upload, use the store method
-                const orderData = {
-                    buyer_id: user.id,
-                    payment_method: paymentMethod,
-                    total_price: total_price,
-                }
-                newOrder = await orderStore.create(orderData)
+            // Create order with proof of payment URL if provided
+            const orderData = {
+                buyer_id: user.id,
+                payment_method: paymentMethod,
+                total_price: total_price,
+                ...(proofOfPayment && { proof_of_payment: proofOfPayment }),
             }
+            const newOrder = await orderStore.create(orderData)
 
             if (!newOrder || !newOrder.id) {
                 throw new Error('Failed to create order')
@@ -114,13 +145,23 @@ const ShoppingCartModal = (props: PropsInterface) => {
             clearCart()
 
             // Show success message
-            alert('Order placed successfully!')
+            showNotification(
+                'success',
+                'Order Placed',
+                'Order placed successfully!'
+            )
 
-            // Close modals
-            toggleShoppingCart()
+            // Close modals after a short delay to let user see the success message
+            setTimeout(() => {
+                toggleShoppingCart()
+            }, 2000)
         } catch (error) {
             console.error('Error creating order:', error)
-            alert('Failed to place order. Please try again.')
+            showNotification(
+                'error',
+                'Order Failed',
+                'Failed to place order. Please try again.'
+            )
         } finally {
             setIsProcessing(false)
         }
@@ -198,6 +239,14 @@ const ShoppingCartModal = (props: PropsInterface) => {
                 onClose={handlePaymentCancel}
                 onConfirm={handlePaymentConfirm}
                 totalPrice={total_price}
+            />
+
+            <NotificationModal
+                isOpen={notification.isOpen}
+                onClose={closeNotification}
+                type={notification.type}
+                title={notification.title}
+                message={notification.message}
             />
         </>
     )

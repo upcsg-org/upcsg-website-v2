@@ -1,15 +1,29 @@
-﻿import React from 'react';
-import Pagination from '@/components/admin/permissions/Pagination';
+﻿import React from 'react'
+import Pagination from '@/components/admin/permissions/Pagination'
 
-const Page = ({ currentPage, setCurrentPage }) => {
+interface PageProps {
+    currentPage: number
+    setCurrentPage: (page: number) => void
+    totalPages: number
+}
+
+const Page = ({ currentPage, setCurrentPage, totalPages }: PageProps) => {
     // Function to handle page clicks
-    const handlePageClick = (pageNumber) => {
-        setCurrentPage(pageNumber); // Update the current page state
-    };
+    const handlePageClick = (pageNumber: number) => {
+        setCurrentPage(pageNumber) // Update the current page state
+    }
+
+    // Don't render if there are no pages
+    if (totalPages <= 1) {
+        return null
+    }
 
     return (
         <div className="mt-6 space-x-2 flex justify-end">
-            <Pagination totalPages={10} onPageChange={handlePageClick} />
+            <Pagination
+                totalPages={totalPages}
+                onPageChange={handlePageClick}
+            />
 
             {/* {[1, 2, 3, 4].map((pageNumber) => (
                 <span
@@ -22,7 +36,7 @@ const Page = ({ currentPage, setCurrentPage }) => {
                 </span>
             ))} */}
         </div>
-    );
-};
+    )
+}
 
-export default Page;
+export default Page
