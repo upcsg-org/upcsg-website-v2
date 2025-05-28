@@ -92,29 +92,31 @@ const MerchCard = (props: PropsInterface) => {
                             </li>
                             <li className="flex flex-grow w-full h-full text-[#A6A6B1] text-base items-center justify-end">
                                 <div className="flex flex-col gap-1">
-                                    {variants.length > 1 &&
-                                        variants.map((variant, index) => (
-                                            <button
-                                                key={variant.id}
-                                                className={`rounded-full size-3 xl:size-4 border-[1px] border-black
-                                                      ${currentImage === index ? 'bg-white' : 'bg-gray-300'}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    const imageIndex =
-                                                        images.findIndex(
-                                                            (img) =>
-                                                                img ===
-                                                                variant.image
+                                    {variants.length > 0 &&
+                                        variants
+                                            .filter(
+                                                (variant, index, self) =>
+                                                    index ===
+                                                    self.findIndex(
+                                                        (v) =>
+                                                            v.name ===
+                                                            variant.name
+                                                    )
+                                            )
+                                            .map((variant, index) => (
+                                                <button
+                                                    key={variant.id}
+                                                    className={`rounded-full size-3 xl:size-4 border-[1px] border-black
+                                                          ${currentImage === index ? 'bg-white' : 'bg-gray-300'}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        setCurrentImage(index)
+                                                        setSelectedVariant(
+                                                            variant
                                                         )
-                                                    if (imageIndex !== -1) {
-                                                        setCurrentImage(
-                                                            imageIndex
-                                                        )
-                                                    }
-                                                    setSelectedVariant(variant)
-                                                }}
-                                            />
-                                        ))}
+                                                    }}
+                                                />
+                                            ))}
                                 </div>
                             </li>
                             <li className="flex flex-row w-full font-bold text-main-dark text-xl xl:text-3xl justify-end">
@@ -132,7 +134,7 @@ const MerchCard = (props: PropsInterface) => {
                         </ul>
                         <div className="w-full h-full relative">
                             <Image
-                                src={images[currentImage]}
+                                src={selectedVariant?.image}
                                 alt={name}
                                 layout="fill"
                                 objectFit="cover"
@@ -156,7 +158,7 @@ const MerchCard = (props: PropsInterface) => {
 
             {showOrderForm && (
                 <OrderForm
-                    product={{ ...merch, image: images[currentImage] }}
+                    product={{ ...merch, image: images[1] }}
                     onClose={() => setShowOrderForm(false)}
                 />
             )}
