@@ -302,25 +302,6 @@ export default function OrdersPage() {
         )
     }
 
-    if (error) {
-        return (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-300 px-4 py-3 rounded-lg">
-                <div className="flex items-center gap-2">
-                    <FiX className="w-5 h-5" />
-                    <span className="font-medium">Error loading orders</span>
-                </div>
-                <p className="mt-1 text-red-400">{error.message}</p>
-                <button
-                    onClick={refreshData}
-                    className="mt-3 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors text-sm"
-                >
-                    <FiRefreshCw className="w-4 h-4" />
-                    Retry
-                </button>
-            </div>
-        )
-    }
-
     return (
         <div className="space-y-6">
             {/* Header */}
