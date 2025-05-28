@@ -1,8 +1,9 @@
 'use client'
 import React, { useState } from 'react'
 import { Officer } from '@/interface/officers'
-import { OfficerCard } from '@/components/officers/OfficerCard' // Adjust the import path as needed
+import { AdminOfficerCard } from '@/components/admin/officer/AdminOfficerCard'
 import { officers } from '@/constants/officers/officers'
+import { AdminAddNewOfficerCard } from './AdminAddNewOfficerCard'
 
 interface TermDropdownProps {
     startYear: number
@@ -29,15 +30,16 @@ const TermDropdown: React.FC<TermDropdownProps> = ({
             {isOpen && (
                 <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-12 px-2 md:px-4 pb-6 place-items-center my-2 md:my-6">
                     {officers.map((officer, index) => (
-                        <OfficerCard key={index} officer={officer} />
+                        <AdminOfficerCard key={index} officer={officer} />
                     ))}
+                    <AdminAddNewOfficerCard />
                 </div>
             )}
         </div>
     )
 }
 
-const PreviousTerms: React.FC = () => {
+const AdminPreviousTerms: React.FC = () => {
     const data = [
         {
             startYear: 2024,
@@ -70,4 +72,4 @@ const PreviousTerms: React.FC = () => {
     )
 }
 
-export default PreviousTerms
+export default AdminPreviousTerms
