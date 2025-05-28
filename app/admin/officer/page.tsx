@@ -6,6 +6,7 @@ import { officers } from '@/constants/officers/officers'
 import { LIGHT_GREEN_TO_CYAN } from '@/constants/generic/colorGradients'
 import AdminPreviousTerms from '@/components/admin/officer/AdminPreviousTerms'
 import { AdminAddNewOfficerCard } from '@/components/admin/officer/AdminAddNewOfficerCard'
+import AdminCurrentTermSection from '@/components/admin/officer/AdminCurrentTermSection'
 
 const AdminOfficers = () => {
     const officerCount = officers.length
@@ -14,7 +15,9 @@ const AdminOfficers = () => {
 
     return (
         <div>
-            <section className="grid grid-cols-2 md:grid-cols-3 px-4 gap-x-4 gap-y-8 md:gap-y-16 justify-items-center mt-16">
+            <AdminCurrentTermSection startYear={2024} endYear={2025} />
+
+            <section className="grid grid-cols-2 md:grid-cols-3 px-4 gap-x-4 gap-y-8 md:gap-y-16 justify-items-center mt-8">
                 <div className="md:col-span-3 col-span-2">
                     <AdminOfficerCard officer={officers[0]} />
                 </div>
