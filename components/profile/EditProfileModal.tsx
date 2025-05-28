@@ -221,12 +221,12 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
                                         ) : (
                                             <div className="h-full w-full bg-gradient-to-br from-csg-blue-600 to-csg-blue-800 flex items-center justify-center">
                                                 <span className="text-white text-3xl font-bold">
-                                                    {formData.first_name?.charAt(
-                                                        0
-                                                    ) ||
-                                                        user?.username?.charAt(
-                                                            0
-                                                        ) ||
+                                                    {formData.first_name
+                                                        ?.charAt(0)
+                                                        .toUpperCase() ||
+                                                        user?.username
+                                                            ?.charAt(0)
+                                                            .toUpperCase() ||
                                                         '?'}
                                                 </span>
                                             </div>
