@@ -7,6 +7,7 @@ import { LIGHT_GREEN_TO_CYAN } from '@/constants/generic/colorGradients'
 import AdminPreviousTerms from '@/components/admin/officer/AdminPreviousTerms'
 import { AdminAddNewOfficerCard } from '@/components/admin/officer/AdminAddNewOfficerCard'
 import AdminCurrentTermSection from '@/components/admin/officer/AdminCurrentTermSection'
+import AdminAddNewTerm from '@/components/admin/officer/AdminAddNewTerm'
 
 const AdminOfficers = () => {
     const officerCount = officers.length
@@ -34,8 +35,12 @@ const AdminOfficers = () => {
                 <AdminAddNewOfficerCard />
             </section>
 
-            <section className="md:p-20 mt-12">
+            <section className="md:px-20 mt-12">
                 <AdminPreviousTerms />
+            </section>
+
+            <section className="md:px-20 mt-12 mb-32">
+                <AdminAddNewTerm />
             </section>
         </div>
     )
