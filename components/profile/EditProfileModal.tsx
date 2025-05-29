@@ -24,6 +24,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         bio: '',
         phone_number: '',
         image_url: '',
+        date_of_birth: '',
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isUploadingImage, setIsUploadingImage] = useState(false)
@@ -44,6 +45,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 bio: user.bio || '',
                 phone_number: user.phone_number || '',
                 image_url: user.image_url || '',
+                date_of_birth: user.date_of_birth || '',
             })
         }
     }, [user, isOpen])
@@ -52,10 +54,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const { name, value } = e.target
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }))
+        // Only allow numbers for phone_number
+        if (name === 'phone_number') {
+            // Remove all non-numeric characters
+            const numericValue = value.replace(/[^0-9]/g, '')
+            setFormData((prev) => ({ ...prev, [name]: numericValue }))
+            return
+        }
+        setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -411,8 +417,25 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
                             name="phone_number"
                             value={formData.phone_number}
                             onChange={handleInputChange}
+                            pattern="[0-9]*"
+                            inputMode="numeric"
                             className="w-full px-4 py-2 bg-main-dark border border-csg-blue-400/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-csg-green-100 transition-colors"
                             placeholder="Enter your phone number"
+                        />
+                    </div>
+
+                    {/* Date of Birth */}
+                    <div>
+                        <label className="block text-sm font-bold text-csg-blue-800 tracking-wider uppercase mb-2">
+                            Date of Birth
+                        </label>
+                        <input
+                            type="date"
+                            name="date_of_birth"
+                            value={formData.date_of_birth}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 bg-main-dark border border-csg-blue-400/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-csg-green-100 transition-colors"
+                            placeholder="Enter your date of birth"
                         />
                     </div>
 
