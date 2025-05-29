@@ -34,7 +34,7 @@ const EventSection: React.FC = () => {
         } finally {
             setLoading(false)
         }
-    }, [])
+    }, [fetchAll])
 
     useEffect(() => {
         if (items) {

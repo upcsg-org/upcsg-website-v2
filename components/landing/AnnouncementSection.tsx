@@ -31,7 +31,7 @@ const AnnouncementSection: React.FC = () => {
         } finally {
             setLoading(false)
         }
-    }, [])
+    }, [fetchAll])
 
     useEffect(() => {
         const updateVisibleCount = () => {
