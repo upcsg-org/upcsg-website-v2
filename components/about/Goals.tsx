@@ -31,10 +31,12 @@ const Goals: React.FC<GoalsProps> = ({
             } else if (window.matchMedia('(min-width: 948px)').matches) {
                 setScale(scalePresets['ls'])
             } else if (window.matchMedia('(min-width: 648px)').matches) {
-                setScale(scalePresets['ms'])
+                setScale(scalePresets['xs'])
             } else if (window.matchMedia('(min-width: 500px)').matches) {
                 setScale(scalePresets['xs'])
-            } else if (window.matchMedia('(min-width: 372px)').matches) {
+            } else if (window.matchMedia('(min-width: 320px)').matches) {
+                setScale(scalePresets['ps'])
+            } else if (window.matchMedia('(min-width: 220px)').matches) {
                 setScale(scalePresets['ps'])
             } else {
                 setScale(scalePresets.default)
@@ -90,9 +92,9 @@ const Goals: React.FC<GoalsProps> = ({
                         >
                             {header}
                         </h1>
-                        <div className="w-full ps:w-[80%] md:w-full">
+                        <div className="w-[75%] ps:w-[80%] md:w-full">
                             <p
-                                className={`text-white p-4 break-words text-base ps:text-xs md:text-base ${
+                                className={`text-white p-4 break-words text-xs ps:text-xs md:text-base ${
                                     orientation === 'reverse' ? 'pr-4' : 'pl-4'
                                 }`}
                             >

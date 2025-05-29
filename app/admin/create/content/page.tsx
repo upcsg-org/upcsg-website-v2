@@ -11,6 +11,11 @@ import ContentPreview from '@/components/admin/preview/ContentPreview'
 import useFormHandler from '@/hooks/FormHooks'
 import { FaArrowRight } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import { useEventStore } from '@/store/event'
+import { useAnnouncementStore } from '@/store/announcement'
+import { useScholarshipStore } from '@/store/scholarship'
+import { useInternshipStore } from '@/store/internship'
+import Loader from '@/components/ui/Loader'
 
 const AdminCreateContentInner = () => {
     const searchParams = useSearchParams()
@@ -314,7 +319,15 @@ const AdminCreateContentInner = () => {
 
 const AdminCreateContent = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+            fallback={
+                <Loader
+                    size="lg"
+                    text="Loading..."
+                    className="text-white p-8"
+                />
+            }
+        >
             <AdminCreateContentInner />
         </Suspense>
     )

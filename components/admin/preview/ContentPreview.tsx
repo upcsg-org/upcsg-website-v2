@@ -10,6 +10,7 @@ import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
 import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
 import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
 import { useRouter, usePathname } from 'next/navigation'
+import Loader from '@/components/ui/Loader'
 
 interface ContentPreviewProps {
     contentType: string
@@ -435,11 +436,18 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 >
                     <div className="flex items-center">
                         <h1>
-                            {isUploading
-                                ? 'UPLOADING...'
-                                : isUpdateMode
-                                  ? 'UPDATE'
-                                  : 'PUBLISH'}
+                            {isUploading ? (
+                                <Loader
+                                    size="sm"
+                                    text="UPLOADING..."
+                                    showText={true}
+                                    className="text-white"
+                                />
+                            ) : isUpdateMode ? (
+                                'UPDATE'
+                            ) : (
+                                'PUBLISH'
+                            )}
                         </h1>
                     </div>
                 </TheButton>

@@ -25,6 +25,7 @@ import {
     FiShoppingBag,
 } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
+import Loader from '@/components/ui/Loader'
 
 type SortField = 'date_created' | 'total_price' | 'status' | 'id'
 type SortDirection = 'asc' | 'desc'
@@ -950,10 +951,11 @@ export default function OrdersPage() {
                                     <div className="space-y-3">
                                         {loadingOrderItems ? (
                                             <div className="flex items-center justify-center py-8">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                                                <span className="ml-3 text-gray-400">
-                                                    Loading order items...
-                                                </span>
+                                                <Loader
+                                                    size="md"
+                                                    text="Loading order items..."
+                                                    className="text-gray-400"
+                                                />
                                             </div>
                                         ) : (
                                             <>

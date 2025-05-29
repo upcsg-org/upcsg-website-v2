@@ -9,9 +9,11 @@ import { useMerchStore, useMerchVariantStore } from '@/store/merch'
 import { MerchItem } from '@/interface/merch'
 import { priceRanges } from '@/constants/merch/merchRanges'
 import Empty from '../generics/Empty'
+import Loader from '../ui/Loader'
 
 const MerchGrid = () => {
     const [headerFilterType, setHeaderFilterType] = useState('All Items')
+    const [isLoading, setIsLoading] = useState(true)
     const {
         selectedProductTypes,
         selectedPriceRanges,
@@ -24,9 +26,19 @@ const MerchGrid = () => {
         useMerchVariantStore()
 
     useEffect(() => {
-        fetchMerch?.()
-        fetchVariants?.()
-    }, [fetchMerch, fetchVariants])
+        const loadMerchandise = async () => {
+            setIsLoading(true)
+            try {
+                await Promise.all([fetchMerch?.(), fetchVariants?.()])
+            } catch (error) {
+                console.error('Error loading merchandise:', error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        loadMerchandise()
+    }, [])
 
     useEffect(() => {
         if (merchandise && allVariants) {
@@ -168,7 +180,16 @@ const MerchGrid = () => {
 
             <MerchHeaderFilterTabs handleSwitchFilter={setHeaderFilterType} />
 
-            {filterByStatus(transformedMerchandise).length ? (
+            {isLoading ? (
+                <div className="w-full py-32 flex justify-center">
+                    <Loader
+                        size="lg"
+                        text="Loading merchandise..."
+                        className="text-site-main"
+                        variant="spinner"
+                    />
+                </div>
+            ) : filterByStatus(transformedMerchandise).length ? (
                 <div
                     className="gap-2 lg:gap-1 w-full text-site-main grid items-center justify-around
                             grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3"
