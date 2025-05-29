@@ -66,8 +66,7 @@ const CarouselBackground = (props: PropsInterface) => {
                             {carouselData[index].link && (
                                 <div className="flex items-center space-x-4">
                                     <a
-                                        href={carouselData[index].link}
-                                        target="_blank"
+                                        href="/about"
                                         rel="noreferrer"
                                     >
                                         <div className="bg-black/40 rounded-full py-2 px-6 border-2 md:border-4 gap-x-1 font-bold flex justify-center items-center hover:scale-110 duration-300 hover:duration-300">
