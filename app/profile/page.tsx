@@ -103,9 +103,12 @@ const ProfilePage = () => {
                             </div>
                             <div className="flex-grow text-center md:text-left">
                                 <h1 className="text-3xl font-bold mb-2 tracking-widest">
-                                    {user.first_name && user.last_name
-                                        ? `${user.first_name} ${user.last_name}`.toUpperCase()
-                                        : user.username.toUpperCase()}
+                                    {(() => {
+                                        const fullName = user.first_name && user.last_name
+                                            ? `${user.first_name} ${user.last_name}`.toUpperCase()
+                                            : user.username.toUpperCase();
+                                        return fullName.length > 12 ? `${fullName.slice(0, 12)}...` : fullName;
+                                    })()}
                                 </h1>
                                 <p className="text-blue-100 text-lg mb-1">
                                     @{user.username}
@@ -153,9 +156,8 @@ const ProfilePage = () => {
                                 About
                             </h2>
                             <div className="bg-secondary-dark rounded-lg p-6 border border-csg-blue-400/20">
-                                <p className="text-gray-300 leading-relaxed">
-                                    {user.bio ||
-                                        'No bio provided yet. Tell us about yourself!'}
+                                <p className="text-gray-300 leading-relaxed break-words overflow-hidden">
+                                    {user.bio || 'No bio provided yet. Tell us about yourself!'}
                                 </p>
                             </div>
                         </div>
@@ -200,7 +202,7 @@ const ProfilePage = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center p-4 bg-secondary-dark rounded-lg border border-csg-blue-400/20">
+                                    {/* <div className="flex items-center p-4 bg-secondary-dark rounded-lg border border-csg-blue-400/20">
                                         <div className="w-10 h-10 bg-csg-violet-100 rounded-lg flex items-center justify-center mr-4">
                                             <span className="text-white font-bold">
                                                 🎂
@@ -216,7 +218,7 @@ const ProfilePage = () => {
                                                     : 'Not provided'}
                                             </p>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 

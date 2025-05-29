@@ -408,6 +408,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
                         </label>
                         <input
                             type="tel"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
                             name="phone_number"
                             value={formData.phone_number}
                             onChange={handleInputChange}
