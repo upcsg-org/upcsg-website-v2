@@ -30,7 +30,8 @@ interface AuthState {
     verifyToken: (token?: string) => Promise<boolean>;
     refreshToken: () => Promise<boolean>;
     loadUserFromCookies: () => Promise<void>;
-    getProfile: () => void;
+    getProfile: () => Promise<void>;
+    updateProfile: (updatedUserData: Partial<User>) => Promise<void>;
     setIsAuthChecked: (checked: boolean) => void;
 }
 
@@ -115,11 +116,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 isLoading: false,
             });
         } catch (error: any) {
+            const err = error instanceof Error ? error : new Error(String(error));
+
             set({
-                error: error instanceof Error ? error : new Error(String(error)),
+                error: err,
                 isLoading: false,
                 isAuthenticated: false,
             });
+
+            throw err;
         }
     },
 
@@ -174,7 +179,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         // Redirect to login page
         if (typeof window !== 'undefined') {
-            window.location.href = '/login';
+            // window.location.href = '/login';
         }
     },
 
@@ -222,6 +227,21 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
     },
 
+    updateProfile: async (updatedUserData: Partial<User>) => {
+        set({ isLoading: true, error: null });
+        try {
+            const response = await apiClient.put<User>('/user/user/', updatedUserData);
+            set({ user: response, isLoading: false });
+        } catch (error) {
+            console.error("AuthStore: Failed to update profile", error);
+            set({
+                error: error instanceof Error ? error : new Error('Failed to update profile'),
+                isLoading: false
+            });
+            throw error; // Re-throw so component can handle it
+        }
+    },
+
     loadUserFromCookies: async () => {
         const accessToken = getAccessToken();
         if (!accessToken) return;
@@ -238,9 +258,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     set({ isAuthenticated: false, isLoading: false });
                     return;
                 }
-            } else {
-                set({ isAuthenticated: true, isLoading: false });
             }
+
+            // If token is valid (or was successfully refreshed), fetch user profile
+            set({ isAuthenticated: true });
+            await get().getProfile();
+            set({ isLoading: false });
         } catch (error) {
             console.error("AuthStore: Failed to load user from cookies", error);
             set({

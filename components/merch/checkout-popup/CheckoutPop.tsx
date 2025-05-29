@@ -3,20 +3,25 @@
 import ReciepientInformation from './ReciepientInformation'
 import OrderedList from './OrderedList'
 import { HiOutlineArrowLeft } from 'react-icons/hi2'
-import { merchItems } from '@/constants/merch/merch'
-import { MerchItem } from '@/interface/merch'
 import getFormConfig from './formconfig'
 import useFormHandler from '@/hooks/FormHooks'
+import { useOrderStore } from '@/store/orders'
+import { useAuthStore } from '@/store/auth'
+import { useCartStore } from '@/store/cart'
 
 interface CheckoutPopProps {
     toggleCheckoutModal: () => void
 }
 
-const calculateTotalPrice = (items: MerchItem[]): number => {
-    return items.reduce((total, item) => total + item.price, 0)
-}
-
 const CheckoutPop: React.FC<CheckoutPopProps> = ({ toggleCheckoutModal }) => {
+    const { create } = useOrderStore()
+    const { user } = useAuthStore()
+    const { cartItems, total_price, clearCart } = useCartStore((state) => ({
+        cartItems: state.cartItems,
+        total_price: state.total_price,
+        clearCart: state.clearCart,
+    }))
+
     // Initial values for the form possibly from server if existing details are present
     const initialValues = {
         name: '',
@@ -35,16 +40,54 @@ const CheckoutPop: React.FC<CheckoutPopProps> = ({ toggleCheckoutModal }) => {
 
     const formConfig = getFormConfig(formData, handleChange, handleImageChange)
 
-    const shoppingCartItems = merchItems.slice(0, 2)
-    const totalPrice = calculateTotalPrice(shoppingCartItems)
-
     const hiddenScrollbar: React.CSSProperties = {
         scrollbarWidth: 'none',
         msOverflowStyle: '-ms-autohiding-scrollbar',
     } as React.CSSProperties
 
-    const handleCheckout = () => {
-        // create handler function for checkout
+    const handleCheckout = async (e: React.FormEvent) => {
+        e.preventDefault()
+
+        if (!user) {
+            // Handle case where user is not logged in
+            return
+        }
+
+        if (!create) {
+            console.error('Create function is not available')
+            return
+        }
+
+        try {
+            // Create an order for each item in the cart
+            for (const item of cartItems) {
+                const orderData = {
+                    buyer_id: user.id,
+                    order_items_data: {
+                        merch_variant_id: item.merch_variant.id,
+                        quantity: item.quantity,
+                    },
+                    payment_method: formData.selectedPaymentOption,
+                    proof_of_payment: formData.image,
+                    status: 'PENDING',
+                }
+
+                const newOrder = await create(orderData)
+                if (!newOrder) {
+                    throw new Error('Failed to create order')
+                }
+            }
+
+            // Clear cart after successful order creation
+            clearCart()
+
+            // Handle successful order creation
+            toggleCheckoutModal()
+            // You might want to show a success message or redirect
+        } catch (error) {
+            console.error('Error creating order:', error)
+            // Handle error appropriately
+        }
     }
 
     return (
@@ -74,7 +117,7 @@ const CheckoutPop: React.FC<CheckoutPopProps> = ({ toggleCheckoutModal }) => {
                         </div>
                     </div>
 
-                    <OrderedList merchItems={shoppingCartItems} />
+                    <OrderedList cartItems={cartItems} />
 
                     <ReciepientInformation formConfig={formConfig} />
                     <div className="relative flex flex-row mt-4 h-16 bg-black rounded-b-2xl justify-between items-center text-base md:text-lg last:inset-0">
@@ -82,7 +125,7 @@ const CheckoutPop: React.FC<CheckoutPopProps> = ({ toggleCheckoutModal }) => {
                             <h2 className="text-[#242460] md:ml-[192px]">
                                 TOTAL PAYMENT {''}
                                 <span className="text-[#6479CB] ml-3">
-                                    PHP {totalPrice}
+                                    PHP {total_price.toFixed(2)}
                                 </span>
                             </h2>
                         </div>

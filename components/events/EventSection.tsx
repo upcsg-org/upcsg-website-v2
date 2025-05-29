@@ -7,6 +7,7 @@ import { FaLongArrowAltRight, FaCalendarAlt } from 'react-icons/fa'
 import TheButton from '../generics/TheButton'
 import { useEventStore } from '@/store/event'
 import { Event } from '@/interface/event'
+import Loader from '@/components/ui/Loader'
 
 const EmptyEventsState = () => (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
@@ -15,7 +16,7 @@ const EmptyEventsState = () => (
         </div>
         <h3 className="text-2xl font-bold text-gray-800 mb-3">No Events Yet</h3>
         <p className="text-gray-600 max-w-md mb-8">
-            We're currently preparing some exciting events for you. Check back soon for updates on upcoming activities and gatherings.
+            We&apos;re currently preparing some exciting events for you. Check back soon for updates on upcoming activities and gatherings.
         </p>
         <div className="flex gap-4">
             <TheButton link="/contact-us">
@@ -34,20 +35,27 @@ const EventSection: React.FC = () => {
     const [events, setEvents] = useState<Event[]>([])
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<Error | null>(null)
 
-    const { items, loading, error, fetchAll } = useEventStore()
+    const { items, fetchAll } = useEventStore()
 
     useEffect(() => {
-        const loadEvents = async () => {
+        const fetchEvents = async () => {
             try {
+                setLoading(true)
                 if (fetchAll) {
                     await fetchAll()
                 }
             } catch (err) {
                 console.error('Error fetching events:', err)
+                setError(err instanceof Error ? err : new Error('Failed to fetch events'))
+            } finally {
+                setLoading(false)
             }
         }
-        loadEvents()
+
+        fetchEvents()
     }, [fetchAll])
 
     useEffect(() => {
@@ -91,100 +99,92 @@ const EventSection: React.FC = () => {
         setShowAll(!showAll)
     }
 
-    if (loading) {
-        return (
-            <div className="max-w-[1280px] mx-auto px-4 flex flex-col gap-10">
-                <h1 className="text-2xl font-bold font-vietnam text-center ms:text-left">
-                    UPCOMING EVENTS
-                </h1>
-                <div className="flex justify-center items-center min-h-[200px]">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                </div>
-            </div>
-        )
-    }
-
-    if (error) {
-        return (
-            <div className="max-w-[1280px] mx-auto px-4 flex flex-col gap-10">
-                <h1 className="text-2xl font-bold font-vietnam text-center ms:text-left">
-                    UPCOMING EVENTS
-                </h1>
-                <div className="text-center text-red-500">
-                    Error loading events. Please try again later.
-                </div>
-            </div>
-        )
-    }
-
     return (
         <div className="max-w-[1280px] mx-auto px-4 flex flex-col gap-10">
             <h1 className="text-2xl font-bold font-vietnam text-center ms:text-left">
                 UPCOMING EVENTS
             </h1>
-            <motion.div
-                animate={{ height: showAll ? contentHeight : 'auto' }}
-                transition={{
-                    duration: 0.5,
-                    ease: [0.43, 0.13, 0.23, 0.96],
-                }}
-            >
-                <div
-                    ref={contentRef}
-                    className="grid grid-cols-1 ms:grid-cols-2 ls:grid-cols-3 gap-6 ms:gap-8 ls:gap-10"
-                >
-                    {events.length === 0 ? (
-                        <div className="col-span-full">
-                            <EmptyEventsState />
+
+            {loading ? (
+                <div className="flex justify-center items-center py-16">
+                    <Loader
+                        size="lg"
+                        text="Loading events..."
+                        className="text-site-main"
+                        variant="spinner"
+                    />
+                </div>
+            ) : error ? (
+                <div className="text-center text-red-500">
+                    Error loading events. Please try again later.
+                </div>
+            ) : (
+                <>
+                    <motion.div
+                        animate={{ height: showAll ? contentHeight : 'auto' }}
+                        transition={{
+                            duration: 0.5,
+                            ease: [0.43, 0.13, 0.23, 0.96],
+                        }}
+                    >
+                        <div
+                            ref={contentRef}
+                            className="grid grid-cols-1 ms:grid-cols-2 ls:grid-cols-3 gap-6 ms:gap-8 ls:gap-10"
+                        >
+                            {events.length === 0 ? (
+                                <div className="col-span-full">
+                                    <EmptyEventsState />
+                                </div>
+                            ) : (
+                                <AnimatePresence initial={false}>
+                                    {visibleEvents.map((event, index) => (
+                                        <motion.div
+                                            key={event.id ?? index}
+                                            layout
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.8 }}
+                                            transition={{
+                                                opacity: { duration: 0.3 },
+                                                scale: { duration: 0.5 },
+                                                layout: { duration: 0.5 },
+                                            }}
+                                            className="flex justify-center"
+                                        >
+                                            <div className="w-full min-w-[300px] max-md:flex max-md:justify-center">
+                                                <EventCard {...event} />
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            )}
                         </div>
-                    ) : (
-                        <AnimatePresence initial={false}>
-                            {visibleEvents.map((event, index) => (
-                                <motion.div
-                                    key={event.id ?? index}
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.8 }}
-                                    transition={{
-                                        opacity: { duration: 0.3 },
-                                        scale: { duration: 0.5 },
-                                        layout: { duration: 0.5 },
-                                    }}
-                                    className="flex justify-center"
-                                >
-                                    <div className="w-full min-w-[300px] max-md:flex max-md:justify-center">
-                                        <EventCard {...event} />
+                    </motion.div>
+                    {events.length > 0 && (
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key="button"
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex justify-center md:justify-end gap-6"
+                            >
+                                {events.length > visibleEventCount && (
+                                    <TheButton onClick={handleToggle}>
+                                        {showAll ? 'See less' : 'See more'}
+                                    </TheButton>
+                                )}
+                                <TheButton link="/events">
+                                    <div className="flex items-center justify-center gap-x-2">
+                                        <p>View All Events</p>
+                                        <FaLongArrowAltRight />
                                     </div>
-                                </motion.div>
-                            ))}
+                                </TheButton>
+                            </motion.div>
                         </AnimatePresence>
                     )}
-                </div>
-            </motion.div>
-            {events.length > 0 && (
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key="button"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex justify-center md:justify-end gap-6"
-                    >
-                        {events.length > visibleEventCount && (
-                            <TheButton onClick={handleToggle}>
-                                {showAll ? 'See less' : 'See more'}
-                            </TheButton>
-                        )}
-                        <TheButton link="/events">
-                            <div className="flex items-center justify-center gap-x-2">
-                                <p>View All Events</p>
-                                <FaLongArrowAltRight />
-                            </div>
-                        </TheButton>
-                    </motion.div>
-                </AnimatePresence>
+                </>
             )}
         </div>
     )

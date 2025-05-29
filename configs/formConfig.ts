@@ -11,7 +11,7 @@ const getFormConfig = (
             field: {
                 type: 'text',
                 name: 'username',
-                label: 'ADMIN USERNAME',
+                label: 'USERNAME',
                 placeholder: 'Enter your username',
                 className: 'bg-secondary-dark outline-none text-white caret-white w-full',
                 value: formData.username

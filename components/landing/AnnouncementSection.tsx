@@ -6,6 +6,8 @@ import AnnouncementCard from './AnnouncementCard'
 import TheButton from '../generics/TheButton'
 import { useAnnouncementStore } from '@/store/announcement'
 import { FaLongArrowAltRight, FaBullhorn } from 'react-icons/fa'
+import { Announcement } from '@/interface/announcement'
+import Loader from '@/components/ui/Loader'
 
 const EmptyAnnouncementsState = () => (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
@@ -30,16 +32,43 @@ const EmptyAnnouncementsState = () => (
 const AnnouncementSection: React.FC = () => {
     const [showAll, setShowAll] = useState(false)
     const [visibleCount, setVisibleCount] = useState(4)
+    const [announcements, setAnnouncements] = useState<Announcement[]>([])
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<Error | null>(null)
 
-    const { items, loading, error, fetchAll } = useAnnouncementStore()
+    const { items, fetchAll } = useAnnouncementStore()
 
     useEffect(() => {
-        if (!items || items.length === 0) {
-            fetchAll?.()
+        const fetchAnnouncements = async () => {
+            try {
+                setLoading(true)
+                if (fetchAll) {
+                    await fetchAll()
+                }
+            } catch (err) {
+                console.error('Error fetching announcements:', err)
+                setError(err instanceof Error ? err : new Error('Failed to fetch announcements'))
+            } finally {
+                setLoading(false)
+            }
         }
-    }, [items, fetchAll])
+
+        fetchAnnouncements()
+    }, [fetchAll])
+
+    useEffect(() => {
+        if (items && items.length > 0) {
+            const sorted = [...items]
+                .sort(
+                    (a, b) =>
+                        new Date(b.date_updated).getTime() -
+                        new Date(a.date_updated).getTime()
+                )
+            setAnnouncements(sorted)
+        }
+    }, [items])
 
     useEffect(() => {
         const updateVisibleCount = () => {
@@ -62,41 +91,14 @@ const AnnouncementSection: React.FC = () => {
         if (contentRef.current) {
             setContentHeight(contentRef.current.scrollHeight)
         }
-    }, [showAll, visibleCount, items])
+    }, [showAll, visibleCount, announcements])
 
-    // Use items from store and slice for display
     const visibleAnnouncements = showAll
-        ? (items?.slice(0, 4) ?? [])
-        : (items?.slice(0, visibleCount) ?? [])
+        ? announcements.slice(0, 4)
+        : announcements.slice(0, visibleCount)
 
     const handleToggle = () => {
         setShowAll(!showAll)
-    }
-
-    if (loading) {
-        return (
-            <div className="max-w-[1280px] mx-auto px-4 flex flex-col gap-10">
-                <h1 className="text-2xl font-bold font-vietnam text-white text-center sm:text-left">
-                    RECENT NEWS AND ANNOUNCEMENTS
-                </h1>
-                <div className="flex justify-center items-center min-h-[200px]">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-                </div>
-            </div>
-        )
-    }
-
-    if (error) {
-        return (
-            <div className="max-w-[1280px] mx-auto px-4 flex flex-col gap-10">
-                <h1 className="text-2xl font-bold font-vietnam text-white text-center sm:text-left">
-                    RECENT NEWS AND ANNOUNCEMENTS
-                </h1>
-                <div className="text-center text-red-400">
-                    Error loading announcements. Please try again later.
-                </div>
-            </div>
-        )
     }
 
     return (
@@ -104,68 +106,99 @@ const AnnouncementSection: React.FC = () => {
             <h1 className="text-2xl font-bold font-vietnam text-white text-center sm:text-left">
                 RECENT NEWS AND ANNOUNCEMENTS
             </h1>
-            <motion.div
-                animate={{ height: showAll ? contentHeight : 'auto' }}
-                transition={{
-                    duration: 0.5,
-                    ease: [0.43, 0.13, 0.23, 0.96],
-                }}
-            >
-                <div ref={contentRef}>
-                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-10 justify-items-center">
-                        {!items || items.length === 0 ? (
-                            <div className="col-span-full">
-                                <EmptyAnnouncementsState />
-                            </div>
-                        ) : (
-                            <AnimatePresence initial={false}>
-                                {visibleAnnouncements.map((announcement, index) => (
-                                    <motion.div
-                                        key={index + announcement.title}
-                                        layout
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.8 }}
-                                        transition={{
-                                            opacity: { duration: 0.3 },
-                                            scale: { duration: 0.5 },
-                                            layout: { duration: 0.5 },
-                                        }}
-                                        className="flex justify-center"
-                                    >
-                                        <div className="w-full max-w-[320px]">
-                                            <AnnouncementCard {...announcement} />
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-                        )}
-                    </div>
+
+            {loading ? (
+                <div className="flex justify-center items-center py-16">
+                    <Loader
+                        size="lg"
+                        text="Loading announcements..."
+                        className="text-white"
+                        variant="spinner"
+                    />
                 </div>
-            </motion.div>
-            {items && items.length > 0 && (
-                <AnimatePresence mode="wait">
+            ) : error ? (
+                <div className="text-center text-red-400">
+                    Error loading announcements. Please try again later.
+                </div>
+            ) : (
+                <>
                     <motion.div
-                        key="button"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex justify-end gap-6"
+                        animate={{ height: showAll ? contentHeight : 'auto' }}
+                        transition={{
+                            duration: 0.5,
+                            ease: [0.43, 0.13, 0.23, 0.96],
+                        }}
                     >
-                        {items.length > visibleCount && (
-                            <TheButton onClick={handleToggle}>
-                                {showAll ? 'See less' : 'See more'}
-                            </TheButton>
-                        )}
-                        <TheButton link="/announcements">
-                            <div className="flex items-center justify-center gap-x-2">
-                                <p>View All Announcements</p>
-                                <FaLongArrowAltRight />
+                        <div ref={contentRef}>
+                            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-10 justify-items-center">
+                                {announcements.length === 0 ? (
+                                    <div className="col-span-full">
+                                        <EmptyAnnouncementsState />
+                                    </div>
+                                ) : (
+                                    <AnimatePresence initial={false}>
+                                        {visibleAnnouncements.map(
+                                            (announcement, index) => (
+                                                <motion.div
+                                                    key={announcement.id ?? index}
+                                                    layout
+                                                    initial={{
+                                                        opacity: 0,
+                                                        scale: 0.8,
+                                                    }}
+                                                    animate={{
+                                                        opacity: 1,
+                                                        scale: 1,
+                                                    }}
+                                                    exit={{
+                                                        opacity: 0,
+                                                        scale: 0.8,
+                                                    }}
+                                                    transition={{
+                                                        opacity: { duration: 0.3 },
+                                                        scale: { duration: 0.5 },
+                                                        layout: { duration: 0.5 },
+                                                    }}
+                                                    className="flex justify-center"
+                                                >
+                                                    <div className="w-full max-w-[320px]">
+                                                        <AnnouncementCard
+                                                            {...announcement}
+                                                        />
+                                                    </div>
+                                                </motion.div>
+                                            )
+                                        )}
+                                    </AnimatePresence>
+                                )}
                             </div>
-                        </TheButton>
+                        </div>
                     </motion.div>
-                </AnimatePresence>
+                    {announcements.length > 0 && (
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key="button"
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex justify-end gap-6"
+                            >
+                                {announcements.length > visibleCount && (
+                                    <TheButton onClick={handleToggle}>
+                                        {showAll ? 'See less' : 'See more'}
+                                    </TheButton>
+                                )}
+                                <TheButton link="/announcements">
+                                    <div className="flex items-center justify-center gap-x-2">
+                                        <p>View All Announcements</p>
+                                        <FaLongArrowAltRight />
+                                    </div>
+                                </TheButton>
+                            </motion.div>
+                        </AnimatePresence>
+                    )}
+                </>
             )}
         </div>
     )

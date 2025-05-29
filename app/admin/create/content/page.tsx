@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import CreateEventMenu from '@/components/admin/cms/EventCMSMenu'
 import CreateEventForm from '@/components/admin/create/content/CreateEventForm'
@@ -11,11 +11,17 @@ import ContentPreview from '@/components/admin/preview/ContentPreview'
 import useFormHandler from '@/hooks/FormHooks'
 import { FaArrowRight } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import { useEventStore } from '@/store/event'
+import { useAnnouncementStore } from '@/store/announcement'
+import { useScholarshipStore } from '@/store/scholarship'
+import { useInternshipStore } from '@/store/internship'
+import Loader from '@/components/ui/Loader'
 
-const AdminCreateContent = () => {
+const AdminCreateContentInner = () => {
     const searchParams = useSearchParams()
     const [contentType, setContentType] = useState('event') // Default to event
     const [currentStep, setCurrentStep] = useState(1)
+    const [redirectSetting, setRedirectSetting] = useState('none')
 
     // Set content type from URL parameter on initial load
     useEffect(() => {
@@ -188,6 +194,8 @@ const AdminCreateContent = () => {
                                 initialExternalUrl={
                                     getCurrentFormData().external_url || ''
                                 }
+                                redirectState={redirectSetting}
+                                setRedirectState={setRedirectSetting}
                                 onExternalUrlChange={(url) => {
                                     // Update the form data with external URL
                                     let formHandler
@@ -298,14 +306,30 @@ const AdminCreateContent = () => {
 
                 {currentStep === 2 && (
                     <ContentPreview
-                        formType="create"
                         contentType={contentType}
                         formData={getCurrentFormData()}
                         goToPreviousStep={goToPreviousStep}
+                        redirectSetting={redirectSetting}
                     />
                 )}
             </section>
         </div>
+    )
+}
+
+const AdminCreateContent = () => {
+    return (
+        <Suspense
+            fallback={
+                <Loader
+                    size="lg"
+                    text="Loading..."
+                    className="text-white p-8"
+                />
+            }
+        >
+            <AdminCreateContentInner />
+        </Suspense>
     )
 }
 

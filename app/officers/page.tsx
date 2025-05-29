@@ -2,6 +2,7 @@ import React from 'react'
 import { OfficerCard } from '@/components/officers/OfficerCard'
 import { officers } from '@/constants/officers/officers'
 import { LIGHT_GREEN_TO_CYAN } from '@/constants/generic/colorGradients'
+import PreviousTerms from '@/components/officers/PreviousTerms'
 
 const Officers = () => {
     const officerCount = officers.length
@@ -21,7 +22,7 @@ const Officers = () => {
                     </span>
                 </h1>
             </div>
-            <section className="grid md:grid-cols-3 grid-cols-2 gap-y-8  md:gap-y-16 justify-items-center mt-16">
+            <section className="grid md:grid-cols-3 grid-cols-2 px-4 gap-x-4 gap-y-8 md:gap-y-16 justify-items-center mt-16">
                 <div className="md:col-span-3 col-span-2">
                     <OfficerCard officer={officers[0]} />
                 </div>
@@ -35,6 +36,9 @@ const Officers = () => {
                 <div className="md:col-span-3 col-span-2">
                     <OfficerCard officer={officers[officerCount - 1]} />
                 </div>
+            </section>
+            <section className="md:p-20 mt-12">
+                <PreviousTerms />
             </section>
         </div>
     )

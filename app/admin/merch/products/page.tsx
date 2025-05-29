@@ -25,7 +25,7 @@ export default function ProductsPage() {
             }
         }
         fetchProducts()
-    }, [fetchAll])
+    }, [])
 
     const handleDelete = async (productId: number) => {
         if (!deleteMerch) return
@@ -133,7 +133,7 @@ export default function ProductsPage() {
                                 {product.name}
                             </h3>
                             <p className="text-gray-400 text-xs">
-                                {product.merch_type.name}
+                                {product.merch_type?.name || 'No category'}
                             </p>
                         </div>
                         <div className="flex space-x-4">

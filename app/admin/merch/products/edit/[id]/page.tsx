@@ -19,7 +19,7 @@ import { uploadImageToCloudinary } from '@/hooks/cloudinary'
 
 interface SizeRow {
     id: number
-    size: string
+    size: string | { name: string }
     price: string
     quantity: string
 }
@@ -155,7 +155,7 @@ export default function EditProductPage() {
         setCoverImage(fetchedMerch.image)
 
         const productType = existingTypes?.find(
-            (type) => type.id === fetchedMerch.merch_type.id
+            (type) => type.id === fetchedMerch?.merch_type?.id
         )
 
         if (productType) {
@@ -340,17 +340,19 @@ export default function EditProductPage() {
                     }
                 }
                 for (const row of variant.sizeRows) {
+                    const sizeName =
+                        typeof row.size === 'string' ? row.size : row.size.name
                     let size = productType.sizes?.find(
-                        (s) => s.name === row.size
+                        (s) => s.name === sizeName
                     )
                     if (!size) {
                         size = await createMerchSize({
-                            name: row.size,
+                            name: sizeName,
                             merch_type: productType.id,
                         })
                         if (!size)
                             throw new Error(
-                                `Failed to create size: ${row.size}`
+                                `Failed to create size: ${sizeName}`
                             )
                     }
 
@@ -818,7 +820,8 @@ export default function EditProductPage() {
                                     const currentSizeName =
                                         typeof row.size === 'string'
                                             ? row.size
-                                            : row.size?.name || ''
+                                            : (row.size as { name: string })
+                                                  ?.name || ''
 
                                     return (
                                         <div

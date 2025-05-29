@@ -4,6 +4,7 @@ import { FaImage } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
 import { useEventStore } from '@/store/event'
 import Image from 'next/image'
+import Loader from '@/components/ui/Loader'
 
 interface Article {
     title: string
@@ -93,7 +94,13 @@ const UpdateEventForm = ({
     }, [formData.image_url])
 
     if (loading) {
-        return <p>Loading...</p>
+        return (
+            <Loader
+                size="lg"
+                text="Loading event data..."
+                className="text-white p-8"
+            />
+        )
     }
 
     return (

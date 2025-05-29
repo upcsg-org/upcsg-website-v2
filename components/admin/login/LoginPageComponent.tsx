@@ -62,8 +62,8 @@ const LoginPageComponent = () => {
                             WELCOME BACK!
                         </h1>
                         <p className="text-gray-300 mt-4 md:mt-6 max-w-md text-sm md:text-base">
-                            Access the dashboard to manage orders, users, and
-                            more.
+                            Login to access the merch and other personalized
+                            features
                         </p>
                     </div>
                 </div>

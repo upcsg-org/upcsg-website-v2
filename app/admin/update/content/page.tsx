@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import CreateEventMenu from '@/components/admin/cms/EventCMSMenu'
 import UpdateEventForm from '@/components/admin/update/content/UpdateEventForm'
@@ -13,8 +13,9 @@ import ContentPreview from '@/components/admin/preview/ContentPreview'
 
 import { FaArrowRight } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import Loader from '@/components/ui/Loader'
 
-const AdminUpdateContent = () => {
+const AdminUpdateContentInner = () => {
     const initialValues = {
         eventTitle: '',
         startTime: '',
@@ -322,6 +323,22 @@ const AdminUpdateContent = () => {
                 )}
             </section>
         </div>
+    )
+}
+
+const AdminUpdateContent = () => {
+    return (
+        <Suspense
+            fallback={
+                <Loader
+                    size="lg"
+                    text="Loading..."
+                    className="text-white p-8"
+                />
+            }
+        >
+            <AdminUpdateContentInner />
+        </Suspense>
     )
 }
 

@@ -4,11 +4,13 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import { FaArrowLeft, FaEdit } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import NotificationModal from '@/components/generics/NotificationModal'
 import { useCreateUpdateDeleteEventStore } from '@/store/event'
 import { useCreateUpdateDeleteAnnouncementStore } from '@/store/announcement'
 import { useCreateUpdateDeleteScholarshipStore } from '@/store/scholarship'
 import { useCreateUpdateDeleteInternshipStore } from '@/store/internship'
 import { useRouter, usePathname } from 'next/navigation'
+import Loader from '@/components/ui/Loader'
 
 interface ContentPreviewProps {
     contentType: string
@@ -30,6 +32,17 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
     const id = searchParams.get('id')
 
     const [isUploading, setIsUploading] = useState(false)
+    const [notification, setNotification] = useState<{
+        isOpen: boolean
+        type: 'success' | 'error' | 'warning' | 'info'
+        title: string
+        message: string
+    }>({
+        isOpen: false,
+        type: 'info',
+        title: '',
+        message: '',
+    })
 
     const { create: createEvent, update: updateEvent } =
         useCreateUpdateDeleteEventStore()
@@ -39,6 +52,23 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
         useCreateUpdateDeleteScholarshipStore()
     const { create: createInternship, update: updateInternship } =
         useCreateUpdateDeleteInternshipStore()
+
+    const showNotification = (
+        type: 'success' | 'error' | 'warning' | 'info',
+        title: string,
+        message: string
+    ) => {
+        setNotification({
+            isOpen: true,
+            type,
+            title,
+            message,
+        })
+    }
+
+    const closeNotification = () => {
+        setNotification((prev) => ({ ...prev, isOpen: false }))
+    }
 
     const getTitle = () => {
         switch (contentType) {
@@ -175,7 +205,11 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 if (isUpdateMode) {
                     if (!id) {
                         console.error('No ID provided for update.')
-                        alert('Missing ID. Cannot update the content.')
+                        showNotification(
+                            'error',
+                            'Update Failed',
+                            'Missing ID. Cannot update the content.'
+                        )
                         return
                     }
                     await updateEvent(id, data)
@@ -190,19 +224,31 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 if (isUpdateMode) {
                     if (!id) {
                         console.error('No ID provided for update.')
-                        alert('Missing ID. Cannot update the content.')
+                        showNotification(
+                            'error',
+                            'Update Failed',
+                            'Missing ID. Cannot update the content.'
+                        )
                         return
                     }
                     if (!updateAnnouncement) {
                         console.error('updateAnnouncement is undefined.')
-                        alert('Update function is not available.')
+                        showNotification(
+                            'error',
+                            'Update Failed',
+                            'Update function is not available.'
+                        )
                         return
                     }
                     await updateAnnouncement(id, data)
                 } else {
                     if (!createAnnouncement) {
                         console.error('createAnnouncement is undefined.')
-                        alert('Create function is not available.')
+                        showNotification(
+                            'error',
+                            'Create Failed',
+                            'Create function is not available.'
+                        )
                         return
                     }
                     await createAnnouncement(data)
@@ -215,7 +261,11 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 if (isUpdateMode) {
                     if (!id) {
                         console.error('No ID provided for update.')
-                        alert('Missing ID. Cannot update the content.')
+                        showNotification(
+                            'error',
+                            'Update Failed',
+                            'Missing ID. Cannot update the content.'
+                        )
                         return
                     }
                     await updateScholarship(id, data)
@@ -230,7 +280,11 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 if (isUpdateMode) {
                     if (!id) {
                         console.error('No ID provided for update.')
-                        alert('Missing ID. Cannot update the content.')
+                        showNotification(
+                            'error',
+                            'Update Failed',
+                            'Missing ID. Cannot update the content.'
+                        )
                         return
                     }
                     await updateInternship(id, data)
@@ -242,7 +296,11 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
             router.push(`/admin/${contentType}`)
         } catch (error) {
             console.error('Error publishing content:', error)
-            alert('Failed to publish content. Please try again.')
+            showNotification(
+                'error',
+                'Publish Failed',
+                'Failed to publish content. Please try again.'
+            )
         } finally {
             setIsUploading(false)
         }
@@ -378,15 +436,30 @@ const ContentPreview: React.FC<ContentPreviewProps> = ({
                 >
                     <div className="flex items-center">
                         <h1>
-                            {isUploading
-                                ? 'UPLOADING...'
-                                : isUpdateMode
-                                  ? 'UPDATE'
-                                  : 'PUBLISH'}
+                            {isUploading ? (
+                                <Loader
+                                    size="sm"
+                                    text="UPLOADING..."
+                                    showText={true}
+                                    className="text-white"
+                                />
+                            ) : isUpdateMode ? (
+                                'UPDATE'
+                            ) : (
+                                'PUBLISH'
+                            )}
                         </h1>
                     </div>
                 </TheButton>
             </div>
+
+            <NotificationModal
+                isOpen={notification.isOpen}
+                onClose={closeNotification}
+                type={notification.type}
+                title={notification.title}
+                message={notification.message}
+            />
         </>
     )
 }
