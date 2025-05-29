@@ -33,7 +33,7 @@ const AboutPage = () => {
                         innovators, scientists, engineers, designers, and more in their own 
                         right and expertise, contributing to the holistic growth of the UP 
                         Cebu community."
-                        imageUrl="/images/placeholder.png"
+                        imageUrl="/images/mission.png"
                         orientation="normal"
                     />
                     <Goals
@@ -46,7 +46,7 @@ const AboutPage = () => {
                         tech industry and beyond. By fostering a culture of integrity, 
                         inclusivity, and academic excellence, we aim to create a lasting 
                         impact within our university and the broader society."
-                        imageUrl="/images/placeholder.png"
+                        imageUrl="/images/vision.png"
                         orientation="reverse"
                     />
                 </div>
