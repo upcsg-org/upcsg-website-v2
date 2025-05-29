@@ -116,11 +116,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 isLoading: false,
             });
         } catch (error: any) {
+            const err = error instanceof Error ? error : new Error(String(error));
+
             set({
-                error: error instanceof Error ? error : new Error(String(error)),
+                error: err,
                 isLoading: false,
                 isAuthenticated: false,
             });
+
+            throw err;
         }
     },
 
