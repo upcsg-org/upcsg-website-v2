@@ -133,7 +133,7 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
                                 onClick={togglePasswordVisibility}
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2 p-3"
                             >
-                                {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                                {isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
                             </button>
                         </div>
                     </div>
