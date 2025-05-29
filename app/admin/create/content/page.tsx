@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import CreateEventMenu from '@/components/admin/cms/EventCMSMenu'
 import CreateEventForm from '@/components/admin/create/content/CreateEventForm'
@@ -12,7 +12,7 @@ import useFormHandler from '@/hooks/FormHooks'
 import { FaArrowRight } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
 
-const AdminCreateContent = () => {
+const AdminCreateContentInner = () => {
     const searchParams = useSearchParams()
     const [contentType, setContentType] = useState('event') // Default to event
     const [currentStep, setCurrentStep] = useState(1)
@@ -309,6 +309,14 @@ const AdminCreateContent = () => {
                 )}
             </section>
         </div>
+    )
+}
+
+const AdminCreateContent = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <AdminCreateContentInner />
+        </Suspense>
     )
 }
 
