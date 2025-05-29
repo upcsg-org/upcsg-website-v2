@@ -20,6 +20,9 @@ const publicRoutes = [
     '/merch',
     '/my-purchases',
     '/officers',
+    '/events/[eventId]',
+      // This will match any event ID
+
     // Add more public routes as needed
 ]
 
@@ -40,6 +43,16 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         init()
     }, [])
 
+    // Check if the current path matches any public route pattern
+    const isPublicRoute = (path: string) => {
+        return publicRoutes.some(route => {
+            // Convert route pattern to regex
+            const pattern = route.replace(/\[.*?\]/g, '[^/]+')
+            const regex = new RegExp(`^${pattern}$`)
+            return regex.test(path)
+        })
+    }
+
     // Only redirect if we've checked auth and user is not authenticated and the route is not public
     useEffect(() => {
         if (
@@ -47,8 +60,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             authChecked &&
             !isLoading &&
             !isAuthenticated &&
-            !publicRoutes.includes(pathname)
+            !isPublicRoute(pathname)
         ) {
+            console.log('Redirecting to login', authStore, isAuthenticated, isLoading, pathname)
             // TODO: Comment this out when testing UI without auth
             router.push('/login')
         }

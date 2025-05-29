@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import ArticleTemplate from '@/components/generics/ArticleTemplate'
 import NotFound from '@/components/generics/NotFound'
 import { useEventStore } from '@/store/event'
+import { mockEvent } from './mockData'
 
 interface PropsInterface {
     params: {
