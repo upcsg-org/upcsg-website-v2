@@ -10,7 +10,7 @@ const Journey = () => {
             date: '1996',
             description: (
                 <>
-                    <strong>Dr. Rachel Onale-Roxas</strong> was incharge of the
+                    <strong>Dr. Rachel Onate-Roxas</strong> was incharge of the
                     Outreach and Extension Division in charge of implementing
                     the BSCS programs in the different campuses.
                     <br />
@@ -20,7 +20,7 @@ const Journey = () => {
                     Program.
                 </>
             ),
-            image: '/images/placeholder.png',
+            image: '/images/roxas.png',
         },
         {
             title: 'UP CEBU PROGRAM PIONEERING FACILITY',
@@ -39,7 +39,7 @@ const Journey = () => {
                     ~ Jenny Codenera - Yap <br />
                 </>
             ),
-            image: '/images/placeholder.png',
+            image: '/images/faculty.png',
         },
         {
             title: 'UP COMPUTER SCIENCE GUILD',
@@ -56,7 +56,7 @@ const Journey = () => {
                     <strong> UP Computer Science Guild (UPCSG)</strong>.
                 </>
             ),
-            image: '/images/placeholder.png',
+            image: '/images/guild.png',
         },
         {
             title: 'FIRST BATCH (ON-TIME) GRADUATES',
@@ -74,7 +74,7 @@ const Journey = () => {
                     ~ Roel Reales <br />~ Adrian Bono
                 </>
             ),
-            image: '/images/placeholder.png',
+            image: '/images/batch.png',
         },
     ]
 

@@ -11,7 +11,7 @@ const LeadershipConstitution = () => {
         <section
             className="bg-gray-800 py-10 px-4"
             style={{
-                backgroundImage: "url('/images/placeholder.png')",
+                backgroundImage: "url('/images/constitution.png')",
             }}
         >
             <div className="relative z-10 max-w-4xl mx-auto space-y-16">
