@@ -78,7 +78,7 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
                             value={value}
                             onChange={onChange}
                             placeholder={placeholder}
-                            className={`p-2 border rounded-xl bg-secondary-dark ${className}`}
+                            className={`p-3 mt-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
                             readOnly={readonly}
                         />
                     </div>
@@ -125,7 +125,7 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
                                 value={value}
                                 onChange={onChange}
                                 placeholder={placeholder}
-                                className={`p-2 border rounded-xl bg-secondary-dark ${className}`}
+                                className={`p-3 mt-2 border rounded-xl cursor-pointer bg-secondary-dark ${className}`}
                                 readOnly={readonly}
                             />
                             <button
@@ -133,7 +133,7 @@ const InputField = ({ field, layout, onChange }: FormFieldProps) => {
                                 onClick={togglePasswordVisibility}
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2 p-3"
                             >
-                                {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                                {isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
                             </button>
                         </div>
                     </div>
