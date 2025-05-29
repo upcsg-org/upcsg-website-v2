@@ -11,7 +11,7 @@ const MerchHeaderFilterTabs = (props: PropsInterface) => {
         handleSwitchFilter,
     } = props
 
-    const tabNames = ['All Items', 'Limited Edition', 'On Sale']
+    const tabNames = ['All Items', 'On Sale'] // Removed "Limited Edition"
 
     const [activeTab, setActiveTab] = useState(0)
 

@@ -21,13 +21,19 @@ export interface MerchSize {
 
 export interface MerchVariant {
     id: number
-    merch: number
+    merch: Merch
     name: string
     price: number
     image: string
     variant: string
     is_limited: boolean
-    size: number
+    size: {
+        id: number
+        name: string
+        description: string
+        created_at: string
+        updated_at: string
+    }
     quantity: number
     is_bestseller: boolean
     is_available: boolean
