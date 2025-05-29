@@ -39,7 +39,7 @@ The official website of the UP Computer Science Guild, built with Next.js, TypeS
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/upcsg-website-v2.git
+   git clone https://github.com/upcsg-org/upcsg-website-v2.git
    cd upcsg-website-v2
    ```
 
@@ -48,7 +48,7 @@ The official website of the UP Computer Science Guild, built with Next.js, TypeS
    npm install
    ```
 
-3. Create a `.env.local` file in the root directory:
+3. Create a `.env.local` file in the root directory (Ask someone in the guild for env):
    ```
    NEXT_PUBLIC_API_URL=your_api_url_here
    ```
