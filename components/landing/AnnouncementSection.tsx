@@ -12,12 +12,24 @@ const AnnouncementSection: React.FC = () => {
     const [visibleCount, setVisibleCount] = useState(4)
     const contentRef = useRef<HTMLDivElement>(null)
     const [contentHeight, setContentHeight] = useState(0)
+    const [loading, setLoading] = useState(true)
 
-    const { items, loading, error, fetchAll } = useAnnouncementStore()
+    const { items, fetchAll } = useAnnouncementStore()
 
     useEffect(() => {
-        if (fetchAll) {
-            fetchAll?.()
+        const fetchAnnouncements = async () => {
+            if (fetchAll) {
+                await fetchAll()
+            }
+        }
+
+        try {
+            setLoading(true)
+            fetchAnnouncements()
+        } catch (error) {
+            console.error('Error fetching announcements:', error)
+        } finally {
+            setLoading(false)
         }
     }, [])
 
@@ -58,62 +70,99 @@ const AnnouncementSection: React.FC = () => {
             <h1 className="text-2xl font-bold font-vietnam text-white text-center sm:text-left">
                 RECENT NEWS AND ANNOUNCEMENTS
             </h1>
-            <motion.div
-                animate={{ height: showAll ? contentHeight : 'auto' }}
-                transition={{
-                    duration: 0.5,
-                    ease: [0.43, 0.13, 0.23, 0.96],
-                }}
-            >
-                <div ref={contentRef}>
-                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-10 justify-items-center">
-                        <AnimatePresence initial={false}>
-                            {visibleAnnouncements.map((announcement, index) => (
-                                <motion.div
-                                    key={index + announcement.title}
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.8 }}
-                                    transition={{
-                                        opacity: { duration: 0.3 },
-                                        scale: { duration: 0.5 },
-                                        layout: { duration: 0.5 },
-                                    }}
-                                    className="flex justify-center"
-                                >
-                                    <div className="w-full max-w-[320px]">
-                                        <AnnouncementCard {...announcement} />
+
+            {loading ? (
+                // Loading skeleton
+                <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-10 justify-items-center">
+                    {Array.from({ length: visibleCount }).map((_, index) => (
+                        <div key={index} className="w-full max-w-[320px]">
+                            <div className="bg-[#1e1e1e] rounded-lg p-4 animate-pulse">
+                                <div className="h-48 bg-gray-700 rounded-lg mb-4"></div>
+                                <div className="space-y-3">
+                                    <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+                                    <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                                    <div className="space-y-2">
+                                        <div className="h-3 bg-gray-700 rounded"></div>
+                                        <div className="h-3 bg-gray-700 rounded w-5/6"></div>
                                     </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </div>
-                </div>
-            </motion.div>
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key="button"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex justify-end gap-6"
-                >
-                    {/* Only show toggle if more items exist beyond the visible count */}
-                    {items && items.length > visibleCount && (
-                        <TheButton onClick={handleToggle}>
-                            {showAll ? 'See less' : 'See more'}
-                        </TheButton>
-                    )}
-                    <TheButton link="/announcements">
-                        <div className="flex items-center justify-center gap-x-2">
-                            <p>View All Announcements</p>
-                            <FaLongArrowAltRight />
+                                </div>
+                            </div>
                         </div>
-                    </TheButton>
-                </motion.div>
-            </AnimatePresence>
+                    ))}
+                </div>
+            ) : (
+                <>
+                    <motion.div
+                        animate={{ height: showAll ? contentHeight : 'auto' }}
+                        transition={{
+                            duration: 0.5,
+                            ease: [0.43, 0.13, 0.23, 0.96],
+                        }}
+                    >
+                        <div ref={contentRef}>
+                            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-10 justify-items-center">
+                                <AnimatePresence initial={false}>
+                                    {visibleAnnouncements.map(
+                                        (announcement, index) => (
+                                            <motion.div
+                                                key={index + announcement.title}
+                                                layout
+                                                initial={{
+                                                    opacity: 0,
+                                                    scale: 0.8,
+                                                }}
+                                                animate={{
+                                                    opacity: 1,
+                                                    scale: 1,
+                                                }}
+                                                exit={{
+                                                    opacity: 0,
+                                                    scale: 0.8,
+                                                }}
+                                                transition={{
+                                                    opacity: { duration: 0.3 },
+                                                    scale: { duration: 0.5 },
+                                                    layout: { duration: 0.5 },
+                                                }}
+                                                className="flex justify-center"
+                                            >
+                                                <div className="w-full max-w-[320px]">
+                                                    <AnnouncementCard
+                                                        {...announcement}
+                                                    />
+                                                </div>
+                                            </motion.div>
+                                        )
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        </div>
+                    </motion.div>
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key="button"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                            className="flex justify-end gap-6"
+                        >
+                            {/* Only show toggle if more items exist beyond the visible count */}
+                            {items && items.length > visibleCount && (
+                                <TheButton onClick={handleToggle}>
+                                    {showAll ? 'See less' : 'See more'}
+                                </TheButton>
+                            )}
+                            <TheButton link="/announcements">
+                                <div className="flex items-center justify-center gap-x-2">
+                                    <p>View All Announcements</p>
+                                    <FaLongArrowAltRight />
+                                </div>
+                            </TheButton>
+                        </motion.div>
+                    </AnimatePresence>
+                </>
+            )}
         </div>
     )
 }
