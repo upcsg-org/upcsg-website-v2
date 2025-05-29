@@ -1,6 +1,3 @@
-import { Color } from './generic'
-import { MerchType, MerchVariant } from '@/store/merch'
-
 export interface MerchSize {
     id: number
     text: string

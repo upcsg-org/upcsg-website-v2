@@ -49,7 +49,13 @@ const MerchGrid = () => {
                 allVariants?.filter((v) => v.merch.id === item.id) || []
 
             return {
-                ...item,
+                id: item.id,
+                name: item.name,
+                merch_type_id: item.merch_type_id,
+                description: item.description,
+                image: item.image,
+                created_at: item.created_at,
+                updated_at: item.updated_at,
                 type: {
                     text: item.merch_type?.name || '',
                     value: item.merch_type?.name?.toLowerCase() || '',

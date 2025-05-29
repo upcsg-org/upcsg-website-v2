@@ -16,6 +16,7 @@ const AdminCreateContent = () => {
     const searchParams = useSearchParams()
     const [contentType, setContentType] = useState('event') // Default to event
     const [currentStep, setCurrentStep] = useState(1)
+    const [redirectSetting, setRedirectSetting] = useState('none')
 
     // Set content type from URL parameter on initial load
     useEffect(() => {
@@ -188,6 +189,8 @@ const AdminCreateContent = () => {
                                 initialExternalUrl={
                                     getCurrentFormData().external_url || ''
                                 }
+                                redirectState={redirectSetting}
+                                setRedirectState={setRedirectSetting}
                                 onExternalUrlChange={(url) => {
                                     // Update the form data with external URL
                                     let formHandler
@@ -298,10 +301,10 @@ const AdminCreateContent = () => {
 
                 {currentStep === 2 && (
                     <ContentPreview
-                        formType="create"
                         contentType={contentType}
                         formData={getCurrentFormData()}
                         goToPreviousStep={goToPreviousStep}
+                        redirectSetting={redirectSetting}
                     />
                 )}
             </section>

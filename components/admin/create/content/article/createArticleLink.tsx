@@ -9,6 +9,8 @@ interface CreateArticleLinkProps {
     onArticleChange?: (articleData: any | null) => void
     onExternalUrlChange?: (url: string | null) => void
     initialExternalUrl?: string
+    redirectState?: string
+    setRedirectState?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const CreateArticleLink = ({
@@ -16,8 +18,15 @@ export const CreateArticleLink = ({
     onArticleChange,
     onExternalUrlChange,
     initialExternalUrl = '',
+    redirectState: externalRedirectState,
+    setRedirectState: externalSetRedirectState,
 }: CreateArticleLinkProps) => {
-    const [redirectState, setRedirectState] = useState('none')
+    // Use external state if provided, otherwise use internal state
+    const [internalRedirectState, setInternalRedirectState] = useState('none')
+    const redirectState = externalRedirectState ?? internalRedirectState
+    const setRedirectState =
+        externalSetRedirectState ?? setInternalRedirectState
+
     const [articleData, setArticleData] = useState(null)
     const [externalUrl, setExternalUrl] = useState(initialExternalUrl)
 
