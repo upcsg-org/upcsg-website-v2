@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaUserCircle, FaToggleOn, FaToggleOff, FaTrash } from 'react-icons/fa'
 import { User } from '@/interface/user'
+import Loader from '@/components/ui/Loader'
 
 interface TableProps {
     users: User[]
@@ -24,7 +25,11 @@ const Table = ({
     if (loading) {
         return (
             <div className="flex justify-center items-center py-8">
-                <div className="text-gray-400">Loading users...</div>
+                <Loader
+                    size="md"
+                    text="Loading users..."
+                    className="text-gray-400"
+                />
             </div>
         )
     }

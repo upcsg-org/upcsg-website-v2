@@ -74,7 +74,7 @@ const RegisterFormComponent = ({
 
                     {(registerError || error) && (
                         <div className="bg-red-900/50 text-red-200 py-2 px-3 rounded-md text-sm">
-                            {registerError || (error && error.message)}
+                            Something went wrong. Please try again.
                         </div>
                     )}
 

@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import ArticleTemplate from '@/components/generics/ArticleTemplate'
 import NotFound from '@/components/generics/NotFound'
 import { useScholarshipStore } from '@/store/scholarship'
+import Loader from '@/components/ui/Loader'
 
 interface PropsInterface {
     params: {
@@ -38,7 +39,15 @@ const IndividualEventPage: React.FC<PropsInterface> = ({ params }) => {
         )
 
     if (loading || !item) {
-        return <div className="p-4">Loading...</div>
+        return (
+            <div className="p-4">
+                <Loader
+                    size="lg"
+                    text="Loading scholarship..."
+                    className="text-white"
+                />
+            </div>
+        )
     }
 
     if (error || !item.article) {

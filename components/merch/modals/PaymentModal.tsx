@@ -3,6 +3,7 @@ import { IoClose } from 'react-icons/io5'
 import { FaUpload } from 'react-icons/fa'
 import NotificationModal from '@/components/generics/NotificationModal'
 import { uploadImageToCloudinary } from '@/hooks/cloudinary'
+import Loader from '@/components/ui/Loader'
 
 interface PaymentModalProps {
     isOpen: boolean
@@ -258,7 +259,16 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                             disabled={isUploading}
                             className="flex-1 py-3 px-4 bg-[#b53629] text-white rounded-lg hover:bg-red-700 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isUploading ? 'Uploading...' : 'Confirm Order'}
+                            {isUploading ? (
+                                <Loader
+                                    size="sm"
+                                    text="Uploading..."
+                                    showText={true}
+                                    className="text-white"
+                                />
+                            ) : (
+                                'Confirm Order'
+                            )}
                         </button>
                     </div>
                 </div>

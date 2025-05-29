@@ -4,6 +4,7 @@ import TheButton from '@/components/generics/TheButton'
 import { useSearchParams } from 'next/navigation'
 import { useInternshipStore } from '@/store/internship'
 import Image from 'next/image'
+import Loader from '@/components/ui/Loader'
 
 interface UpdateInternshipFormProps {
     formData: {
@@ -84,7 +85,13 @@ export const UpdateInternshipForm = ({
     }, [formData.image_url])
 
     if (loading) {
-        return <p>Loading...</p>
+        return (
+            <Loader
+                size="lg"
+                text="Loading internship data..."
+                className="text-white p-8"
+            />
+        )
     }
 
     return (
