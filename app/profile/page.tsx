@@ -153,7 +153,7 @@ const ProfilePage = () => {
                                 About
                             </h2>
                             <div className="bg-secondary-dark rounded-lg p-6 border border-csg-blue-400/20">
-                                <p className="text-gray-300 leading-relaxed">
+                                <p className="text-gray-300 leading-relaxed break-words">
                                     {user.bio ||
                                         'No bio provided yet. Tell us about yourself!'}
                                 </p>

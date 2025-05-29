@@ -45,6 +45,16 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         init()
     }, [])
 
+    useEffect(() => {
+        const onStorage = (event: StorageEvent) => {
+            if (event.key === 'auth_tokens') {
+                initializeAuth();
+            }
+        };
+        window.addEventListener('storage', onStorage);
+        return () => window.removeEventListener('storage', onStorage);
+    }, []);
+
     // Check if the current path matches any public route pattern
     const isPublicRoute = (path: string) => {
         return publicRoutes.some((route) => {
