@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FiEdit, FiTrash } from 'react-icons/fi'
-import { Officer } from '@/interface/officers'
+import { Officer } from '@/store/officers'
 import {
     TRANSPARENT_TO_CYAN,
     TRANSPARENT_TO_VIOLET,
@@ -15,7 +15,7 @@ interface PropsInterface {
     onDelete?: () => void
 }
 
-const numberToRoman = (num: number): string => {
+const numberToRoman = (num: number) => {
     const romanMap: { [key: number]: string } = {
         1: 'I',
         2: 'II',
@@ -33,13 +33,13 @@ const numberToRoman = (num: number): string => {
 
 export const AdminOfficerCard = (props: PropsInterface) => {
     const { officer, className, style, onEdit, onDelete } = props
-    const { firstName, lastName, image, role, yearLevel } = officer
+    const { name, image_url, position, yearlevel } = officer
 
     const [isEditing, setIsEditing] = useState(false)
     const [formData, setFormData] = useState({
-        firstName,
-        role,
-        yearLevel,
+        name,
+        position,
+        yearlevel,
     })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,8 +47,8 @@ export const AdminOfficerCard = (props: PropsInterface) => {
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
-    const getBackgroundColor = (role: string) => {
-        return role === 'Executive Director'
+    const getBackgroundColor = (position: string) => {
+        return position === 'Executive Director'
             ? TRANSPARENT_TO_CYAN
             : TRANSPARENT_TO_VIOLET
     }
@@ -58,7 +58,7 @@ export const AdminOfficerCard = (props: PropsInterface) => {
             <div
                 className={`relative w-full h-[13rem] md:w-52 md:h-[18rem] lg:w-72 lg:h-[25rem] min-[1200px]:w-80 min-[1200px]:h-[25rem] rounded-xl flex flex-col p-2 md:p-4 tracking-widest bg-cover bg-top ${className}`}
                 style={{
-                    backgroundImage: `${getBackgroundColor(role)}, url(${image})`,
+                    backgroundImage: `${getBackgroundColor(position)}, url(${image_url})`,
                     ...style,
                 }}
             >
@@ -80,16 +80,13 @@ export const AdminOfficerCard = (props: PropsInterface) => {
                 </div>
 
                 <span className="mt-auto font-bold lg:text-xl md:text-base text-[0.65rem]">
-                    {firstName}
-                </span>
-                <span className="font-bold lg:text-xl md:text-base text-[0.65rem]">
-                    {lastName}
+                    {name}
                 </span>
                 <span className="lg:text-sm md:text-xs text-[0.45rem] italic">
-                    {role}
+                    {position}
                 </span>
                 <span className="lg:text-sm md:text-xs text-[0.45rem]">
-                    BS Computer Science {numberToRoman(yearLevel)}
+                    BS Computer Science {numberToRoman(yearlevel)}
                 </span>
             </div>
 
@@ -109,7 +106,7 @@ export const AdminOfficerCard = (props: PropsInterface) => {
                         <div className="flex flex-col md:flex-row gap-4 md:gap-6">
                             <div className="flex flex-col items-center md:items-start gap-4">
                                 <Image
-                                    src={officer.image}
+                                    src={officer.image_url}
                                     alt="Profile"
                                     className="w-20 h-20 rounded-full md:w-full md:h-full md:rounded-none border border-white/30 object-cover"
                                     width={80}
@@ -130,19 +127,19 @@ export const AdminOfficerCard = (props: PropsInterface) => {
                                     </label>
                                     <input
                                         className="w-full bg-transparent border border-white/30 px-3 py-2 rounded-md text-sm"
-                                        name="firstName"
-                                        value={formData.firstName}
+                                        name="name"
+                                        value={formData.name}
                                         onChange={handleChange}
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-semibold mb-1">
-                                        Role
+                                        position
                                     </label>
                                     <input
                                         className="w-full bg-transparent border border-white/30 px-3 py-2 rounded-md text-sm"
-                                        name="role"
-                                        value={formData.role}
+                                        name="position"
+                                        value={formData.position}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -156,7 +153,7 @@ export const AdminOfficerCard = (props: PropsInterface) => {
                                         max={4}
                                         className="w-full bg-transparent border border-white/30 px-3 py-2 rounded-md text-sm"
                                         name="yearLevel"
-                                        value={formData.yearLevel}
+                                        value={formData.yearlevel}
                                         onChange={handleChange}
                                     />
                                 </div>

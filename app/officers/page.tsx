@@ -28,7 +28,7 @@ const Officers = () => {
                 </div>
                 {officers.slice(1, officerCount - 1).map((officer, index) => (
                     <OfficerCard
-                        key={index + officer.firstName + officer.lastName}
+                        key={index + officer.name}
                         officer={officer}
                         className="col-span-1"
                     />
