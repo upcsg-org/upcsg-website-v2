@@ -5,6 +5,7 @@ import { useAuthStore } from '../../store/auth'
 import { User } from '../../interface/user'
 import Image from 'next/image'
 import { uploadImageToCloudinary } from '../../hooks/cloudinary'
+import Loader from '@/components/ui/Loader'
 
 interface EditProfileModalProps {
     isOpen: boolean
@@ -269,12 +270,11 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
                                 <div className="text-center space-y-4">
                                     {isUploadingImage ? (
-                                        <div className="flex flex-col items-center space-y-3">
-                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-csg-green-100"></div>
-                                            <p className="text-csg-green-100 font-medium">
-                                                Uploading your image...
-                                            </p>
-                                        </div>
+                                        <Loader
+                                            size="lg"
+                                            text="Uploading your image..."
+                                            className="text-csg-green-100"
+                                        />
                                     ) : (
                                         <>
                                             <div className="text-6xl text-csg-blue-400/50 mb-4">

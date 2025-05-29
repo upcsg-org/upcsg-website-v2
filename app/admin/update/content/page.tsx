@@ -13,6 +13,7 @@ import ContentPreview from '@/components/admin/preview/ContentPreview'
 
 import { FaArrowRight } from 'react-icons/fa'
 import TheButton from '@/components/generics/TheButton'
+import Loader from '@/components/ui/Loader'
 
 const AdminUpdateContentInner = () => {
     const initialValues = {
@@ -327,7 +328,15 @@ const AdminUpdateContentInner = () => {
 
 const AdminUpdateContent = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+            fallback={
+                <Loader
+                    size="lg"
+                    text="Loading..."
+                    className="text-white p-8"
+                />
+            }
+        >
             <AdminUpdateContentInner />
         </Suspense>
     )

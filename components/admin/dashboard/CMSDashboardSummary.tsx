@@ -5,6 +5,7 @@ import AdminDashboardCard from './AdminDashboardCard'
 import Image from 'next/image'
 import { useDashboardStore } from '@/store/dashboard'
 import { useRouter } from 'next/navigation'
+import Loader from '@/components/ui/Loader'
 
 const CMSDashboardSummary: React.FC = () => {
     const router = useRouter()
@@ -19,7 +20,11 @@ const CMSDashboardSummary: React.FC = () => {
     if (!dashboardData) {
         return (
             <div className="p-4 h-fit m-7 bg-main-dark flex justify-center items-center">
-                Loading dashboard data...
+                <Loader
+                    size="lg"
+                    text="Loading dashboard data..."
+                    className="text-white"
+                />
             </div>
         )
     }
